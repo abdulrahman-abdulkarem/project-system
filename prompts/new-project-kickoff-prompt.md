@@ -216,6 +216,7 @@ If you remember nothing else from this file, remember these eight.
 - Reuse existing utilities and components before writing new ones.
 - Match the conventions already used in this codebase rather than introducing new styles.
 - Fix shared behavior at its single choke point rather than patching each call site, and leave a short comment explaining why, so the fix survives future edits.
+- If a fix establishes a *convention* future work must follow — "any new X must also be registered in Y, or it silently breaks" — record it in CLAUDE.md as well, not only as a code comment. A comment is invisible to whoever reads the project docs first, and an undocumented trap is a bug waiting to be reintroduced.
 
 ### Project Structure
 - Maintain clean separation of concerns: UI, business logic, data access, and config each stay in their own layer.
