@@ -140,12 +140,45 @@ Trust-driven products where people choose between real-world options. Warm neutr
 
 ### Careem
 - **URL:** careem.com
-- **Screenshot:** *(capture home + an interior page, in BOTH Arabic and English)*
-- **Family:** Warm premium marketplace
-- **Script/direction:** Bilingual — **your most valuable reference**, the only one solving your actual problem
-- **Vocabulary:** *(starter)* bold brand green · high contrast · Arabic-first typography · simple confident iconography
-- **What makes it work:** *(look specifically at: how Arabic display type is sized and weighted against Latin in the same layout, how navigation and filters mirror, and how prices and phone numbers are handled inside RTL text)*
+- **Screenshot:** screenshots/careem/ (22 captures, AR + EN — home, service page, form, FAQ,
+  blog index, footer)
+- **Family:** NOT warm premium marketplace — bold product surface. Near-white ground, zero
+  shadows, flat saturated accents. Reassign when Family 2 or a new family is defined.
+- **Script/direction:** Bilingual — the most valuable reference in this library
+- **Vocabulary:** near-white ground · zero elevation · signal colour reserved for action ·
+  three-tier radius · one icon set · notched gradient dividers
+- **What makes it work:**
+  Separation is done entirely by ground colour and corner radius — there is not a single
+  shadow on the site. One bright green is reserved exclusively for primary buttons and
+  never used decoratively, so every call to action is unmissable without any other emphasis.
 - **What I'd steal:**
+  Four containers instead of eighteen cards. ~18 services are organised as four coloured
+  cards, each holding a plain text list of what's inside it — no icon per service, no tile
+  per service. The default answer to "many categories" is a grid of identical cards; this
+  is better, and it scales.
+
+**Neutral — observed, not adopted:** the four card colours (indigo / mint / violet / navy)
+have no harmonic relationship. Confident rather than messy, but not a device to reuse.
+
+**Liked:** the notched gradient section dividers — angled bites cut from the top and bottom
+edges instead of straight horizontal rules. Reads as brand rather than decoration.
+
+#### Careem — RTL findings (cross-reference: RTL / Arabic pattern notes)
+- The Arabic wordmark is set **larger** than the Latin one in the same nav bar. Arabic has no
+  ascenders or descenders, so at equal nominal size it reads smaller. They corrected for it.
+- Latin product names are never transliterated: "Careem Plus" becomes "كريم Plus",
+  "Quik Electronics" becomes "Quik إلكترونيات". The descriptor translates; the name doesn't.
+- **The English two-weight headline device is dropped in Arabic.** English gets a heavy word
+  over a medium word on two lines ("**Go** / anywhere"); Arabic gets one word, one weight
+  ("رحلاتك"). They let the device go rather than forcing it. This is the single most
+  instructive thing in the capture set: a typographic device that works in one script may
+  have no equivalent in the other, and forcing it is worse than dropping it.
+- Mirroring is complete: nav order, logo side, language switcher side, card order, card arrow
+  direction, footer column order. Nothing left stranded.
+- Numbers, percentages and country codes keep Latin order inside Arabic text.
+- **Live bug, worth adding to `lang check`:** in the Arabic blog cards a sentence-ending
+  period renders at the *start* of the line. A bidi punctuation failure that only appears in
+  Arabic and that no English-language QA pass would catch.
 
 ---
 
