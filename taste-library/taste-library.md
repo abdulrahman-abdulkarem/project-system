@@ -180,6 +180,60 @@ edges instead of straight horizontal rules. Reads as brand rather than decoratio
   period renders at the *start* of the line. A bidi punctuation failure that only appears in
   Arabic and that no English-language QA pass would catch.
 
+### noon
+- **URL:** noon.com
+- **Screenshot:** screenshots/noon/ (AR + EN — home, category grid, listing with filters,
+  product detail, cart, account)
+- **Family:** Dense transactional marketplace. Not warm premium either — that seeded family
+  now has zero real members and probably needs renaming.
+- **Script/direction:** Bilingual
+- **Vocabulary:** pale grey ground · zero elevation · chrome-only brand colour ·
+  tight 8px radius · one bold element per card · strict colour jobs
+- **What makes it work:**
+  Colour has enforced jobs and never drifts: yellow is chrome only (the header bar, never a
+  button), blue is the primary action, green appears only on discount percentages and the
+  word FREE. Within a single card, exactly one element is bold — the live price — so nine
+  layers of information still have a reading order.
+- **What I'd steal:**
+  The grouped category grid. Categories are presented as labelled rows (Women's fashion,
+  Beauty, Kitchen & home), seven photo tiles per row, real product photography on a soft
+  tinted ground rather than icons, bold label beneath each tile, one "View all" per row.
+  The row grouping is what keeps it readable — it is the only part of noon where the grid
+  has rhythm instead of mass.
+
+**Neutral — observed, not adopted:** the nine-layer product card. One card is readable; a
+grid of twenty is a mess, because every card shouts the same nine things and nothing
+recedes. **Density is a property of the grid, not of the card.** That is the finding, and
+it is the reason the card itself is not a steal.
+
+**Direction decision (mine, not noon's):** noon confines its brand colour to the chrome and
+leaves the content neutral; Careem carries green through the whole page. For ArabGo I prefer
+Careem's approach — brand colour present throughout, not just in the header.
+
+#### noon — ANTI-REFERENCE: the homepage
+Promo band, hero carousel, category rail, "More reasons to shop", "Mega deals" with a
+countdown, "In focus", bestsellers, savings codes, "Lowest prices", Back to School — every
+block at equal visual volume with no reading order. This is what a marketplace homepage
+becomes when every category has bought placement. Avoid for ArabGo's home.
+
+#### noon — RTL findings
+- **The price row mirrors, but the number stays glued.** Currency symbol plus numeral behave
+  as one LTR island; the row order reverses around it, so the struck-through original price
+  sits to the LEFT of the live price in Arabic and to the right in English.
+- **The rating flips its anchor:** `★ 4.5 (1.2K)` becomes `(1.2K) 4.5 ★` — the star moves to
+  the right so it still leads the reading order.
+- The filter sidebar fully mirrors (right in Arabic, left in English), checkboxes on the
+  outer edge in both.
+- **Mixed-script titles wrap badly** — one Arabic word followed by a long Latin product
+  string, truncated mid-phrase. Careem avoided this by keeping Latin to short brand names;
+  noon can't, because its catalogue is full of long English names. **This is ArabGo's exact
+  problem: Arabic service names beside Latin brand names inside a constrained card.**
+
+#### Cross-site observation (Careem + noon)
+Neither site uses a single shadow. Both separate elements by ground colour, hairline borders
+and corner radius alone. Two out of two Gulf sites — watch whether this holds as a regional
+convention or is a coincidence of these two.
+
 ---
 
 # FAMILY 2 — Clean utility / product surface
