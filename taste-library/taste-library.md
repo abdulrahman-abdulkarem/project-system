@@ -95,6 +95,34 @@ Add one or two entries whenever something stops your scroll. Full-page screensho
 
 Every six months or so, delete the entries you no longer react to. Taste moves.
 
+# WHAT THIS LIBRARY IS TELLING US
+
+Derived from the "What I'd steal" answers across entries, not from any one site. Update as
+entries are added; delete anything that stops being true.
+
+**The consistent instinct: structural grouping.** Three entries, three steals, one pattern.
+
+- **Careem** — four containers each holding a plain list, instead of eighteen separate cards
+- **noon** — categories in labelled rows, instead of one continuous grid
+- **talabat** — the page in distinct full-bleed colour blocks, one idea per block
+
+Every steal so far is about giving many items a visible structure so they don't read as a
+mass. The same instinct produced the library's only rejection: noon's product grid, marked
+cluttered not because any card was badly built but because twenty identical cards had no
+grouping. **Density is a property of the grid, not of the card.**
+
+**Brand volume: restrained.** Three positions observed — Careem carries brand colour through
+the whole page, noon confines it to the header chrome, talabat makes colour the entire
+ground. Preference is Careem: simple and clean. talabat's approach is liked but conditional,
+suited to particular projects rather than a resting default.
+
+**Cross-cutting mechanical finding: no shadows.** Careem, noon and talabat all separate
+elements by ground colour, hairline borders, corner radius or outlines. Zero elevation across
+three Gulf sites. Watch whether this holds.
+
+**Cross-cutting bilingual rule:** graphical emphasis survives a script change; typographic
+emphasis does not. See the talabat entry.
+
 ---
 
 # Entry format
@@ -118,7 +146,7 @@ Copy this block for each entry.
 
 Trust-driven products where people choose between real-world options. Warm neutrals, generous space, confident type, one restrained accent. Reads credible and cared-for rather than corporate.
 
-*ArabGo's family. Three entries seeded from the existing brief — they need screenshots, URLs and your own vocabulary. My starter keywords are a first draft to overwrite, not an answer.*
+*Three entries seeded from an early brief — they need screenshots, URLs and your own vocabulary. My starter keywords are a first draft to overwrite, not an answer.*
 
 ### Airbnb
 - **URL:** airbnb.com
@@ -206,9 +234,9 @@ grid of twenty is a mess, because every card shouts the same nine things and not
 recedes. **Density is a property of the grid, not of the card.** That is the finding, and
 it is the reason the card itself is not a steal.
 
-**Direction decision (mine, not noon's):** noon confines its brand colour to the chrome and
-leaves the content neutral; Careem carries green through the whole page. For ArabGo I prefer
-Careem's approach — brand colour present throughout, not just in the header.
+**Taste note (mine, not noon's):** noon confines its brand colour to the chrome and
+leaves the content neutral; Careem carries green through the whole page. I prefer Careem's approach —
+brand colour present throughout rather than confined to the header.
 
 #### noon — ANTI-REFERENCE: the homepage
 Promo band, hero carousel, category rail, "More reasons to shop", "Mega deals" with a
@@ -226,8 +254,8 @@ becomes when every category has bought placement. Avoid for ArabGo's home.
   outer edge in both.
 - **Mixed-script titles wrap badly** — one Arabic word followed by a long Latin product
   string, truncated mid-phrase. Careem avoided this by keeping Latin to short brand names;
-  noon can't, because its catalogue is full of long English names. **This is ArabGo's exact
-  problem: Arabic service names beside Latin brand names inside a constrained card.**
+  noon can't, because its catalogue is full of long English names. **This is the general mixed-script wrapping problem:** it appears wherever a short
+  Arabic phrase sits beside a long Latin brand string inside a width-constrained card.
 
 #### Cross-site observation (Careem + noon)
 Neither site uses a single shadow. Both separate elements by ground colour, hairline borders
@@ -257,6 +285,52 @@ Reading-led design. Strong type hierarchy, deliberate measure, generous line-hei
 Launch pages, studios, portfolios — where being memorable *is* the job. The expressive scroll techniques from the motion checkpoint are legitimate here. Kept separate so its choices never leak into product surfaces.
 
 *Empty — target 3–5 entries. Awwwards is the right hunting ground for this one and only this one.*
+
+### talabat (corporate)
+- **URL:** talabat.com — the corporate/investor site, NOT the ordering app
+- **Screenshot:** screenshots/talabat/ (AR + EN — home, about, newsroom, investor relations,
+  footer)
+- **Family:** Bold / expressive brand surface. First real entry in this family.
+- **Script/direction:** Bilingual
+- **Vocabulary:** colour as ground not accent · four-colour full-bleed system ·
+  hand-drawn emphasis devices · irregular outlined photo frames · zero elevation
+- **What makes it work:**
+  Four colours — orange, dark maroon, lime, cream — used as full-bleed section grounds
+  rather than as accents on a neutral page. Maroon does double duty as ink and as a second
+  ground. Lime is reserved for buttons and highlighted words only. The result is loud
+  without being chaotic, because each section commits to one ground and one idea.
+- **What I'd steal:**
+  The section system. The page is divided into distinct full-bleed colour blocks, each with
+  its own ground, one idea per block, generous space between. Structure comes from the
+  colour changes rather than from rules or borders.
+
+**Liked:** the whole expressive style — loud but not messy.
+
+**Conditional, not a default:** colour as the entire ground. Good for some kinds of project;
+not the preferred resting position (see Careem).
+
+#### talabat — the emphasis-device finding
+talabat's expressive devices all survive translation intact: a hand-drawn irregular slab
+behind lime text, a scribbled circle around a phrase, a wobbly underline, undulating dashed
+paths, photos in irregular outlined frames. Every one works identically in Arabic and
+English.
+
+Careem's two-weight headline stack did NOT survive and was dropped. The difference is
+mechanical, and it generalises:
+
+> **Graphical emphasis survives a script change. Typographic emphasis does not.**
+> A highlight, circle or underline sits *around* the text and transfers to any script.
+> A weight stack, letter-spacing or capitalisation is a property *of* the text and breaks.
+
+Use graphical devices when a design has to work in more than one script.
+
+#### talabat — RTL findings
+- **Timelines reverse direction.** English runs 2004 to 2018 left-to-right; Arabic runs the
+  same sequence right-to-left, with the earliest date on the right. Chronology follows
+  reading direction, not clock convention.
+- **Directional icons flip.** Footer arrows point right in English, left in Arabic.
+- **Live bug:** the Investor Relations page renders empty white boxes where the press-release
+  and financial-calendar lists should be — broken in both languages.
 
 ---
 
