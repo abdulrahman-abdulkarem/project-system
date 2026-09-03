@@ -9,9 +9,8 @@ Principle throughout: **consistency beats coverage, and taste beats tools.** A l
 ## Part 1 — The startup sequence (what to do, in order)
 
 **1. Kickoff.** Run the right prompt for the situation:
-- New project, one device → `new-project-kickoff-prompt.md`
-- New project, two devices → `new-project-cross-device-prompt.md`
-- Existing project, two devices → `existing-project-setup-prompt.md`
+- New project → `new-project-kickoff-prompt.md`
+- Existing project → `existing-project-setup-prompt.md`
 - Setup got interrupted / half-done → `repair-setup-prompt.md`
 
 Let it finish ALL steps (it ends with a "setup complete" confirmation) before you start building. The kickoff handles stack, context files, rules, git, and — for UI projects — the design-direction step.
@@ -98,7 +97,7 @@ Motion comes AFTER the static design is right. A page that isn't good standing s
 ## Part 3 — The toolkit (everything available, honestly categorized)
 
 ### CORE — use these on essentially every project
-- **Your prompt set** (kickoff / cross-device / existing / repair) — the foundation, rules, and shortcuts. Already built and battle-tested.
+- **Your prompt set** (kickoff / existing / repair) — the foundation, rules, and shortcuts. Already built and battle-tested.
 - **impeccable** (installed) — the design engine. `init` (set direction + DESIGN.md), `critique`/`audit` (scored review), `polish`/`bolder` (refine/add impact), `craft` (build), `adapt`/`typeset`/`clarify` (targeted fixes). Runs in the VS Code Claude panel or CLI. Nearly 50K stars; the strongest design skill available.
 - **Your Taste Library** — the reference bank you build in Part 2. Not a tool to install, a practice to maintain. Highest-leverage thing you own for visual quality.
 

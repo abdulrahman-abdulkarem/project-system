@@ -2,11 +2,10 @@
 
 **This file is the single source of truth for the always-on rules block.**
 
-The four setup prompts (`new-project-kickoff`, `new-project-cross-device`, `existing-project-setup`, `repair-setup`) each carry a copy of the block below, because a prompt pasted into Claude Code has to be self-contained — it can't reach this folder. That copy is *generated*, not authored: never edit the rules inside a prompt file directly.
+The three setup prompts (`new-project-kickoff`, `existing-project-setup`, `repair-setup`) each carry a copy of the block below, because a prompt pasted into Claude Code has to be self-contained — it can't reach this folder. That copy is *generated*, not authored: never edit the rules inside a prompt file directly.
 
-**When you change a rule:** edit it here, then say **"sync prompts"** and the four prompt files get regenerated from this file. That's what stops the four from drifting apart the way they did before (the existing-project and repair prompts had silently lost the entire Design & UI section, the Q&A shortcut, and — in one case — most of the Security section).
+**When you change a rule:** edit it here, then say **"sync prompts"** and the four prompt files get regenerated from this file. That's what stops them drifting apart the way they did before (the existing-project and repair prompts had silently lost the entire Design & UI section, the Q&A shortcut, and — in one case — most of the Security section).
 
-**Variants:** where a rule differs between single-device and cross-device prompts, the difference is marked inline as `[CROSS-DEVICE ONLY: ...]` or `[SINGLE-DEVICE ONLY: ...]`. Everything unmarked goes into all four.
 
 ---
 
@@ -234,14 +233,14 @@ If you ever notice a security risk in the code (an exposed secret, a missing aut
 
 ### Documentation
 - Keep CLAUDE.md accurate: update it when architecture, stack, conventions, or key decisions change.
-- Keep README.md accurate as the project evolves — especially prerequisites, installation steps, environment variables, and dependencies — so the project can be cloned and run from scratch[CROSS-DEVICE ONLY:  on either device].
+- Keep README.md accurate as the project evolves — especially prerequisites, installation steps, environment variables, and dependencies — so the project can be cloned and run from scratch.
 - Keep DESIGN.md accurate for UI projects — update it when tokens, components, or design decisions change, and follow it when building UI.
 - CHECKPOINTS.md holds the procedures run by the checkpoint shortcuts. Update it if a checkpoint changes for this project.
 - Maintain PROGRESS.md as the running history of the project (handled by the Wrap-Up shortcut below).
 - QA.md logs Q&A consults (created on first use, committed alongside the other docs).
 
 ### Session Start
-At the start of each session, before doing anything else, read PROGRESS.md to load the latest project state, recent history, and the "Open / Next up" tasks. Briefly tell me where things stand and what's next, then wait for my direction.[CROSS-DEVICE ONLY:  (I will have run git pull before starting, so the files reflect my latest work from either device.)]
+At the start of each session, before doing anything else, read PROGRESS.md to load the latest project state, recent history, and the "Open / Next up" tasks. Briefly tell me where things stand and what's next, then wait for my direction.
 
 ### Plan Shortcut
 When I say "plan", outline the approach BEFORE writing any code, and then stop and wait for my go-ahead:
@@ -270,7 +269,7 @@ When I say "wrap up", "done for today", or "let's wrap", do ALL of the following
 3. Check whether anything this session affects README.md — new features, new dependencies, changed setup or install steps, new environment variables, new scripts, or a changed tech stack. If so, update the relevant section(s). If nothing relevant changed, leave it as is.
 4. If this project has a DESIGN.md, check whether this session changed design tokens, components, or design decisions. If so, update it. If nothing relevant changed, leave it as is.
 5. Update the "Open / Next up" checklist in PROGRESS.md — check off completed items and add any new ones.
-6. Give me a one-line confirmation of what you updated, and remind me that these changes are not yet saved to GitHub — I can say "commit" or push them myself.[CROSS-DEVICE ONLY:  State this clearly: the changes are NOT on GitHub until I say "commit" (or push via GitHub Desktop), and I must do that BEFORE switching devices or the other device won't have them.]
+6. Give me a one-line confirmation of what you updated, and remind me that these changes are not yet saved to GitHub — I can say "commit" or push them myself.
 
 ### Commit Shortcut
 When I say "commit", do the following:

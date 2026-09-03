@@ -1,8 +1,7 @@
-# Existing Project Setup Prompt for Claude Code (Cross-Device)
+# Existing Project Setup Prompt for Claude Code
 
 > Use this when a project is ALREADY underway and you want to add the context files,
-> rules, checkpoints and shortcuts to it. It's tailored for a project you work on from
-> two devices synced via GitHub.
+> rules, checkpoints and shortcuts to it.
 >
 > Paste everything inside the code block below into Claude Code while inside the existing project.
 >
@@ -389,14 +388,14 @@ If you ever notice a security risk in the code (an exposed secret, a missing aut
 
 ### Documentation
 - Keep CLAUDE.md accurate: update it when architecture, stack, conventions, or key decisions change.
-- Keep README.md accurate as the project evolves — especially prerequisites, installation steps, environment variables, and dependencies — so the project can be cloned and run from scratch on either device.
+- Keep README.md accurate as the project evolves — especially prerequisites, installation steps, environment variables, and dependencies — so the project can be cloned and run from scratch.
 - Keep DESIGN.md accurate for UI projects — update it when tokens, components, or design decisions change, and follow it when building UI.
 - CHECKPOINTS.md holds the procedures run by the checkpoint shortcuts. Update it if a checkpoint changes for this project.
 - Maintain PROGRESS.md as the running history of the project (handled by the Wrap-Up shortcut below).
 - QA.md logs Q&A consults (created on first use, committed alongside the other docs).
 
 ### Session Start
-At the start of each session, before doing anything else, read PROGRESS.md to load the latest project state, recent history, and the "Open / Next up" tasks. Briefly tell me where things stand and what's next, then wait for my direction. (I will have run git pull before starting, so the files reflect my latest work from either device.)
+At the start of each session, before doing anything else, read PROGRESS.md to load the latest project state, recent history, and the "Open / Next up" tasks. Briefly tell me where things stand and what's next, then wait for my direction.
 
 ### Plan Shortcut
 When I say "plan", outline the approach BEFORE writing any code, and then stop and wait for my go-ahead:
@@ -425,7 +424,7 @@ When I say "wrap up", "done for today", or "let's wrap", do ALL of the following
 3. Check whether anything this session affects README.md — new features, new dependencies, changed setup or install steps, new environment variables, new scripts, or a changed tech stack. If so, update the relevant section(s). If nothing relevant changed, leave it as is.
 4. If this project has a DESIGN.md, check whether this session changed design tokens, components, or design decisions. If so, update it. If nothing relevant changed, leave it as is.
 5. Update the "Open / Next up" checklist in PROGRESS.md — check off completed items and add any new ones.
-6. Give me a one-line confirmation of what you updated, and remind me that these changes are not yet saved to GitHub — I can say "commit" or push them myself. State this clearly: the changes are NOT on GitHub until I say "commit" (or push via GitHub Desktop), and I must do that BEFORE switching devices or the other device won't have them.
+6. Give me a one-line confirmation of what you updated, and remind me that these changes are not yet saved to GitHub — I can say "commit" or push them myself.
 
 ### Commit Shortcut
 When I say "commit", do the following:
@@ -762,13 +761,8 @@ Run before shipping, and after any change that adds a dependency or a lot of mar
 **Checkpoints** (each loads its procedure from CHECKPOINTS.md and reports without fixing)
 - **"review"** — reviews the current uncommitted changes against the review checklist.
 - **"test check"** — checks test coverage against the testing standards.
-- **"rtl check"** / **"a11y check"** — reading-direction, i18n and accessibility audit.
+- **"schema check"** — reviews the data model before it hardens.
+- **"lang check"** / **"rtl check"** / **"a11y check"** — reading-direction, i18n and accessibility audit.
 - **"perf pass"** — the performance checklist, Lighthouse baseline first.
 - **"motion check"** — the motion decision table and its guardrails.
 - **"ship check"** — the pre-deploy checklist.
-
-## Cross-device habit (the one thing that matters)
-Before switching devices, make sure your work is pushed: say **"commit"** (or push in GitHub Desktop). Then on the other device:
-1. Clone the repo (first time) or run **git pull** (every time after).
-2. Install dependencies and create your local **.env** from **.env.example** (the real .env never syncs — it's gitignored).
-3. Start Claude Code — it auto-reads CLAUDE.md and PROGRESS.md and tells you where you left off.

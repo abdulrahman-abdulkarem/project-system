@@ -748,7 +748,8 @@ Run before shipping, and after any change that adds a dependency or a lot of mar
 **Checkpoints** (each loads its procedure from CHECKPOINTS.md and reports without fixing)
 - **"review"** — reviews the current uncommitted changes against the review checklist.
 - **"test check"** — checks test coverage against the testing standards.
-- **"rtl check"** / **"a11y check"** — reading-direction, i18n and accessibility audit.
+- **"schema check"** — reviews the data model before it hardens.
+- **"lang check"** / **"rtl check"** / **"a11y check"** — reading-direction, i18n and accessibility audit.
 - **"perf pass"** — the performance checklist, Lighthouse baseline first.
 - **"motion check"** — the motion decision table and its guardrails.
 - **"ship check"** — the pre-deploy checklist.

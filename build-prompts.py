@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-build-prompts.py — regenerates the four setup prompts from the master files.
+build-prompts.py — regenerates the setup prompts from the master files.
 
 This is what "sync prompts" runs. Edit project-rules.md or project-checkpoints.md,
 then run this. Never hand-edit the rules or checkpoints inside a prompt file:
@@ -33,23 +33,6 @@ def extract(filename):
         i = text.index("\n", i) + 1
     stop = text.rindex("# " + "=" * 67, 0, text.index(END))
     return text[i:stop].strip("\n")
-
-
-def resolve(text, cross_device):
-    """Resolve [CROSS-DEVICE ONLY: ...] / [SINGLE-DEVICE ONLY: ...] variants.
-
-    A kept variant is spliced in with exactly one leading space, so the master
-    can pad the marker for readability without producing double spaces.
-    """
-    keep, drop = ("CROSS", "SINGLE") if cross_device else ("SINGLE", "CROSS")
-
-    def splice(m):
-        body = m.group(1).strip()
-        return (" " + body) if body else ""
-
-    text = re.sub(rf"\s*\[{keep}-DEVICE ONLY:(.*?)\]", splice, text, flags=re.S)
-    text = re.sub(rf"\s*\[{drop}-DEVICE ONLY:(.*?)\]", "", text, flags=re.S)
-    return text
 
 
 RULES = extract("project-rules.md")
@@ -190,17 +173,11 @@ VOCAB = """## Your command vocabulary
 **Checkpoints** (each loads its procedure from CHECKPOINTS.md and reports without fixing)
 - **"review"** — reviews the current uncommitted changes against the review checklist.
 - **"test check"** — checks test coverage against the testing standards.
-- **"rtl check"** / **"a11y check"** — reading-direction, i18n and accessibility audit.
+- **"schema check"** — reviews the data model before it hardens.
+- **"lang check"** / **"rtl check"** / **"a11y check"** — reading-direction, i18n and accessibility audit.
 - **"perf pass"** — the performance checklist, Lighthouse baseline first.
 - **"motion check"** — the motion decision table and its guardrails.
 - **"ship check"** — the pre-deploy checklist."""
-
-CROSS_DEVICE_HABIT = """## Cross-device habit (the one thing that matters)
-Before switching devices, make sure your work is pushed: say **"commit"** (or push in GitHub Desktop). Then on the other device:
-1. Clone the repo (first time) or run **git pull** (every time after).
-2. Install dependencies and create your local **.env** from **.env.example** (the real .env never syncs — it's gitignored).
-3. Start Claude Code — it auto-reads CLAUDE.md and PROGRESS.md and tells you where you left off."""
-
 
 def claude_md(body):
     return "=== FILE START ===\n" + body + """
@@ -220,7 +197,6 @@ PROMPTS = []
 
 PROMPTS.append(dict(
     filename="new-project-kickoff-prompt.md",
-    cross_device=False,
     header="""# New Project Kickoff Prompt for Claude Code
 
 > Paste everything inside the code block below into Claude Code at the very start of a new project.
@@ -301,111 +277,14 @@ A clean, professional README suitable for presenting publicly on GitHub. Keep it
 """ + VOCAB,
 ))
 
-# --- 2. New project, cross-device -------------------------------------------
-
-PROMPTS.append(dict(
-    filename="new-project-cross-device-prompt.md",
-    cross_device=True,
-    header="""# New Cross-Device Project Kickoff Prompt for Claude Code
-
-> Use this to start a BRAND-NEW project that you'll work on from two devices,
-> synced via GitHub. It chooses the stack with you, sets up the context files and rules,
-> initializes the repo, and pushes it so the second device can pull it.
->
-> Paste everything inside the code block below into Claude Code as your first message in the new project.
->
-> Generated from project-rules.md + project-checkpoints.md — do not edit the rules or checkpoints
-> below by hand. Edit the masters and run build-prompts.py ("sync prompts").""",
-    intro="""You are setting up a brand-new project that I will work on from two devices, kept in sync through GitHub. Follow the setup steps below in order, then follow the embedded PROJECT RULES for the entire lifetime of the project.""",
-    steps=[
-        ("Understand the project and choose the stack", """Start here, before creating anything. The stack determines the folder structure, .gitignore, and tooling, so it's decided first.
-- Ask me what the project is and what it needs to do.
-- Based on that, recommend the best-suited stack — frontend, backend, database, hosting, and any key services — explaining the tradeoffs and why each choice fits this specific project. Don't just list options; give a reasoned recommendation.
-- Weigh factors like project type, scale, performance needs, my familiarity, cost, and long-term maintainability.
-- Go back and forth with me until we settle on the final stack together."""),
-        ("Create the context files", """Create three files at the project root, filled in with the real project and stack details we just settled on (not placeholders, except for things genuinely not known yet).
-
-### File 1: CLAUDE.md
-This file holds permanent project context AND the project rules, so it loads into every future session.
-
-""" + claude_md("""# Project: [project name]
-
-## Summary
-[One paragraph — what the project does, who it's for, and why it exists.]
-
-## Tech Stack
-[The stack we agreed on — frameworks, database, hosting, key services.]
-
-## Architecture
-[Document the folder structure and what lives where. Keep updated as it grows.]
-
-## Key Decisions
-[Log important choices and the reasoning behind them as they happen — starting with why we chose this stack.]
-
-## Conventions
-[Naming, code style, patterns to follow and avoid.]
-
-## Environment Setup
-[Runtime version, install command, copy .env.example to .env, any local services.]""") + """
-
-### File 2: PROGRESS.md
-
-=== FILE START ===
-# Progress Log
-
-## Open / Next up
-- [ ] [current tasks]
-
----
-
-## [today's date] — Setup
-- Initialized project, chose stack, set up structure, tooling, and the GitHub repo
-- [summary of what we set up]
-=== FILE END ===
-
-### File 3: README.md
-A clean, professional README suitable for presenting publicly on GitHub. Keep it accurate to the actual project — never invent features. The setup sections must be complete enough that the project can be cloned and run from scratch on either device.
-
-""" + README_BODY),
-        ("Establish a clean project structure", """Set up a clean, scalable folder structure appropriate to the chosen stack. Separate concerns clearly (UI, business logic, data access, utilities, config) — do not dump everything into one folder. Document the structure in CLAUDE.md under Architecture and in README.md under Project Structure."""),
-        ("Git and secrets hygiene", GIT_HYGIENE_NEW),
-        ("Add stack-specific rules", STACK_RULES_STEP),
-        ("Establish design direction (skip if this project has no UI)", DESIGN_STEP_NEW),
-        ("Create CHECKPOINTS.md", CHECKPOINTS_STEP),
-        ("Initialize the repo and push to GitHub", """Do this last in the setup, so the first commit captures everything (files, structure, rules, checkpoints). This is essential for cross-device work — the second device can only pull the project once it exists on GitHub.
-- If the project isn't already a git repo, run git init.
-- Make sure the .gitignore from the hygiene step is in place BEFORE the first commit, so no secrets or junk get committed.
-- Review what's staged before committing. If anything looks like it shouldn't be there, stop and flag it.
-- Commit with the message: "Initial project setup with context files, rules, and checkpoints".
-- Connect the GitHub remote and push:
-  - If I've already created a GitHub repo, ask me for its URL, add it as the remote, and push.
-  - If I haven't, tell me to create a new EMPTY repo on GitHub — with no README, .gitignore, or license added (we already have those locally; adding them on GitHub causes a push conflict) — and then share the URL with you, or publish it myself via GitHub Desktop. Wait for me before pushing.
-- If the push is rejected because the remote has unrelated commits, STOP and tell me rather than force-pushing.
-- Confirm once the repo is on GitHub so I know the other device can clone or pull it."""),
-        ("Confirm", """Give me a short summary of what you set up — the stack, structure, files, and repo status — then confirm: "Setup complete — the shortcuts are active." Wait for my next instruction before starting to build."""),
-    ],
-    footer="""## How to use this
-1. Copy everything inside the code block above.
-2. Paste it into Claude Code as your first message in the new project.
-3. It discusses the project and the best-fit stack with you first.
-4. Once the stack is settled, it creates the context files, structure, tooling, .gitignore, and stack-specific rules.
-5. If the project has a UI, it works out the design direction with you and writes DESIGN.md.
-6. It writes CHECKPOINTS.md, then initializes the repo and pushes to GitHub last.
-7. It summarizes everything — then you start building.
-
-""" + VOCAB + "\n\n" + CROSS_DEVICE_HABIT,
-))
-
-# --- 3. Existing project, cross-device --------------------------------------
+# --- 2. Existing project ----------------------------------------------------
 
 PROMPTS.append(dict(
     filename="existing-project-setup-prompt.md",
-    cross_device=True,
-    header="""# Existing Project Setup Prompt for Claude Code (Cross-Device)
+    header="""# Existing Project Setup Prompt for Claude Code
 
 > Use this when a project is ALREADY underway and you want to add the context files,
-> rules, checkpoints and shortcuts to it. It's tailored for a project you work on from
-> two devices synced via GitHub.
+> rules, checkpoints and shortcuts to it.
 >
 > Paste everything inside the code block below into Claude Code while inside the existing project.
 >
@@ -492,14 +371,13 @@ This first push is intentional so both devices immediately have the new files. A
 3. It scans the codebase, creates the files with real details, fixes gitignore/.env.example if needed, documents the existing design system, writes CHECKPOINTS.md, then commits and pushes the setup.
 4. It reports what it set up and any assumptions it made — correct anything that's off.
 
-""" + VOCAB + "\n\n" + CROSS_DEVICE_HABIT,
+""" + VOCAB,
 ))
 
-# --- 4. Repair / finish an interrupted setup --------------------------------
+# --- 3. Repair / finish an interrupted setup --------------------------------
 
 PROMPTS.append(dict(
     filename="repair-setup-prompt.md",
-    cross_device=False,
     header="""# Repair / Finish Setup Prompt for Claude Code
 
 > Use this when you pasted a kickoff prompt but the setup didn't finish properly —
@@ -591,7 +469,7 @@ def build(p):
         parts.append(body)
         parts.append("")
 
-    parts.append(resolve(RULES, p["cross_device"]))
+    parts.append(RULES)
     parts.append("")
     parts.append(CHECKS)
     parts.append("```")
@@ -610,4 +488,4 @@ if __name__ == "__main__":
     for p in PROMPTS:
         size = build(p)
         print(f"  {p['filename']:<40} {size:>7,} chars")
-    print("\nDone. The rules and checkpoints in all four files are now identical.")
+    print("\nDone. The rules and checkpoints in every file are now identical.")

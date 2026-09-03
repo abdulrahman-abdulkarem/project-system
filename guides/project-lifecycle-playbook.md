@@ -21,9 +21,8 @@ Running underneath all of it, every session: **Session start → work → wrap u
 Set up the project foundation. Done once, at the very start.
 
 - Run the right kickoff prompt:
-  - New, single device → `new-project-kickoff-prompt.md`
-  - New, two devices → `new-project-cross-device-prompt.md`
-  - Existing project (two devices) → `existing-project-setup-prompt.md`
+  - New project → `new-project-kickoff-prompt.md`
+  - Existing project → `existing-project-setup-prompt.md`
   - Setup got interrupted / half-done → `repair-setup-prompt.md`
 - The prompt handles: stack discussion → CLAUDE.md + PROGRESS.md + README.md → clean structure → git/secrets hygiene → stack-specific rules → design direction (UI projects) → CHECKPOINTS.md.
 - Confirm setup is complete (each prompt ends with "Setup complete — the shortcuts are active"). Only then start working.
@@ -167,11 +166,10 @@ To finalize: run it once on a live project. If client delivery becomes routine, 
 
 The rhythm that runs regardless of phase.
 
-1. (If cross-device) `git pull` first.
-2. Start a NEW chat → Claude Code auto-reads CLAUDE.md + PROGRESS.md and catches you up.
-3. Work — using **"plan"** before anything non-trivial.
-4. **"wrap up"** → updates PROGRESS.md, CLAUDE.md, README.md, DESIGN.md as needed (no git action).
-5. **"commit"** → reviews what's staged, then commits + pushes with a proper message.
+1. Start a NEW chat → Claude Code auto-reads CLAUDE.md + PROGRESS.md and catches you up.
+2. Work — using **"plan"** before anything non-trivial.
+3. **"wrap up"** → updates PROGRESS.md, CLAUDE.md, README.md, DESIGN.md as needed (no git action).
+4. **"commit"** → reviews what's staged, then commits + pushes with a proper message.
 
 Anytime: **"Q&A"** / **"Q&A short"** to consult without changing code · **"Q&A history"** to see past consults.
 

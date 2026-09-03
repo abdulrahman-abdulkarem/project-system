@@ -8,8 +8,7 @@ Beginning a new project? Pick the prompt that matches your situation from `promp
 
 | Situation | Prompt |
 |---|---|
-| New project, one machine | `prompts/new-project-kickoff-prompt.md` |
-| New project, two machines via GitHub | `prompts/new-project-cross-device-prompt.md` |
+| New project | `prompts/new-project-kickoff-prompt.md` |
 | Project already underway | `prompts/existing-project-setup-prompt.md` |
 | Setup got interrupted or half-finished | `prompts/repair-setup-prompt.md` |
 
@@ -17,13 +16,13 @@ Each one sets up CLAUDE.md, PROGRESS.md, README.md, DESIGN.md and CHECKPOINTS.md
 
 ## The one rule for this repo
 
-**Never edit anything in `prompts/`.** Those four files are generated. Edit the masters, then regenerate:
+**Never edit anything in `prompts/`.** Everything in there is generated. Edit the masters, then regenerate:
 
 ```bash
 python3 build-prompts.py
 ```
 
-Hand-editing a generated prompt is how the four files silently drifted apart the first time — one of them lost its entire design section and most of its security section, and nobody noticed for weeks.
+Hand-editing a generated prompt is how these files silently drifted apart the first time — one of them lost its entire design section and most of its security section, and nobody noticed for weeks.
 
 ## Layout
 
@@ -34,7 +33,6 @@ masters/          Edit these. The single source of truth.
 
 prompts/          GENERATED — never edit by hand
   new-project-kickoff-prompt.md
-  new-project-cross-device-prompt.md
   existing-project-setup-prompt.md
   repair-setup-prompt.md
   CHECKPOINTS.md            standalone copy, droppable into a project
