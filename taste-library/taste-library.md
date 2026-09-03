@@ -325,6 +325,10 @@ mechanical, and it generalises:
 Use graphical devices when a design has to work in more than one script.
 
 #### talabat — RTL findings
+- **talabat is app-first.** The ordering experience exists only in the mobile app; the
+  desktop site is corporate and investor material. There is no web listing or checkout to
+  capture. Several Gulf platforms work this way — for their product surfaces, Mobbin is the
+  route, not the browser.
 - **Timelines reverse direction.** English runs 2004 to 2018 left-to-right; Arabic runs the
   same sequence right-to-left, with the earliest date on the right. Chronology follows
   reading direction, not clock convention.
