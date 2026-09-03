@@ -230,6 +230,7 @@ If you remember nothing else from this file, remember these eight.
 
 Follow DESIGN.md
 - DESIGN.md is the source of truth for colors, typography, spacing, radii, elevation, and component patterns. Follow it rather than inventing new values.
+- A documented token can itself violate the rules. When DESIGN.md names a value for a specific context — an accent for dark surfaces, a muted text colour, a disabled state — verify it numerically against that context before trusting it. A source of truth that is wrong is worse than none, because it gets followed.
 - Reuse the project's documented utilities and tokens instead of hand-rolling one-off styles for the same effect. If a utility exists for a hover, a card, or a state, use it.
 - When solving a problem the codebase has already solved somewhere, reuse that existing pattern rather than introducing a second approach.
 - Keep the icon system consistent — one icon set, and never emoji mixed with icon components for the same signal.
@@ -284,6 +285,7 @@ Motion
 
 Accessibility
 - Verify contrast ratios numerically against WCAG AA — don't eyeball them. Opacity modifiers on text (e.g. `/80`) silently break contrast.
+- An automated contrast audit only measures the resting state. Check hover, focus, active, disabled and selected states yourself — a passing Lighthouse score with an unreadable hover colour is a real failure the tool cannot see.
 - Establish one minimum touch-target size (44×44px) as a project-wide convention rather than fixing sizes page by page.
 - Don't skip heading levels; the heading outline is a primary navigation method for screen reader users.
 - Use semantic markup for collections (lists for result grids) so assistive tech can announce and navigate them.
