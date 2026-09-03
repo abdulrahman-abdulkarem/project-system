@@ -24,7 +24,7 @@ The only rule this session: **collect, don't analyse.** If you stop to work out 
 
 **3. Grab TWO pages per site, and make the second one an interior page.**
 
-This is the most important instruction here. A homepage is a marketing artifact — big type, hero, persuasion. The **list page, detail page, or form** is where the real design system lives: how cards are built, how dense information is organised, how filters and states are handled. That interior page is what you actually need for ArabGo-shaped work, and it's the page everyone forgets to save.
+This is the most important instruction here. A homepage is a marketing artifact — big type, hero, persuasion. The **list page, detail page, or form** is where the real design system lives: how cards are built, how dense information is organised, how filters and states are handled. That interior page is what you actually need for real product work, and it's the page everyone forgets to save.
 
 **4. Where to hunt.**
 
@@ -79,7 +79,7 @@ That last field does the most work. "I'd steal the way the card border is 1px wa
 
 A library you haven't used is a guess. Test it before trusting it.
 
-**1. Pick a real brief.** ArabGo's provider card, or a page from a project you're planning.
+**1. Pick a real brief.** A page from a project you're planning, or one you've been meaning to redesign.
 
 **2. Fill in the 4-Part Prompt** at the bottom of this file, pulling the aesthetic and vocabulary straight from your entries.
 
@@ -242,7 +242,7 @@ brand colour present throughout rather than confined to the header.
 Promo band, hero carousel, category rail, "More reasons to shop", "Mega deals" with a
 countdown, "In focus", bestsellers, savings codes, "Lowest prices", Back to School — every
 block at equal visual volume with no reading order. This is what a marketplace homepage
-becomes when every category has bought placement. Avoid for ArabGo's home.
+becomes when every category has bought placement. Avoid this shape on any homepage.
 
 #### noon — RTL findings
 - **The price row mirrors, but the number stays glued.** Currency symbol plus numeral behave
