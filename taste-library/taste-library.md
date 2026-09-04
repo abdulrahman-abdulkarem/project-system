@@ -100,16 +100,24 @@ Every six months or so, delete the entries you no longer react to. Taste moves.
 Derived from the "What I'd steal" answers across entries, not from any one site. Update as
 entries are added; delete anything that stops being true.
 
-**The consistent instinct: structural grouping.** Three entries, three steals, one pattern.
+**The consistent instinct: structural grouping.** Four entries, four steals, one pattern.
 
 - **Careem** — four containers each holding a plain list, instead of eighteen separate cards
 - **noon** — categories in labelled rows, instead of one continuous grid
 - **talabat** — the page in distinct full-bleed colour blocks, one idea per block
+- **Bayut** — full-width rows instead of a tile grid, and a persistent filter bar that keeps
+  the controls in one fixed place instead of scattered across the page
 
 Every steal so far is about giving many items a visible structure so they don't read as a
 mass. The same instinct produced the library's only rejection: noon's product grid, marked
 cluttered not because any card was badly built but because twenty identical cards had no
-grouping. **Density is a property of the grid, not of the card.**
+grouping — "too many cards all around the page". **Density is a property of the grid, not of
+the card.**
+
+**The refinement, from Bayut:** rows beat grids for multi-attribute items. Bayut carries the
+same information density as noon in full-width rows and reads clearly, because the eye scans
+down one column rather than across a field. When each item has many attributes, lay them out
+as a sequence, not a field.
 
 **Brand volume: restrained.** Three positions observed — Careem carries brand colour through
 the whole page, noon confines it to the header chrome, talabat makes colour the entire
@@ -261,6 +269,71 @@ becomes when every category has bought placement. Avoid this shape on any homepa
 Neither site uses a single shadow. Both separate elements by ground colour, hairline borders
 and corner radius alone. Two out of two Gulf sites — watch whether this holds as a regional
 convention or is a coincidence of these two.
+
+### Bayut
+- **URL:** bayut.com
+- **Screenshot:** screenshots/bayut/ (AR + EN — home, transactions table, agent search,
+  off-plan listings, new projects, property detail)
+- **Family:** Dense marketplace, utility-leaning. Note: four sites in, NOT ONE belongs to the
+  seeded "warm premium marketplace" family. That family list was invented before either of us
+  had looked at anything and should be rebuilt from the real entries.
+- **Script/direction:** Bilingual
+- **Vocabulary:** hairline separation · zero elevation · one accent per job ·
+  full-width rows over grids · labelled section stack · persistent filter chrome
+- **What makes it work:**
+  Full-width rows instead of a tile grid. Each row carries around ten attributes and still
+  scans, because the eye reads down one column of prices rather than across a field of
+  tiles. Same density as noon; completely different legibility.
+- **What I'd steal:**
+  The search and filter system. A filter bar persists as chrome under the header on every
+  results page, so the controls are never lost. Two routes in, with an explicit "or" between
+  them: type a sentence into natural-language search, or use the controls below. Segmented
+  buttons for two-or-three-option choices (All / Ready / Off-Plan), dropdowns for the
+  many-option ones. Applied filters appear beneath as removable chips, with Clear Filters
+  and Save Search beside them.
+
+**Liked:** the badge system — TruBroker / Quality Lister / Responsive Broker, each in its own
+tinted panel with a sentence explaining how it is earned. Most sites show badges and never
+say what they mean.
+
+#### Bayut — the detail page (the pattern no other entry has)
+A stack of labelled, self-contained sections: Property Information, Floor Plans, Mortgage,
+Amenities, Trends & Indices, Regulatory Information, Recommended. Two structural moves worth
+keeping:
+- **The contact block sits in the right rail beside the content, not at the foot of the
+  page.** Photo, badges, Email / Call / WhatsApp, "View all properties".
+- **Facts are a two-column key/value table, not prose.** Six to eight labelled values and
+  nothing else.
+
+#### Bayut — other patterns first seen here
+- **Sortable data table** — seven columns, sort arrows on headers, hairline row dividers, one
+  action button per row.
+- **Stat tiles with deltas** — small grey label, large value, coloured delta chip beside it.
+- **Contact pinned inside the listing card** — Email / Call / WhatsApp on every result row.
+- **"+N more" truncation** for variable-length lists ("Speaks French +3 more",
+  "+31 more amenities").
+
+#### Bayut — RTL findings
+- **Tables mirror completely, column order included.** The first column crosses to the other
+  side; sort arrows stay attached to their headers.
+- **Breadcrumbs and pagination reverse.** Home icon rightmost, chevrons point left, page 1
+  sits on the right.
+- **Refines the talabat arrow rule:** talabat's "next" arrows flipped; Bayut's trend arrows
+  do not. **Directional icons flip; semantic icons don't.** An arrow meaning "next" follows
+  reading direction. An arrow meaning "increase" points up in every script.
+- **Latin terms stay Latin — three sites out of three.** TruCheck, Emaar, Binghatti, DLRC,
+  JVC untranslated inside Arabic. Person names too: agent names stay in Latin script on the
+  Arabic page. Strong enough now to state as a rule, not an observation.
+
+#### OPEN QUESTION — do charts mirror?
+The library's first disagreement between two references.
+- **talabat reversed its chronological timeline** in Arabic: 2004 on the right, running
+  right to left.
+- **Bayut did not.** Its price-trend x-axis runs Sept 2025 on the left to July 2026 on the
+  right in both languages, and its bar chart keeps the same bar order in both.
+
+Bayut mirrors the entire page layout but leaves the chart interiors alone. Unresolved —
+record what the next Arabic site with a chart does before settling on an answer.
 
 ---
 
