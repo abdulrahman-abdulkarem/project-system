@@ -113,6 +113,8 @@ A project is single-direction LTR, single-direction RTL, or bilingual/multi-dire
 
 - Use logical properties — `margin-inline`, `padding-inline`, `inset-inline-start`, `text-align: start` — rather than hardcoded left/right, **even on a single-direction project**. It costs nothing today and is the difference between adding a second language later being a translation job or a rewrite.
 - Respect the project's reading direction throughout: mirror layout, directional icons, and spacing logic rather than retrofitting the opposite direction.
+- **Directional icons flip; semantic icons don't.** An arrow meaning "next" or "back" follows reading direction. An arrow meaning "increase", a play triangle, or a checkmark carries meaning rather than direction and must stay as it is. Mirroring a trend arrow inverts what it says.
+- **(Multi-script)** Use graphical emphasis rather than typographic emphasis. A highlight, a circle, an underline or a coloured slab sits *around* the text and transfers to any script. A two-weight stack, letter-spacing, or capitalisation is a property *of* the text and breaks — forcing it onto a second script looks worse than dropping it.
 - Never assume text length. The same string can be dramatically longer or shorter in another language; layouts must tolerate it without clipping or reflowing badly.
 - In mixed-direction content, isolate the embedded run — numbers, URLs, emails, code, and Latin brand names inside RTL text, or Arabic inside English text — so punctuation and digits don't jump position.
 - **(RTL or bilingual)** Never apply Latin typographic treatments to cursive scripts such as Arabic: `uppercase` is a no-op, and letter-spacing/tracking breaks letter-joining and legibility.

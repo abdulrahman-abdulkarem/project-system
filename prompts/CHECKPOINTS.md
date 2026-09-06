@@ -151,11 +151,16 @@ All three shortcut names load this checkpoint. It runs in tiers: **Part A applie
 - `dir` and `lang` correct on the root element, and on any element whose language differs from its container.
 - Layout genuinely mirrors: not just text alignment, but component internals, iconography, and spacing logic.
 - Directional elements mirrored: arrows, chevrons, back/forward controls, progress indicators, sliders, carousels, and any X-axis animation.
+- **But not semantic ones.** An arrow meaning "increase", a play triangle, a checkmark — these carry meaning, not direction, and must NOT be flipped. Mirroring a trend arrow inverts what it says. Walk the icon set and sort it into the two piles before mirroring anything.
 - Mixed-direction runs isolated — Latin brand names, URLs, emails, phone numbers, and code inside RTL text render in the correct order with punctuation in the right place.
 - Every script in use has a font genuinely loaded — verified in the browser, not inferred from a CSS variable.
 - No `uppercase` and no letter-spacing/tracking on Arabic or any cursive script.
 - Line-height and font-size suit the script. Arabic generally needs more vertical room than Latin at the same nominal size.
 - Numerals: one deliberate choice of numeral system, applied consistently.
+- **Tables mirror completely, column order included** — the first column moves to the reading start, the action column crosses to the other side, and sort indicators stay attached to their own headers.
+- **Breadcrumbs, pagination and step indicators reverse.** First item at the reading start, chevrons pointing along the reading direction, page 1 where the eye starts.
+- **Sentence-ending punctuation lands at the correct end of the line.** Check with real content, not placeholder text — a full stop rendering at the start of a line is a bidi failure that only appears in RTL and that no English-language QA pass will catch.
+- **Latin brand, product and person names stay in Latin script** rather than being transliterated. Only the descriptor around them translates. Verify the surrounding punctuation and spacing survive the switch.
 - Plural and count-noun agreement follows each language's own grammar.
 
 ### Part C — bilingual or multi-directional projects
@@ -170,6 +175,9 @@ The failure mode here is different from single-direction work: it isn't that one
 - Font pairing balanced across scripts — a Latin and an Arabic face at the same nominal size rarely look the same weight or height. Tune per script rather than accepting the default mismatch.
 - Test the **same page** in both directions at the same breakpoint. Most bilingual bugs are invisible until you view them side by side.
 - Content that must stay LTR in an RTL layout (code blocks, phone numbers, IBANs) explicitly marked, not left to the browser's guess.
+- **Mixed-script wrapping in width-constrained containers.** A short phrase in one script followed by a long run in the other wraps and truncates badly inside a card. Test with the longest REAL content in both scripts, not with short sample strings — this failure is invisible until real data hits it.
+- **Optical size, not nominal size.** Arabic has no ascenders or descenders, so at an equal nominal size it reads smaller than Latin beside it. A wordmark, nav label or display line may need to be set larger in Arabic to hold equal presence. Judge by eye at real sizes, not by the number in the CSS.
+- **Open question — chart interiors.** Observed references disagree: one reversed its chronological timeline in Arabic (earliest date on the right), another left its time axis running left-to-right in both languages and did not reorder its bars, while mirroring the page layout around them. No settled answer. Decide deliberately for the project, record the decision in DESIGN.md, and apply it consistently.
 
 ---
 
