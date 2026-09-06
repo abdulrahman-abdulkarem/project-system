@@ -4,7 +4,7 @@
 
 The setup prompts write this content into a `CHECKPOINTS.md` at the project root. Unlike the rules in `project-rules.md`, none of it loads into every session — each section is read only when its shortcut fires. That's deliberate: these are procedures you run at a moment in time, and as ambient context they'd crowd out the rules that need to be there continuously.
 
-**When you change a checkpoint:** edit it here, then say **"sync prompts"** to regenerate the four setup prompts.
+**When you change a checkpoint:** edit it here, then run `python3 build-prompts.py` to regenerate every setup prompt.
 
 **The shortcuts that load these** (defined in `project-rules.md`): `review`, `test check`, `schema check`, `lang check` / `rtl check` / `a11y check`, `perf pass`, `motion check`, `ship check`.
 
@@ -15,7 +15,7 @@ The setup prompts write this content into a `CHECKPOINTS.md` at the project root
 # ===================================================================
 # GENERATED BLOCK BEGINS — copied verbatim into the setup prompts,
 # which write it to CHECKPOINTS.md at the project root.
-# Edit here, then "sync prompts".
+# Edit here, then run build-prompts.py.
 # ===================================================================
 
 # Project Checkpoints

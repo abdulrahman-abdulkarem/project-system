@@ -146,6 +146,10 @@ List each required variable name and what it's for — never real values. See .e
 
 Only if this project has a UI. The goal here is to DOCUMENT the design system that already exists, not to impose a new one — the same "going forward only" rule applies.
 
+**First, check there is actually a system to document.** If the styles are ad-hoc — no consistent colour roles, no type scale, one-off values everywhere — say so plainly rather than dressing up chaos as a system. Then offer me the choice, and ask rather than picking:
+- **Document what exists** as a baseline and improve it incrementally, or
+- **Establish a direction properly first.** That means: create a `design-references/` folder, ask me for full-page screenshots of 3+ sites (at least one interior page each), STOP and wait until I confirm they are there, then read them and report what you see mechanically — ground colour, type pairing and scale, spacing rhythm, radius language, elevation treatment, accent use. Ask me about colour rather than guessing it, record each colour's job and its limit, verify every pair against WCAG AA including hover/focus/active/disabled, and show me the palette before continuing.
+
 1. **Read the actual styles.** Go through the existing components, theme/config, and stylesheets and extract what is really in use: color roles, typography scale, spacing, radii, elevation, and the recurring component patterns.
 
 2. **Language and reading direction.** Determine from the code which of these the project is: single-direction LTR, single-direction RTL, or bilingual/multi-directional. Then VERIFY the font for each script in use is genuinely loaded by a real font loader — a CSS variable referencing a font does not mean the font exists, and a missing non-Latin font falls back silently. Flag it if it is not. If the project is bilingual, also note whether one component set serves both directions or whether mirrored duplicates have crept in. Record the answer in DESIGN.md — the language checkpoint reads it to know which parts apply.

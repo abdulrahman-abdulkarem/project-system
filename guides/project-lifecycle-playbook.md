@@ -4,7 +4,7 @@ Your at-a-glance guide for starting and running any project, phase by phase. Eac
 
 Status key: ✅ done · 🔨 in progress · 🧪 built but not yet validated on a real project · 📋 planned
 
-**Honest state of the system (Aug 2026):** every phase below now has real content behind it — rules, a checkpoint, or a shortcut. Almost none of it has been run end-to-end on a live project, which is why so much of this page reads 🧪 rather than ✅. Built is not the same as proven. The next milestone isn't another phase; it's one full pass through this lifecycle on something real, after which the parts you skipped should be cut rather than kept for completeness.
+**Honest state of the system (Sept 2026):** every phase below has real content behind it. The design and UI half has now been run against a live Next.js/Prisma/Supabase project and rebuilt from what that run found — it reads ✅. The backend, security and testing half has not, and still reads 🧪: built is not the same as proven. The next milestone is one full pass through this lifecycle on something real, after which the parts you skipped should be cut rather than kept for completeness.
 
 ---
 
@@ -27,7 +27,7 @@ Set up the project foundation. Done once, at the very start.
 - The prompt handles: stack discussion → CLAUDE.md + PROGRESS.md + README.md → clean structure → git/secrets hygiene → stack-specific rules → design direction (UI projects) → CHECKPOINTS.md.
 - Confirm setup is complete (each prompt ends with "Setup complete — the shortcuts are active"). Only then start working.
 
-All four prompts are generated from `project-rules.md` + `project-checkpoints.md` by `build-prompts.py`. Edit the masters, never the prompts, then run the script ("sync prompts").
+All the prompts are generated from `project-rules.md` + `project-checkpoints.md` by `build-prompts.py`. Edit the masters, never the prompts, then run the script ("sync prompts").
 
 ---
 
@@ -42,16 +42,20 @@ To validate: check whether the plan output is actually useful or just ceremony. 
 
 ---
 
-## Phase 2 — Design direction & frontend 🔨
+## Phase 2 — Design direction & frontend ✅
 
 Set the design direction BEFORE building UI (this fixes the "generic/no style" problem at the root), then execute.
 
-- Direction comes from three inputs: reference sites/images you like + a mood in words + options Claude proposes. Plus anti-references (what you explicitly don't want) and register (product surface vs brand surface). Output lands in DESIGN.md.
+- Direction comes from real references, not adjectives. Setup creates a `design-references/` folder, asks for full-page screenshots of 3+ sites (at least one interior page each), and **waits**. It then decodes them mechanically — ground, type, spacing, radii, elevation, accent use — and proposes at least one direction the references did NOT suggest, so they raise the floor rather than capping the ceiling. Plus a mood in words, anti-references, and register (product surface vs brand surface).
+- Colour is asked for, never guessed: brand hex values if they exist, otherwise two or three proposed palettes to choose from. Recorded as jobs with limits — one action colour, reserved — and every pair verified against WCAG AA before it is written down.
+- Tokens are two layers in one file (raw palette → semantic roles), so a mid-project palette change is a small edit and no component holds a raw colour value.
 - **impeccable** — design execution + review (`polish`, `audit`, `critique`, `harden`, `craft`). Install: `/plugin marketplace add pbakaus/impeccable`, then `/impeccable init`. Invoke as `/impeccable:impeccable <command>`.
 - Motion is the last step of this phase, never the first — see "Step 5 — Add motion" in `project-startup-plan-and-toolkit.md`, and run **"motion check"** before building anything beyond a simple reveal.
 - RTL guardrail: always tell the design tools the project is Arabic/RTL and verify the output — no tool is RTL-aware by default, and that applies to motion direction as much as to layout.
 
-**The one real gap left in this phase: the Taste Library doesn't exist.** Steps 2–4 of the design workflow all point at it ("pick the family," "give 2–3 references") and it isn't there. Needs 15–30 designs grouped into three or four distinct families with vocabulary keywords, including Arabic/RTL examples. This is the last 🔨 in the system.
+**Resolved, Sept 2026.** This phase used to depend on a central Taste Library that didn't exist. It now doesn't need one: references are gathered per project into `design-references/`, where Claude Code can actually read them — something it could never do with a library sitting in another repo.
+
+The library still exists and still earns its place, but its job changed. It is no longer a source of screenshots; it is where cross-site findings get decoded into rules. Four bilingual sites have so far produced rules that are now always-on or in `lang check` — graphical vs typographic emphasis, directional vs semantic icons, tables mirroring completely, mixed-script wrapping. None of those come from one project's three screenshots; they only appear when you compare across sites. Add entries when something stops your scroll; don't schedule it.
 
 ---
 
@@ -183,8 +187,8 @@ Anytime: **"Q&A"** / **"Q&A short"** to consult without changing code · **"Q&A 
 
 ## Build-out order (what's actually left)
 
-1. 🔨 **Build the Taste Library** — the last unbuilt piece, and the foundation the design workflow already assumes exists.
-2. 🧪 **Run the entire lifecycle on one real project** — the validation pass. Everything marked 🧪 is a hypothesis about what you'll do under real conditions.
+1. 🧪 **Run the entire lifecycle on one real project** — the validation pass. Everything still marked 🧪 is a hypothesis about what you'll do under real conditions. The UI half has had this treatment; the backend, security and testing half has not.
+2. 📋 **Write the Playwright checkpoint after running it once** — see `tooling-decisions.md`. Its highest-value use is bilingual screenshot diffing in `lang check`.
 3. ✂️ **Then cut.** After that run, delete the phases and rules you didn't actually use. A shorter lifecycle you follow every time beats a complete one you skip half of.
 
 Guiding principle: consistency beats coverage. Only keep a phase if you'll genuinely run it every project — and the only way to find that out is to run it once.

@@ -4,7 +4,7 @@
 
 The three setup prompts (`new-project-kickoff`, `existing-project-setup`, `repair-setup`) each carry a copy of the block below, because a prompt pasted into Claude Code has to be self-contained — it can't reach this folder. That copy is *generated*, not authored: never edit the rules inside a prompt file directly.
 
-**When you change a rule:** edit it here, then say **"sync prompts"** and the four prompt files get regenerated from this file. That's what stops them drifting apart the way they did before (the existing-project and repair prompts had silently lost the entire Design & UI section, the Q&A shortcut, and — in one case — most of the Security section).
+**When you change a rule:** edit it here, then run `python3 build-prompts.py`. Every prompt is regenerated from this file, which is what stops them drifting apart the way they did before (the existing-project and repair prompts had silently lost the entire Design & UI section, the Q&A shortcut, and — in one case — most of the Security section).
 
 
 ---
@@ -22,7 +22,7 @@ The point of the split is budget. CLAUDE.md is read in full every session; past 
 
 # ===================================================================
 # GENERATED BLOCK BEGINS — everything below this line is copied verbatim
-# into the four setup prompts. Edit here, then "sync prompts".
+# into every setup prompt. Edit here, then run build-prompts.py.
 # ===================================================================
 
 # ===================================================================

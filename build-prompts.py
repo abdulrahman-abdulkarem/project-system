@@ -152,6 +152,10 @@ Ask before adding it — it is a new dependency."""
 
 DESIGN_STEP_EXISTING = """Only if this project has a UI. The goal here is to DOCUMENT the design system that already exists, not to impose a new one — the same "going forward only" rule applies.
 
+**First, check there is actually a system to document.** If the styles are ad-hoc — no consistent colour roles, no type scale, one-off values everywhere — say so plainly rather than dressing up chaos as a system. Then offer me the choice, and ask rather than picking:
+- **Document what exists** as a baseline and improve it incrementally, or
+- **Establish a direction properly first.** That means: create a `design-references/` folder, ask me for full-page screenshots of 3+ sites (at least one interior page each), STOP and wait until I confirm they are there, then read them and report what you see mechanically — ground colour, type pairing and scale, spacing rhythm, radius language, elevation treatment, accent use. Ask me about colour rather than guessing it, record each colour's job and its limit, verify every pair against WCAG AA including hover/focus/active/disabled, and show me the palette before continuing.
+
 1. **Read the actual styles.** Go through the existing components, theme/config, and stylesheets and extract what is really in use: color roles, typography scale, spacing, radii, elevation, and the recurring component patterns.
 
 2. **Language and reading direction.** Determine from the code which of these the project is: single-direction LTR, single-direction RTL, or bilingual/multi-directional. Then VERIFY the font for each script in use is genuinely loaded by a real font loader — a CSS variable referencing a font does not mean the font exists, and a missing non-Latin font falls back silently. Flag it if it is not. If the project is bilingual, also note whether one component set serves both directions or whether mirrored duplicates have crept in. Record the answer in DESIGN.md — the language checkpoint reads it to know which parts apply.
@@ -175,6 +179,7 @@ This file holds the procedures run on demand by the checkpoint shortcuts ("revie
 
 GIT_HYGIENE_NEW = """- Create a proper .gitignore appropriate to the stack BEFORE the first commit (some scaffolding tools generate one — extend it rather than duplicating it). It must exclude: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys.
 - Create a .env.example listing every required variable NAME with empty or dummy values. Never put real secrets in it.
+- **Decide with me what happens to `design-references/`.** Those screenshots are third-party material and can be large. Ask whether to commit them (useful — the reasoning behind the design stays with the project) or gitignore them (smaller repo, but the references are lost to anyone who clones it). Don't decide silently either way.
 - Never commit secrets, API keys, tokens, or credentials. If you ever spot one in the code, stop and warn me immediately."""
 
 GIT_HYGIENE_EXISTING = """- Check the existing .gitignore. Make sure it excludes: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys. Add anything missing — don't remove existing entries.

@@ -136,7 +136,7 @@ The same logic as design anti-references: recording *why* something was rejected
 ## Part 4 — Quick-start checklist for a new UI project
 
 1. Run the right kickoff prompt; let it finish fully.
-2. Open your Taste Library; pick the design family and 2–3 references for this project.
+2. When setup creates `design-references/`, put full-page screenshots of 3+ sites in it — at least one interior page each — and tell it they're there.
 3. Give impeccable the 4-Part Prompt (Aesthetic + Reference + Intent + Guardrails); run `init` to write DESIGN.md.
 4. Craft the hero in a few directions; pick one; refine.
 5. Build the rest against DESIGN.md, section by section, reviewing diffs.
@@ -147,6 +147,6 @@ The same logic as design anti-references: recording *why* something was rejected
 10. "wrap up" → "commit" each session.
 
 ## Honest reminders
-- Tools don't create taste; they execute it. The Taste Library + references are what actually move quality — the rest is machinery.
+- Tools don't create taste; they execute it. Real references and a decided direction are what actually move quality — the rest is machinery.
 - Don't add a tool because it exists. Add it because a specific project needs it. Everything in "Optional" is opt-in for a reason.
 - Review every change, especially logic and security config. A tool that self-verifies is good; your review is still the last gate.

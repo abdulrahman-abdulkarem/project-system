@@ -29,6 +29,8 @@ Hand-editing a generated prompt is how these files silently drifted apart the fi
 ## Layout
 
 ```
+START-HERE.md     The front door. Open this beside a new project.
+
 masters/          Edit these. The single source of truth.
   project-rules.md          Always-on rules → embedded in CLAUDE.md
   project-checkpoints.md    On-demand procedures → written to CHECKPOINTS.md
@@ -44,8 +46,10 @@ guides/           Reference, read as needed
   project-startup-plan-and-toolkit.md startup sequence, design workflow, tool menu
   claude-code-templates.md            CLAUDE.md / PROGRESS.md templates
 
-taste-library/    Design reference bank — the part that has to be yours
-  taste-library.md          four-session build guide + entries
+taste-library/    Where cross-site findings get decoded into rules.
+                  Per-project references live in the project's own
+                  design-references/ folder, not here.
+  taste-library.md          decoded entries + the cross-site rules they produced
   screenshots/
 
 arabgo/           Sandbox notes from the project used to validate all of this
@@ -74,8 +78,12 @@ Typed as ordinary messages in the Claude Code chat, not in a terminal.
 
 ## Status
 
-Validated end-to-end against a live Next.js/Prisma/Supabase project in August 2026. That run produced eight fixes to this system, including one silent failure worth knowing about: a clean git merge that quietly discarded the entire contents of a branch, because the target branch contained a revert of a shared commit.
+Validated end-to-end against a live Next.js/Prisma/Supabase project, Aug–Sept 2026. That run found a live production bug in eight minutes and produced a long list of fixes to this system — including one silent failure worth knowing about: a clean git merge that quietly discarded the entire contents of a branch, because the target branch contained a revert of a shared commit.
 
-The design and UI half is well exercised. The security and backend half is not — the validation run was UI work throughout. Treat those rules as sound but unproven.
+Since then the design step has been rebuilt around real references rather than adjectives, colour is asked for rather than guessed, and the bilingual rules were derived by decoding four Arabic/English sites rather than from documentation.
+
+Four separate instances of the same failure have now been found and closed: files documented as generated that weren't actually generated, and therefore silently drifted. If you find a fifth, that pattern is the first place to look.
+
+The design and UI half is well exercised. The security, backend and testing half is not — every validation run so far has been UI work. Treat those rules as sound but unproven.
 
 Full log: `arabgo/arabgo-validation-run.md`.

@@ -130,6 +130,7 @@ Set up a clean, scalable folder structure appropriate to the chosen stack. Separ
 
 - Create a proper .gitignore appropriate to the stack BEFORE the first commit (some scaffolding tools generate one — extend it rather than duplicating it). It must exclude: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys.
 - Create a .env.example listing every required variable NAME with empty or dummy values. Never put real secrets in it.
+- **Decide with me what happens to `design-references/`.** Those screenshots are third-party material and can be large. Ask whether to commit them (useful — the reasoning behind the design stays with the project) or gitignore them (smaller repo, but the references are lost to anyone who clones it). Don't decide silently either way.
 - Never commit secrets, API keys, tokens, or credentials. If you ever spot one in the code, stop and warn me immediately.
 
 ## STEP 5 — Add stack-specific rules
