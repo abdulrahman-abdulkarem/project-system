@@ -231,6 +231,7 @@ If you remember nothing else from this file, remember these eight.
 Follow DESIGN.md
 - DESIGN.md is the source of truth for colors, typography, spacing, radii, elevation, and component patterns. Follow it rather than inventing new values.
 - A documented token can itself violate the rules. When DESIGN.md names a value for a specific context — an accent for dark surfaces, a muted text colour, a disabled state — verify it numerically against that context before trusting it. A source of truth that is wrong is worse than none, because it gets followed.
+- Never write a raw colour value (`#1848A8`) or a framework colour utility (`bg-green-500`, `text-blue-700`) in a component. Components reference semantic tokens only, and every hex value in the project lives in one token file. This is what makes a mid-project palette change a small edit rather than a search-and-replace across the codebase.
 - Reuse the project's documented utilities and tokens instead of hand-rolling one-off styles for the same effect. If a utility exists for a hover, a card, or a state, use it.
 - When solving a problem the codebase has already solved somewhere, reuse that existing pattern rather than introducing a second approach.
 - Keep the icon system consistent — one icon set, and never emoji mixed with icon components for the same signal.
@@ -512,6 +513,7 @@ Run against the current uncommitted changes, not the whole codebase.
 - Loading, empty, and error states handled for anything async that was added?
 - Does any new skeleton match the real layout exactly?
 - New styles: do they reuse existing tokens and utilities, or is this a one-off that should have been a token?
+- **Raw colour values.** Run `grep -rn "#[0-9a-fA-F]\{6\}" app components --include=*.tsx` (adjust the paths to this project). Anything outside the token file is a violation — a hardcoded colour can't be changed centrally later.
 - Icon set consistent — no emoji standing in for icon components?
 
 **Accessibility and reading direction**

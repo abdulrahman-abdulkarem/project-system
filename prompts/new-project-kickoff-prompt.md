@@ -150,16 +150,32 @@ Settle these with me, then write them into DESIGN.md at the project root:
    - For every non-Latin script: confirm which font actually serves it, and VERIFY it is loaded by a real font loader — a CSS variable referencing a font does not mean the font exists. These fonts are heavy, so decide weights and subsetting deliberately. In bilingual projects, tune each script's size and weight separately; the same nominal size rarely looks balanced across two scripts.
    - Record the answer in DESIGN.md — the language checkpoint reads it to know which parts to run.
 
-2. **Direction, from three inputs.** Don't propose a look in a vacuum — gather:
-   - **References**: ask me for 2–3 sites/products whose look I admire.
-   - **Mood**: ask me how it should feel in a few words (e.g. trustworthy, playful, premium, utilitarian).
-   - **Options**: propose a small number of concrete directions with reasoning, and let me pick or combine.
+2. **Direction, from real references — not from a description.** Don't propose a look in a vacuum, and don't work from adjectives alone.
+   - Create a `design-references/` folder at the project root.
+   - Ask me to put full-page screenshots from **at least three** sites or products I react to into it. Say explicitly: include at least one **interior** page per site — a list, detail, form or dashboard screen — not only homepages. A homepage is a marketing artifact; the interior page is where the real design system lives.
+   - **Then STOP and wait until I confirm the files are there.** Do not design from nothing while waiting, and do not proceed on assumptions.
+   - When I confirm, read the images and report back what you actually see, mechanically: ground colour, type pairing and scale, spacing rhythm, corner-radius language, elevation treatment (or its absence), and how the single accent colour is used. Name what the references have in common and where they disagree.
+   - **Mood**: also ask how it should feel in a few words (e.g. trustworthy, playful, premium, utilitarian).
+   - **These are references, not specifications.** Match the feel; never copy a layout. After summarising them, propose at least one direction the references did NOT suggest, and say why it might suit this project better. The references should raise the floor, not cap the ceiling.
+   - Then propose a small number of concrete directions with reasoning, and let me pick or combine.
 
-3. **Anti-references.** Ask what I explicitly do NOT want, including any past attempt that was rejected and why. Record it — knowing what to avoid is as useful as knowing what to aim for.
+3. **Colour — ask, don't guess.** Before writing a single colour into DESIGN.md:
+   - Ask whether this project already has brand colours (a logo, existing material). If it does, ask me for the hex values.
+   - If it doesn't, propose **two or three** palettes drawn from the reference screenshots, describe each in one sentence, and let me pick. Don't decide for me.
+   - Then record the **jobs**, not just the values. Every colour gets one job and a stated limit:
+     - the page ground
+     - the ink (body text)
+     - exactly ONE primary action colour, reserved for that and nothing else
+     - semantic colours (success / error / warning), kept separate from brand colours
+     - and for each: what it is NOT allowed to do
+   - **Verify every foreground/background pair numerically against WCAG AA now** — including hover, focus, active, disabled and selected states, and every pair on dark surfaces if the project has them. A token that fails is worse than no token, because it gets followed. Do not write a value into DESIGN.md before it has passed.
+   - Then stop and show me the palette before continuing.
 
-4. **Register.** Is this primarily a product surface (workflows, task completion) or a brand surface (visual storytelling), or a split? This decides whether clarity or expression wins when they conflict, and it governs how much motion is appropriate.
+4. **Anti-references.** Ask what I explicitly do NOT want, including any past attempt that was rejected and why. Record it — knowing what to avoid is as useful as knowing what to aim for.
 
-5. **Approved Sources.** Decide, and record in DESIGN.md, where each kind of visual material comes from for this project. This list is what lets you ASK me for material instead of inventing it — name the source and the search terms, and I'll fetch it. Cover at minimum:
+5. **Register.** Is this primarily a product surface (workflows, task completion) or a brand surface (visual storytelling), or a split? This decides whether clarity or expression wins when they conflict, and it governs how much motion is appropriate.
+
+6. **Approved Sources.** Decide, and record in DESIGN.md, where each kind of visual material comes from for this project. This list is what lets you ASK me for material instead of inventing it — name the source and the search terms, and I'll fetch it. Cover at minimum:
    - **Icons** — pick ONE set and use it everywhere. Never mix two icon systems, never use emoji as icons.
    - **Motion** — the animation source, if any.
    - **Component patterns** — where to look when a specific block is needed.
@@ -167,7 +183,12 @@ Settle these with me, then write them into DESIGN.md at the project root:
    - **Type** — the font families and where they load from.
    Record for each: what it's for, the URL, and any licence constraint. If a project needs something this list doesn't cover, ask before choosing.
 
-6. **Write DESIGN.md** documenting the ACTUAL system: color roles, typography scale, spacing, radii, elevation, and key components. Name the rules that follow from the direction (e.g. a single accent color for all interactive elements, elevation only on interaction). Document what the code really does, not what it aspires to — and flag any gaps you find.
+7. **Write DESIGN.md** documenting the ACTUAL system: color roles, typography scale, spacing, radii, elevation, and key components.
+
+   **Colour must be implemented as two layers in ONE file**, so the palette can be changed mid-project without hunting through components:
+   - *Layer 1 — the raw palette.* The only place a hex value appears anywhere in the project.
+   - *Layer 2 — the roles.* `--color-surface`, `--color-ink`, `--color-action`, `--color-action-hover` and so on, each pointing at a layer-1 value.
+   - Components reference layer 2 ONLY. Changing the palette is then an edit to a handful of lines in one file, and reassigning a role — moving the action colour from green to blue, say — works without touching a single component. Dark mode is a layer-2 redefinition; layer 1 doesn't move. Name the rules that follow from the direction (e.g. a single accent color for all interactive elements, elevation only on interaction). Document what the code really does, not what it aspires to — and flag any gaps you find.
 
 Design tooling: if a design skill/plugin is available in this environment (for example an installed design plugin with init/critique/polish commands), use it to run this step and to review UI later. If not, do the above manually. Either way DESIGN.md is the source of truth and is committed alongside the other docs.
 
@@ -249,6 +270,7 @@ If you remember nothing else from this file, remember these eight.
 Follow DESIGN.md
 - DESIGN.md is the source of truth for colors, typography, spacing, radii, elevation, and component patterns. Follow it rather than inventing new values.
 - A documented token can itself violate the rules. When DESIGN.md names a value for a specific context — an accent for dark surfaces, a muted text colour, a disabled state — verify it numerically against that context before trusting it. A source of truth that is wrong is worse than none, because it gets followed.
+- Never write a raw colour value (`#1848A8`) or a framework colour utility (`bg-green-500`, `text-blue-700`) in a component. Components reference semantic tokens only, and every hex value in the project lives in one token file. This is what makes a mid-project palette change a small edit rather than a search-and-replace across the codebase.
 - Reuse the project's documented utilities and tokens instead of hand-rolling one-off styles for the same effect. If a utility exists for a hover, a card, or a state, use it.
 - When solving a problem the codebase has already solved somewhere, reuse that existing pattern rather than introducing a second approach.
 - Keep the icon system consistent — one icon set, and never emoji mixed with icon components for the same signal.
@@ -530,6 +552,7 @@ Run against the current uncommitted changes, not the whole codebase.
 - Loading, empty, and error states handled for anything async that was added?
 - Does any new skeleton match the real layout exactly?
 - New styles: do they reuse existing tokens and utilities, or is this a one-off that should have been a token?
+- **Raw colour values.** Run `grep -rn "#[0-9a-fA-F]\{6\}" app components --include=*.tsx` (adjust the paths to this project). Anything outside the token file is a violation — a hardcoded colour can't be changed centrally later.
 - Icon set consistent — no emoji standing in for icon components?
 
 **Accessibility and reading direction**

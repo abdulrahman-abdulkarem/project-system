@@ -36,6 +36,7 @@ Run against the current uncommitted changes, not the whole codebase.
 - Loading, empty, and error states handled for anything async that was added?
 - Does any new skeleton match the real layout exactly?
 - New styles: do they reuse existing tokens and utilities, or is this a one-off that should have been a token?
+- **Raw colour values.** Run `grep -rn "#[0-9a-fA-F]\{6\}" app components --include=*.tsx` (adjust the paths to this project). Anything outside the token file is a violation — a hardcoded colour can't be changed centrally later.
 - Icon set consistent — no emoji standing in for icon components?
 
 **Accessibility and reading direction**

@@ -102,16 +102,32 @@ Settle these with me, then write them into DESIGN.md at the project root:
    - For every non-Latin script: confirm which font actually serves it, and VERIFY it is loaded by a real font loader — a CSS variable referencing a font does not mean the font exists. These fonts are heavy, so decide weights and subsetting deliberately. In bilingual projects, tune each script's size and weight separately; the same nominal size rarely looks balanced across two scripts.
    - Record the answer in DESIGN.md — the language checkpoint reads it to know which parts to run.
 
-2. **Direction, from three inputs.** Don't propose a look in a vacuum — gather:
-   - **References**: ask me for 2–3 sites/products whose look I admire.
-   - **Mood**: ask me how it should feel in a few words (e.g. trustworthy, playful, premium, utilitarian).
-   - **Options**: propose a small number of concrete directions with reasoning, and let me pick or combine.
+2. **Direction, from real references — not from a description.** Don't propose a look in a vacuum, and don't work from adjectives alone.
+   - Create a `design-references/` folder at the project root.
+   - Ask me to put full-page screenshots from **at least three** sites or products I react to into it. Say explicitly: include at least one **interior** page per site — a list, detail, form or dashboard screen — not only homepages. A homepage is a marketing artifact; the interior page is where the real design system lives.
+   - **Then STOP and wait until I confirm the files are there.** Do not design from nothing while waiting, and do not proceed on assumptions.
+   - When I confirm, read the images and report back what you actually see, mechanically: ground colour, type pairing and scale, spacing rhythm, corner-radius language, elevation treatment (or its absence), and how the single accent colour is used. Name what the references have in common and where they disagree.
+   - **Mood**: also ask how it should feel in a few words (e.g. trustworthy, playful, premium, utilitarian).
+   - **These are references, not specifications.** Match the feel; never copy a layout. After summarising them, propose at least one direction the references did NOT suggest, and say why it might suit this project better. The references should raise the floor, not cap the ceiling.
+   - Then propose a small number of concrete directions with reasoning, and let me pick or combine.
 
-3. **Anti-references.** Ask what I explicitly do NOT want, including any past attempt that was rejected and why. Record it — knowing what to avoid is as useful as knowing what to aim for.
+3. **Colour — ask, don't guess.** Before writing a single colour into DESIGN.md:
+   - Ask whether this project already has brand colours (a logo, existing material). If it does, ask me for the hex values.
+   - If it doesn't, propose **two or three** palettes drawn from the reference screenshots, describe each in one sentence, and let me pick. Don't decide for me.
+   - Then record the **jobs**, not just the values. Every colour gets one job and a stated limit:
+     - the page ground
+     - the ink (body text)
+     - exactly ONE primary action colour, reserved for that and nothing else
+     - semantic colours (success / error / warning), kept separate from brand colours
+     - and for each: what it is NOT allowed to do
+   - **Verify every foreground/background pair numerically against WCAG AA now** — including hover, focus, active, disabled and selected states, and every pair on dark surfaces if the project has them. A token that fails is worse than no token, because it gets followed. Do not write a value into DESIGN.md before it has passed.
+   - Then stop and show me the palette before continuing.
 
-4. **Register.** Is this primarily a product surface (workflows, task completion) or a brand surface (visual storytelling), or a split? This decides whether clarity or expression wins when they conflict, and it governs how much motion is appropriate.
+4. **Anti-references.** Ask what I explicitly do NOT want, including any past attempt that was rejected and why. Record it — knowing what to avoid is as useful as knowing what to aim for.
 
-5. **Approved Sources.** Decide, and record in DESIGN.md, where each kind of visual material comes from for this project. This list is what lets you ASK me for material instead of inventing it — name the source and the search terms, and I'll fetch it. Cover at minimum:
+5. **Register.** Is this primarily a product surface (workflows, task completion) or a brand surface (visual storytelling), or a split? This decides whether clarity or expression wins when they conflict, and it governs how much motion is appropriate.
+
+6. **Approved Sources.** Decide, and record in DESIGN.md, where each kind of visual material comes from for this project. This list is what lets you ASK me for material instead of inventing it — name the source and the search terms, and I'll fetch it. Cover at minimum:
    - **Icons** — pick ONE set and use it everywhere. Never mix two icon systems, never use emoji as icons.
    - **Motion** — the animation source, if any.
    - **Component patterns** — where to look when a specific block is needed.
@@ -119,7 +135,12 @@ Settle these with me, then write them into DESIGN.md at the project root:
    - **Type** — the font families and where they load from.
    Record for each: what it's for, the URL, and any licence constraint. If a project needs something this list doesn't cover, ask before choosing.
 
-6. **Write DESIGN.md** documenting the ACTUAL system: color roles, typography scale, spacing, radii, elevation, and key components. Name the rules that follow from the direction (e.g. a single accent color for all interactive elements, elevation only on interaction). Document what the code really does, not what it aspires to — and flag any gaps you find.
+7. **Write DESIGN.md** documenting the ACTUAL system: color roles, typography scale, spacing, radii, elevation, and key components.
+
+   **Colour must be implemented as two layers in ONE file**, so the palette can be changed mid-project without hunting through components:
+   - *Layer 1 — the raw palette.* The only place a hex value appears anywhere in the project.
+   - *Layer 2 — the roles.* `--color-surface`, `--color-ink`, `--color-action`, `--color-action-hover` and so on, each pointing at a layer-1 value.
+   - Components reference layer 2 ONLY. Changing the palette is then an edit to a handful of lines in one file, and reassigning a role — moving the action colour from green to blue, say — works without touching a single component. Dark mode is a layer-2 redefinition; layer 1 doesn't move. Name the rules that follow from the direction (e.g. a single accent color for all interactive elements, elevation only on interaction). Document what the code really does, not what it aspires to — and flag any gaps you find.
 
 Design tooling: if a design skill/plugin is available in this environment (for example an installed design plugin with init/critique/polish commands), use it to run this step and to review UI later. If not, do the above manually. Either way DESIGN.md is the source of truth and is committed alongside the other docs.
 
@@ -488,4 +509,7 @@ if __name__ == "__main__":
     for p in PROMPTS:
         size = build(p)
         print(f"  {p['filename']:<40} {size:>7,} chars")
+    standalone = OUT / "CHECKPOINTS.md"
+    standalone.write_text(CHECKS.rstrip() + "\n", encoding="utf-8")
+    print(f"  {'CHECKPOINTS.md':<40} {len(CHECKS):>7,} chars")
     print("\nDone. The rules and checkpoints in every file are now identical.")
