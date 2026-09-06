@@ -276,6 +276,38 @@ Run before shipping, and after any change that adds a dependency or a lot of mar
 - For public sites: meta tags, Open Graph, `robots.txt`, sitemap, and canonical URLs correct.
 - Domain, SSL, and redirects (www/non-www, http→https) resolving properly.
 
+**Exposure — flag gaps, never certify compliance**
+
+You are not a lawyer and neither is this checklist. Report what is missing and what
+needs a human decision. Never state that the project *is* compliant, and never
+interpret a jurisdiction's law — a confident wrong answer about a privacy regime is
+more dangerous than no answer, because it gets acted on.
+
+- **Policy pages.** Privacy policy, terms, and cookie policy: do they exist, are they
+  linked from every page, and do they describe what this site actually does rather
+  than generic boilerplate? A policy that doesn't match the code is worse than none.
+- **Data minimisation.** List every field the site collects. Name any that isn't
+  genuinely needed for the stated purpose.
+- **Third-party surface.** List every analytics tool, embed, font host, map, chat
+  widget and pixel. For each: what does it send, where, and does it set cookies?
+  Most "we don't track anyone" sites are wrong about this.
+- **Consent.** If consent is required for what's actually loading, does it fire
+  *before* the tracking, not after? A banner that appears while the tracker has
+  already run is decoration.
+- **Forms.** Explicit consent where it's needed, and a plain statement of what the
+  data is used for and how long it's kept.
+- **Commerce.** If anything is sold: refund, cancellation and delivery terms present
+  and reachable before purchase, not buried after it.
+- **Business identity.** Legal entity name, address and a working contact route —
+  required in many jurisdictions and trivially forgotten.
+- **Asset licensing.** Every image, font, icon and library: licence identified and
+  compatible with commercial use. Flag anything whose origin you cannot establish.
+- **Claims and social proof.** Every review, testimonial, statistic, certification
+  and comparative claim on the site: can it be evidenced? Flag anything that cannot.
+  Unevidenced claims are an advertising-standards exposure, not a copy problem.
+- **Then say plainly which of these need a lawyer for this project's jurisdiction**,
+  and stop there rather than guessing at the law.
+
 **After deploying**
 - Walk the critical path on the live site, on a phone, in the project's real reading direction.
 - Confirm logging and error reporting are actually receiving events.

@@ -310,6 +310,7 @@ QA.md structure — the indented block below is the template for that separate f
 - DON'T over-engineer. No premature optimization, no speculative generality.
 - DON'T create unnecessary files, wrappers, or layers "just in case".
 - DON'T silently change behavior — if a task requires a decision, ask or flag it.
+- DON'T invent reviews, testimonials, ratings, user counts, certifications, or statistics — not as placeholder content, not "to be replaced later". Use obviously-empty states or clearly-marked sample data instead, and tell me what real content is needed. Invented social proof has a habit of shipping.
 - DON'T claim something works because it type-checks or builds. Verify it actually runs.
 - DON'T assume a merge kept your work. If either side contains a revert of a commit both branches share, git will resolve cleanly and silently preserve the removal. After any non-trivial merge, check that the files you expected actually contain what you expect — before concluding the merge.
 - DON'T leave the project in a broken state — if you can't finish, say so clearly and note it in PROGRESS.md.
