@@ -91,6 +91,33 @@ List each required variable name and what it's for — never real values. See .e
 [License, or "Private project" if not open source.]
 === FILE END ==="""
 
+TOOLING_STEP = """Do this before building anything. Report what you can ACTUALLY see in this
+environment — don't assume, and don't claim a tool is available because it usually is.
+
+**1. Browser access — the one that matters most.**
+Check for a `chrome-devtools` entry in `.mcp.json`. This is what lets you take screenshots,
+read the console, inspect the live DOM and computed styles, read the accessibility tree, and
+record performance traces yourself, instead of asking me to check every time. Without it you
+are guessing about anything visual.
+
+If it isn't configured, tell me, and offer this:
+
+    {"mcpServers": {"chrome-devtools": {"command": "npx", "args": ["-y", "chrome-devtools-mcp@latest", "--isolated"]}}}
+
+**2. Design tooling.** Tell me whether any design-oriented skill or plugin is loaded (something
+offering init / critique / polish / audit style commands). If one is, you'll use it for the
+design step and for reviewing UI later. If none is, say so — the design step still runs
+manually, it just takes longer.
+
+**3. Anything else you can see that's relevant to this stack.** Test runners, linters,
+formatters, deployment CLIs. List what's present.
+
+Then give me a short summary in three lines: what's available, what's missing, and what each
+missing item would buy me. **Ask before installing or configuring anything** — adding a
+dependency needs my go-ahead, including this one. If I decline, continue setup without it and
+don't ask again this session."""
+
+
 DESIGN_STEP_NEW = """Do this BEFORE building any UI. Skipping it is the main reason AI-built interfaces come out generic — with no decided point of view, the default is a templated look.
 
 Settle these with me, then write them into DESIGN.md at the project root:
@@ -143,13 +170,7 @@ Settle these with me, then write them into DESIGN.md at the project root:
    - *Layer 2 — the roles.* `--color-surface`, `--color-ink`, `--color-action`, `--color-action-hover` and so on, each pointing at a layer-1 value.
    - Components reference layer 2 ONLY. Changing the palette is then an edit to a handful of lines in one file, and reassigning a role — moving the action colour from green to blue, say — works without touching a single component. Dark mode is a layer-2 redefinition; layer 1 doesn't move. Name the rules that follow from the direction (e.g. a single accent color for all interactive elements, elevation only on interaction). Document what the code really does, not what it aspires to — and flag any gaps you find.
 
-Design tooling: if a design skill/plugin is available in this environment (for example an installed design plugin with init/critique/polish commands), use it to run this step and to review UI later. If not, do the above manually. Either way DESIGN.md is the source of truth and is committed alongside the other docs.
-
-Browser access: check whether Chrome DevTools MCP is configured for this project (a `chrome-devtools` entry in `.mcp.json`). If it isn't, tell me — it is what lets you screenshot, read the console, inspect computed styles, read the accessibility tree, and record performance traces yourself instead of asking me for every check. Setup is one entry:
-
-    {"mcpServers": {"chrome-devtools": {"command": "npx", "args": ["-y", "chrome-devtools-mcp@latest", "--isolated"]}}}
-
-Ask before adding it — it is a new dependency."""
+Design tooling: if a design skill/plugin is available in this environment (for example an installed design plugin with init/critique/polish commands), use it to run this step and to review UI later. If not, do the above manually. Either way DESIGN.md is the source of truth and is committed alongside the other docs."""
 
 DESIGN_STEP_EXISTING = """Only if this project has a UI. The goal here is to DOCUMENT the design system that already exists, not to impose a new one — the same "going forward only" rule applies.
 
@@ -241,6 +262,7 @@ PROMPTS.append(dict(
 - Based on that, recommend the best-suited stack — frontend, backend, database, hosting, and any key services — explaining the tradeoffs and why each choice fits this specific project. Don't just list options; give a reasoned recommendation.
 - Weigh factors like project type, scale, performance needs, my familiarity, cost, and long-term maintainability.
 - Go back and forth with me until we settle on the final stack together."""),
+        ("Tooling check", TOOLING_STEP),
         ("Create the context files", """Create three files at the project root, filled in with the real project and stack details we just settled on (not placeholders, except for things genuinely not known yet).
 
 ### File 1: CLAUDE.md
@@ -321,6 +343,7 @@ PROMPTS.append(dict(
 Also important: The PROJECT RULES apply GOING FORWARD only. Do NOT refactor, rewrite, or "fix" existing code to match them unless I explicitly ask. Your job right now is to document what exists and set up the workflow — not to change the codebase. Fill the files with REAL details discovered from the actual code, not placeholders. If something isn't clear from the code, ask me instead of guessing.""",
     steps=[
         ("Scan the codebase", """Read through the project to understand its stack, architecture, folder structure, conventions, and any notable quirks. You'll use this to fill in the files below accurately. Note anything that looks intentional-but-odd so it can be recorded rather than "fixed" later."""),
+        ("Tooling check", TOOLING_STEP),
         ("Create the context files", """Create three files at the project root, filled with real details from the scan.
 
 ### File 1: CLAUDE.md
@@ -426,6 +449,7 @@ CRITICAL — do not destroy existing work:
         ("Take stock of the current state", """- Scan the codebase to understand the current stack, architecture, folder structure, conventions, and what has been built so far.
 - Check whether CLAUDE.md, PROGRESS.md, README.md, DESIGN.md, CHECKPOINTS.md, .gitignore, and .env.example already exist, and note what each currently contains.
 - Give me a short summary of what you found and what's missing or incomplete, BEFORE changing anything."""),
+        ("Tooling check", TOOLING_STEP),
         ("Reconcile / complete CLAUDE.md", """Make sure CLAUDE.md exists at the project root and contains all of the sections below, filled in with REAL details from the current project. Merge into the existing file if there is one — don't discard content that's already accurate.
 
 The most important fix: the full "PROJECT RULES" section (everything under the PROJECT RULES banner further below) MUST be embedded into CLAUDE.md verbatim. This is what makes the shortcuts work — they likely failed before because these rules were never in CLAUDE.md.

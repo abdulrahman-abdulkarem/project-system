@@ -29,7 +29,35 @@ Important: In the steps below, any content between "=== FILE START ===" and "===
 - Check whether CLAUDE.md, PROGRESS.md, README.md, DESIGN.md, CHECKPOINTS.md, .gitignore, and .env.example already exist, and note what each currently contains.
 - Give me a short summary of what you found and what's missing or incomplete, BEFORE changing anything.
 
-## STEP 2 — Reconcile / complete CLAUDE.md
+## STEP 2 — Tooling check
+
+Do this before building anything. Report what you can ACTUALLY see in this
+environment — don't assume, and don't claim a tool is available because it usually is.
+
+**1. Browser access — the one that matters most.**
+Check for a `chrome-devtools` entry in `.mcp.json`. This is what lets you take screenshots,
+read the console, inspect the live DOM and computed styles, read the accessibility tree, and
+record performance traces yourself, instead of asking me to check every time. Without it you
+are guessing about anything visual.
+
+If it isn't configured, tell me, and offer this:
+
+    {"mcpServers": {"chrome-devtools": {"command": "npx", "args": ["-y", "chrome-devtools-mcp@latest", "--isolated"]}}}
+
+**2. Design tooling.** Tell me whether any design-oriented skill or plugin is loaded (something
+offering init / critique / polish / audit style commands). If one is, you'll use it for the
+design step and for reviewing UI later. If none is, say so — the design step still runs
+manually, it just takes longer.
+
+**3. Anything else you can see that's relevant to this stack.** Test runners, linters,
+formatters, deployment CLIs. List what's present.
+
+Then give me a short summary in three lines: what's available, what's missing, and what each
+missing item would buy me. **Ask before installing or configuring anything** — adding a
+dependency needs my go-ahead, including this one. If I decline, continue setup without it and
+don't ask again this session.
+
+## STEP 3 — Reconcile / complete CLAUDE.md
 
 Make sure CLAUDE.md exists at the project root and contains all of the sections below, filled in with REAL details from the current project. Merge into the existing file if there is one — don't discard content that's already accurate.
 
@@ -60,7 +88,7 @@ The most important fix: the full "PROJECT RULES" section (everything under the P
 [Paste the FULL "PROJECT RULES" section (everything under the PROJECT RULES banner below) into here verbatim, so it loads every session.]
 === FILE END ===
 
-## STEP 3 — Reconcile / complete PROGRESS.md
+## STEP 4 — Reconcile / complete PROGRESS.md
 
 Make sure PROGRESS.md exists with the structure below. If it already exists, keep its history and just make sure the format matches and the current state is captured. If it doesn't exist, create it and record everything done so far as the first entries (reconstruct from the code and from what you know of this session).
 
@@ -77,7 +105,7 @@ Make sure PROGRESS.md exists with the structure below. If it already exists, kee
 - Completed project setup: context files, rules, checkpoints, structure docs
 === FILE END ===
 
-## STEP 4 — Reconcile / complete README.md
+## STEP 5 — Reconcile / complete README.md
 
 Make sure README.md exists and is accurate to the actual project, with complete setup instructions (prerequisites, install steps, environment variables, scripts) so the project can be cloned and run from scratch. Merge with any existing README — don't wipe good content.
 
@@ -128,18 +156,18 @@ List each required variable name and what it's for — never real values. See .e
 [License, or "Private project" if not open source.]
 === FILE END ===
 
-## STEP 5 — Git and secrets hygiene (only fix what's missing)
+## STEP 6 — Git and secrets hygiene (only fix what's missing)
 
 - Check the existing .gitignore. Make sure it excludes: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys. Add anything missing — don't remove existing entries.
 - Make sure a .env.example exists listing every required variable NAME with empty or dummy values, based on the variables the code actually uses. Create it if missing.
 - If you spot any secret already committed in the codebase or its history, STOP and warn me immediately.
 
-## STEP 6 — Add stack-specific rules
+## STEP 7 — Add stack-specific rules
 
 - Add a "Stack-Specific Rules" subsection inside the Project Rules section of CLAUDE.md.
 - Fill it with concrete best practices for the stack actually in use (framework conventions, security specifics, data and storage patterns, performance practices) — same spirit as the general rules, but specific to these technologies.
 
-## STEP 7 — Reconcile DESIGN.md (skip if this project has no UI)
+## STEP 8 — Reconcile DESIGN.md (skip if this project has no UI)
 
 Only if this project has a UI. The goal here is to DOCUMENT the design system that already exists, not to impose a new one — the same "going forward only" rule applies.
 
@@ -161,13 +189,13 @@ Only if this project has a UI. The goal here is to DOCUMENT the design system th
 
 Design tooling: if a design skill/plugin is available in this environment (for example an installed design plugin with init/critique/polish commands), use it for this step and for UI review later.
 
-## STEP 8 — Create CHECKPOINTS.md
+## STEP 9 — Create CHECKPOINTS.md
 
 Create CHECKPOINTS.md at the project root, containing the FULL "PROJECT CHECKPOINTS" section from the very bottom of this message, verbatim.
 
 This file holds the procedures run on demand by the checkpoint shortcuts ("review", "test check", "rtl check", "perf pass", "motion check", "ship check"). It deliberately does NOT go into CLAUDE.md — it is read only when a shortcut fires, so it never consumes session context it isn't needed for. Commit it alongside the other docs.
 
-## STEP 9 — Confirm
+## STEP 10 — Confirm
 
 - Summarize what you completed or fixed, and list anything you merged or any assumptions you made so I can correct them.
 - Explicitly confirm: "Setup is now complete — the shortcuts are active." so I know the system is live.

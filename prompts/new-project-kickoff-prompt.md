@@ -25,7 +25,35 @@ Start here, before creating anything. The stack determines the folder structure,
 - Weigh factors like project type, scale, performance needs, my familiarity, cost, and long-term maintainability.
 - Go back and forth with me until we settle on the final stack together.
 
-## STEP 2 — Create the context files
+## STEP 2 — Tooling check
+
+Do this before building anything. Report what you can ACTUALLY see in this
+environment — don't assume, and don't claim a tool is available because it usually is.
+
+**1. Browser access — the one that matters most.**
+Check for a `chrome-devtools` entry in `.mcp.json`. This is what lets you take screenshots,
+read the console, inspect the live DOM and computed styles, read the accessibility tree, and
+record performance traces yourself, instead of asking me to check every time. Without it you
+are guessing about anything visual.
+
+If it isn't configured, tell me, and offer this:
+
+    {"mcpServers": {"chrome-devtools": {"command": "npx", "args": ["-y", "chrome-devtools-mcp@latest", "--isolated"]}}}
+
+**2. Design tooling.** Tell me whether any design-oriented skill or plugin is loaded (something
+offering init / critique / polish / audit style commands). If one is, you'll use it for the
+design step and for reviewing UI later. If none is, say so — the design step still runs
+manually, it just takes longer.
+
+**3. Anything else you can see that's relevant to this stack.** Test runners, linters,
+formatters, deployment CLIs. List what's present.
+
+Then give me a short summary in three lines: what's available, what's missing, and what each
+missing item would buy me. **Ask before installing or configuring anything** — adding a
+dependency needs my go-ahead, including this one. If I decline, continue setup without it and
+don't ask again this session.
+
+## STEP 3 — Create the context files
 
 Create three files at the project root, filled in with the real project and stack details we just settled on (not placeholders, except for things genuinely not known yet).
 
@@ -122,22 +150,22 @@ List each required variable name and what it's for — never real values. See .e
 [License, or "Private project" if not open source.]
 === FILE END ===
 
-## STEP 3 — Establish a clean project structure
+## STEP 4 — Establish a clean project structure
 
 Set up a clean, scalable folder structure appropriate to the chosen stack. Separate concerns clearly (UI, business logic, data access, utilities, config) — do not dump everything into one folder. Document the structure in CLAUDE.md under Architecture and in README.md under Project Structure.
 
-## STEP 4 — Git and secrets hygiene
+## STEP 5 — Git and secrets hygiene
 
 - Create a proper .gitignore appropriate to the stack BEFORE the first commit (some scaffolding tools generate one — extend it rather than duplicating it). It must exclude: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys.
 - Create a .env.example listing every required variable NAME with empty or dummy values. Never put real secrets in it.
 - Never commit secrets, API keys, tokens, or credentials. If you ever spot one in the code, stop and warn me immediately.
 
-## STEP 5 — Add stack-specific rules
+## STEP 6 — Add stack-specific rules
 
 - Add a "Stack-Specific Rules" subsection inside the Project Rules section of CLAUDE.md.
 - Fill it with concrete best practices for the stack actually in use (framework conventions, security specifics, data and storage patterns, performance practices) — same spirit as the general rules, but specific to these technologies.
 
-## STEP 6 — Establish design direction (skip if this project has no UI)
+## STEP 7 — Establish design direction (skip if this project has no UI)
 
 Do this BEFORE building any UI. Skipping it is the main reason AI-built interfaces come out generic — with no decided point of view, the default is a templated look.
 
@@ -193,19 +221,13 @@ Settle these with me, then write them into DESIGN.md at the project root:
 
 Design tooling: if a design skill/plugin is available in this environment (for example an installed design plugin with init/critique/polish commands), use it to run this step and to review UI later. If not, do the above manually. Either way DESIGN.md is the source of truth and is committed alongside the other docs.
 
-Browser access: check whether Chrome DevTools MCP is configured for this project (a `chrome-devtools` entry in `.mcp.json`). If it isn't, tell me — it is what lets you screenshot, read the console, inspect computed styles, read the accessibility tree, and record performance traces yourself instead of asking me for every check. Setup is one entry:
-
-    {"mcpServers": {"chrome-devtools": {"command": "npx", "args": ["-y", "chrome-devtools-mcp@latest", "--isolated"]}}}
-
-Ask before adding it — it is a new dependency.
-
-## STEP 7 — Create CHECKPOINTS.md
+## STEP 8 — Create CHECKPOINTS.md
 
 Create CHECKPOINTS.md at the project root, containing the FULL "PROJECT CHECKPOINTS" section from the very bottom of this message, verbatim.
 
 This file holds the procedures run on demand by the checkpoint shortcuts ("review", "test check", "rtl check", "perf pass", "motion check", "ship check"). It deliberately does NOT go into CLAUDE.md — it is read only when a shortcut fires, so it never consumes session context it isn't needed for. Commit it alongside the other docs.
 
-## STEP 8 — Confirm
+## STEP 9 — Confirm
 
 Give me a short summary of what you set up — the stack, structure, and files — then confirm: "Setup complete — the shortcuts are active." Wait for my next instruction before starting to build.
 
