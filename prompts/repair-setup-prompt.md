@@ -9,7 +9,7 @@
 > Claude Code inside the project.
 >
 > Generated from project-rules.md + project-checkpoints.md — do not edit the rules or checkpoints
-> below by hand. Edit the masters and run build-prompts.py ("sync prompts").
+> below by hand. Edit the masters in this repo, then run `python3 build-prompts.py`.
 
 ---
 

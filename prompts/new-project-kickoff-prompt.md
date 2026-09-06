@@ -8,7 +8,7 @@
 > Claude Code will discuss the stack with you and add stack-specific rules once you settle on it.
 >
 > Generated from project-rules.md + project-checkpoints.md — do not edit the rules or checkpoints
-> below by hand. Edit the masters and run build-prompts.py ("sync prompts").
+> below by hand. Edit the masters in this repo, then run `python3 build-prompts.py`.
 
 ---
 
@@ -130,7 +130,6 @@ Set up a clean, scalable folder structure appropriate to the chosen stack. Separ
 
 - Create a proper .gitignore appropriate to the stack BEFORE the first commit (some scaffolding tools generate one — extend it rather than duplicating it). It must exclude: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys.
 - Create a .env.example listing every required variable NAME with empty or dummy values. Never put real secrets in it.
-- **Decide with me what happens to `design-references/`.** Those screenshots are third-party material and can be large. Ask whether to commit them (useful — the reasoning behind the design stays with the project) or gitignore them (smaller repo, but the references are lost to anyone who clones it). Don't decide silently either way.
 - Never commit secrets, API keys, tokens, or credentials. If you ever spot one in the code, stop and warn me immediately.
 
 ## STEP 5 — Add stack-specific rules
@@ -152,13 +151,14 @@ Settle these with me, then write them into DESIGN.md at the project root:
    - Record the answer in DESIGN.md — the language checkpoint reads it to know which parts to run.
 
 2. **Direction, from real references — not from a description.** Don't propose a look in a vacuum, and don't work from adjectives alone.
-   - Create a `design-references/` folder at the project root.
+   - Create a `design-references/` folder at the project root. (This is part of setup — no need to ask first.)
    - Ask me to put full-page screenshots from **at least three** sites or products I react to into it. Say explicitly: include at least one **interior** page per site — a list, detail, form or dashboard screen — not only homepages. A homepage is a marketing artifact; the interior page is where the real design system lives.
    - **Then STOP and wait until I confirm the files are there.** Do not design from nothing while waiting, and do not proceed on assumptions.
    - When I confirm, read the images and report back what you actually see, mechanically: ground colour, type pairing and scale, spacing rhythm, corner-radius language, elevation treatment (or its absence), and how the single accent colour is used. Name what the references have in common and where they disagree.
    - **Mood**: also ask how it should feel in a few words (e.g. trustworthy, playful, premium, utilitarian).
    - **These are references, not specifications.** Match the feel; never copy a layout. After summarising them, propose at least one direction the references did NOT suggest, and say why it might suit this project better. The references should raise the floor, not cap the ceiling.
    - Then propose a small number of concrete directions with reasoning, and let me pick or combine.
+   - **Once the direction is settled, decide with me what happens to `design-references/` in git.** Those screenshots are third-party material and can be large. Committing them keeps the reasoning behind the design with the project; gitignoring them keeps the repo small but loses the references for anyone who clones it. Either is defensible — deciding silently is not. Update .gitignore accordingly.
 
 3. **Colour — ask, don't guess.** Before writing a single colour into DESIGN.md:
    - Ask whether this project already has brand colours (a logo, existing material). If it does, ask me for the hex values.

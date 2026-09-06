@@ -103,13 +103,14 @@ Settle these with me, then write them into DESIGN.md at the project root:
    - Record the answer in DESIGN.md — the language checkpoint reads it to know which parts to run.
 
 2. **Direction, from real references — not from a description.** Don't propose a look in a vacuum, and don't work from adjectives alone.
-   - Create a `design-references/` folder at the project root.
+   - Create a `design-references/` folder at the project root. (This is part of setup — no need to ask first.)
    - Ask me to put full-page screenshots from **at least three** sites or products I react to into it. Say explicitly: include at least one **interior** page per site — a list, detail, form or dashboard screen — not only homepages. A homepage is a marketing artifact; the interior page is where the real design system lives.
    - **Then STOP and wait until I confirm the files are there.** Do not design from nothing while waiting, and do not proceed on assumptions.
    - When I confirm, read the images and report back what you actually see, mechanically: ground colour, type pairing and scale, spacing rhythm, corner-radius language, elevation treatment (or its absence), and how the single accent colour is used. Name what the references have in common and where they disagree.
    - **Mood**: also ask how it should feel in a few words (e.g. trustworthy, playful, premium, utilitarian).
    - **These are references, not specifications.** Match the feel; never copy a layout. After summarising them, propose at least one direction the references did NOT suggest, and say why it might suit this project better. The references should raise the floor, not cap the ceiling.
    - Then propose a small number of concrete directions with reasoning, and let me pick or combine.
+   - **Once the direction is settled, decide with me what happens to `design-references/` in git.** Those screenshots are third-party material and can be large. Committing them keeps the reasoning behind the design with the project; gitignoring them keeps the repo small but loses the references for anyone who clones it. Either is defensible — deciding silently is not. Update .gitignore accordingly.
 
 3. **Colour — ask, don't guess.** Before writing a single colour into DESIGN.md:
    - Ask whether this project already has brand colours (a logo, existing material). If it does, ask me for the hex values.
@@ -179,7 +180,6 @@ This file holds the procedures run on demand by the checkpoint shortcuts ("revie
 
 GIT_HYGIENE_NEW = """- Create a proper .gitignore appropriate to the stack BEFORE the first commit (some scaffolding tools generate one — extend it rather than duplicating it). It must exclude: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys.
 - Create a .env.example listing every required variable NAME with empty or dummy values. Never put real secrets in it.
-- **Decide with me what happens to `design-references/`.** Those screenshots are third-party material and can be large. Ask whether to commit them (useful — the reasoning behind the design stays with the project) or gitignore them (smaller repo, but the references are lost to anyone who clones it). Don't decide silently either way.
 - Never commit secrets, API keys, tokens, or credentials. If you ever spot one in the code, stop and warn me immediately."""
 
 GIT_HYGIENE_EXISTING = """- Check the existing .gitignore. Make sure it excludes: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys. Add anything missing — don't remove existing entries.
@@ -233,7 +233,7 @@ PROMPTS.append(dict(
 > Claude Code will discuss the stack with you and add stack-specific rules once you settle on it.
 >
 > Generated from project-rules.md + project-checkpoints.md — do not edit the rules or checkpoints
-> below by hand. Edit the masters and run build-prompts.py ("sync prompts").""",
+> below by hand. Edit the masters in this repo, then run `python3 build-prompts.py`.""",
     intro="""You are setting up a new project. Follow the setup steps below in order, then follow the embedded PROJECT RULES for the entire lifetime of the project.""",
     steps=[
         ("Understand the project and choose the stack", """Start here, before creating anything. The stack determines the folder structure, .gitignore, and tooling, so it's decided first.
@@ -315,7 +315,7 @@ PROMPTS.append(dict(
 > Paste everything inside the code block below into Claude Code while inside the existing project.
 >
 > Generated from project-rules.md + project-checkpoints.md — do not edit the rules or checkpoints
-> below by hand. Edit the masters and run build-prompts.py ("sync prompts").""",
+> below by hand. Edit the masters in this repo, then run `python3 build-prompts.py`.""",
     intro="""This project is already underway. Set it up with context files, rules, checkpoints, and shortcuts WITHOUT disrupting the existing code. Follow the steps below, then follow the embedded PROJECT RULES for the rest of the project's life.
 
 Also important: The PROJECT RULES apply GOING FORWARD only. Do NOT refactor, rewrite, or "fix" existing code to match them unless I explicitly ask. Your job right now is to document what exists and set up the workflow — not to change the codebase. Fill the files with REAL details discovered from the actual code, not placeholders. If something isn't clear from the code, ask me instead of guessing.""",
@@ -415,7 +415,7 @@ PROMPTS.append(dict(
 > Claude Code inside the project.
 >
 > Generated from project-rules.md + project-checkpoints.md — do not edit the rules or checkpoints
-> below by hand. Edit the masters and run build-prompts.py ("sync prompts").""",
+> below by hand. Edit the masters in this repo, then run `python3 build-prompts.py`.""",
     intro="""The setup for this project was started but not finished correctly. There is already real work in this project, and some setup files (CLAUDE.md, PROGRESS.md, and/or README.md) may already exist partially. Your job is to FINISH and FIX the setup as described below.
 
 CRITICAL — do not destroy existing work:
