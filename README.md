@@ -4,6 +4,8 @@ A reusable setup-and-rules system for building software with Claude Code. Arabic
 
 ## Start here
 
+**New here? Read `START-HERE.md` first.**
+
 Beginning a new project? Pick the prompt that matches your situation from `prompts/` and paste the whole code block into Claude Code as your first message:
 
 | Situation | Prompt |
