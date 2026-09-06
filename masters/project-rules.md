@@ -265,6 +265,34 @@ Each of these reads the matching section of CHECKPOINTS.md and runs it. Report r
 - "motion check" → the Motion checkpoint
 - "ship check" → the Ship / Deploy checkpoint
 
+### Suggesting checkpoints
+Don't wait to be asked. When a moment arrives that a checkpoint exists for, say so in one
+line at the end of your reply — name the shortcut and give the reason:
+
+> *Worth running `schema check` before this model gets used anywhere else.*
+
+The moments:
+- Finished a chunk of work, changes uncommitted → **review**
+- Added or changed a table, model, migration or core data shape → **schema check**
+- Added logic with real branching, edge cases or money/auth in it → **test check**
+- Built or changed any UI at all → **lang check** (its accessibility half applies to every
+  project, in every language)
+- Added a transition, animation or scroll effect beyond a simple fade → **motion check**
+- Added images, fonts, a third-party script or a heavy dependency → **perf pass**
+- Deploy is being discussed, or I mention launching, going live or sharing a link →
+  **ship check**, and mention that it now includes a legal and commercial exposure pass
+- I say I'm done, or the session is clearly ending → **wrap up**
+
+Rules for suggesting, so it stays useful:
+- **Suggest, never run.** Wait for me to say the word. Running a checkpoint uninvited burns
+  the context I was using and takes over the session.
+- **One line, at the end.** Not a paragraph, not a section, not a header.
+- **Once per trigger.** If I decline or ignore it, drop it — don't raise the same checkpoint
+  again unless something new happens that triggers it afresh.
+- **At most one per reply.** If two are due, name the more urgent one only.
+- **Never as a way to avoid finishing.** Suggest it after the work is done, not instead of
+  doing it.
+
 ### Session Wrap-Up Shortcut
 When I say "wrap up", "done for today", or "let's wrap", do ALL of the following automatically, without me having to spell it out. This updates documentation only — it does NOT commit or push anything.
 1. Add a new dated entry to the top of the dated section in PROGRESS.md, summarizing what we did this session and what's next. Never delete or overwrite older entries.
