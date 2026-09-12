@@ -169,57 +169,63 @@ Set up a clean, scalable folder structure appropriate to the chosen stack. Separ
 
 Do this BEFORE building any UI. Skipping it is the main reason AI-built interfaces come out generic — with no decided point of view, the default is a templated look.
 
-Settle these with me, then write them into DESIGN.md at the project root:
+Settle these with me, then write them into DESIGN.md at the project root.
 
-1. **Language and reading direction.** Ask me the primary language(s) and which of these three the project is — it drives layout, not just translation, and it decides how much of the language checkpoint applies:
-   - **Single-direction LTR** (English or similar only). Still build with logical properties rather than hardcoded left/right, so adding a language later is a translation job and not a rewrite.
+1. **Language and reading direction.** Ask me the primary language(s), and which of these the project is. Do this first: it changes how the code is built, not just what it says.
+   - **Single-direction LTR** (English or similar only).
    - **Single-direction RTL** (Arabic or similar only). Treat RTL as the native layout direction, never as a mirrored afterthought.
-   - **Bilingual / multi-directional.** One component set must serve both directions — no mirrored duplicates. Settle now: the default and fallback locale, the URL strategy (`/ar`, `/en`, subdomain), where the language switcher lives, and how `dir`/`lang` change on switch.
-   - For every non-Latin script: confirm which font actually serves it, and VERIFY it is loaded by a real font loader — a CSS variable referencing a font does not mean the font exists. These fonts are heavy, so decide weights and subsetting deliberately. In bilingual projects, tune each script's size and weight separately; the same nominal size rarely looks balanced across two scripts.
-   - Record the answer in DESIGN.md — the language checkpoint reads it to know which parts to run.
+   - **Bilingual / multi-directional.** One component set must serve both directions — no mirrored duplicates. Settle now: default and fallback locale, URL strategy (`/ar`, `/en`, subdomain), where the switcher lives, and how `dir`/`lang` change on switch.
 
-2. **Direction, from real references — not from a description.** Don't propose a look in a vacuum, and don't work from adjectives alone.
-   - Create a `design-references/` folder at the project root. (This is part of setup — no need to ask first.)
-   - Ask me to put full-page screenshots from **at least three** sites or products I react to into it. Say explicitly: include at least one **interior** page per site — a list, detail, form or dashboard screen — not only homepages. A homepage is a marketing artifact; the interior page is where the real design system lives.
-   - **Then STOP and wait until I confirm the files are there.** Do not design from nothing while waiting, and do not proceed on assumptions.
-   - When I confirm, read the images and report back what you actually see, mechanically: ground colour, type pairing and scale, spacing rhythm, corner-radius language, elevation treatment (or its absence), and how the single accent colour is used. Name what the references have in common and where they disagree.
-   - **Mood**: also ask how it should feel in a few words (e.g. trustworthy, playful, premium, utilitarian).
-   - **These are references, not specifications.** Match the feel; never copy a layout. After summarising them, propose at least one direction the references did NOT suggest, and say why it might suit this project better. The references should raise the floor, not cap the ceiling.
+   Whatever the answer: use logical properties (`margin-inline`, `inset-inline-start`, `text-align: start`) rather than hardcoded left/right, even on a single-direction project. It costs nothing now and is the difference between adding a language later being a translation job or a rewrite.
+
+   **If the answer is RTL or bilingual**, say so plainly and tell me the project needs the RTL guide — the language checkpoint's Parts B and C carry the script-specific rules, and they apply from the first component, not at review time.
+
+   Record the answer in DESIGN.md. The language checkpoint reads it to know which parts to run.
+
+2. **Direction, from real references — not from a description.**
+   - Create a `design-references/` folder at the project root. (Part of setup — no need to ask first.)
+   - Ask me to put full-page screenshots of **at least three** sites or products I react to into it, including at least one **interior** page per site — a list, detail, form or dashboard screen, not only homepages. A homepage is a marketing artifact; the interior page is where the real design system lives.
+   - **Then STOP and wait until I confirm the files are there.** Do not design from nothing while waiting.
+   - When I confirm, read the images and report what you actually see, mechanically: ground colour, type pairing and scale, spacing rhythm, corner-radius language, elevation treatment (or its absence), and how the single accent is used. Name what they share and where they disagree.
+   - **Mood:** ask how it should feel in a few words (trustworthy, playful, premium, utilitarian).
+   - **These are references, not specifications.** Match the feel; never copy a layout. Propose at least one direction the references did NOT suggest, and say why it might suit this project better. References raise the floor; they don't cap the ceiling.
    - Then propose a small number of concrete directions with reasoning, and let me pick or combine.
-   - **Once the direction is settled, decide with me what happens to `design-references/` in git.** Those screenshots are third-party material and can be large. Committing them keeps the reasoning behind the design with the project; gitignoring them keeps the repo small but loses the references for anyone who clones it. Either is defensible — deciding silently is not. Update .gitignore accordingly.
+   - Once the direction is settled, decide with me whether `design-references/` is committed or gitignored. Those are third-party screenshots and can be large; committing keeps the design reasoning with the project. Either is fine — deciding silently is not.
 
 3. **Colour — ask, don't guess.** Before writing a single colour into DESIGN.md:
-   - Ask whether this project already has brand colours (a logo, existing material). If it does, ask me for the hex values.
-   - If it doesn't, propose **two or three** palettes drawn from the reference screenshots, describe each in one sentence, and let me pick. Don't decide for me.
-   - Then record the **jobs**, not just the values. Every colour gets one job and a stated limit:
-     - the page ground
-     - the ink (body text)
-     - exactly ONE primary action colour, reserved for that and nothing else
-     - semantic colours (success / error / warning), kept separate from brand colours
-     - and for each: what it is NOT allowed to do
-   - **Verify every foreground/background pair numerically against WCAG AA now** — including hover, focus, active, disabled and selected states, and every pair on dark surfaces if the project has them. A token that fails is worse than no token, because it gets followed. Do not write a value into DESIGN.md before it has passed.
+   - Ask whether the project already has brand colours (a logo, existing material). If so, ask me for the hex values.
+   - If not, propose **two or three** palettes drawn from the references, one sentence each, and let me pick. Don't decide for me.
+   - Record the **jobs**, not just the values. Each colour gets one job and a stated limit: the page ground; the ink; exactly ONE primary action colour reserved for that and nothing else; semantic colours (success / error / warning) kept separate from brand colours; and for each, what it is NOT allowed to do.
+   - **Verify every foreground/background pair numerically against WCAG AA now** — including hover, focus, active, disabled and selected, and every pair on dark surfaces. A token that fails is worse than no token, because it gets followed. Nothing goes into DESIGN.md before it passes.
    - Then stop and show me the palette before continuing.
 
-4. **Anti-references.** Ask what I explicitly do NOT want, including any past attempt that was rejected and why. Record it — knowing what to avoid is as useful as knowing what to aim for.
+4. **Anti-references.** Ask what I explicitly do NOT want, including any past attempt that was rejected and why. Knowing what to avoid is as useful as knowing what to aim for.
 
-5. **Register.** Is this primarily a product surface (workflows, task completion) or a brand surface (visual storytelling), or a split? This decides whether clarity or expression wins when they conflict, and it governs how much motion is appropriate.
+5. **Register.** Product surface (workflows, task completion) or brand surface (visual storytelling), or a split? This decides whether clarity or expression wins when they conflict, and governs how much motion is appropriate.
 
-6. **Approved Sources.** Decide, and record in DESIGN.md, where each kind of visual material comes from for this project. This list is what lets you ASK me for material instead of inventing it — name the source and the search terms, and I'll fetch it. Cover at minimum:
-   - **Icons** — pick ONE set and use it everywhere. Never mix two icon systems, never use emoji as icons.
+6. **Approved Sources.** Record in DESIGN.md where each kind of visual material comes from. This is what lets you ASK me for material instead of inventing it — name the source and search terms, and I'll fetch it. Cover at minimum:
+   - **Icons** — ONE set, used everywhere. Never two icon systems, never emoji as icons.
    - **Motion** — the animation source, if any.
    - **Component patterns** — where to look when a specific block is needed.
    - **Backgrounds / texture** — how depth is achieved.
-   - **Type** — the font families and where they load from.
-   Record for each: what it's for, the URL, and any licence constraint. If a project needs something this list doesn't cover, ask before choosing.
+   - **Type** — the families and where they load from.
+   For each: what it's for, the URL, and any licence constraint. If the project needs something this list doesn't cover, ask before choosing.
 
-7. **Write DESIGN.md** documenting the ACTUAL system: color roles, typography scale, spacing, radii, elevation, and key components.
+7. **Design skills — who owns what.** Tooling was checked in an earlier step. If a design skill is available, it works INSIDE this system, never instead of it.
 
-   **Colour must be implemented as two layers in ONE file**, so the palette can be changed mid-project without hunting through components:
-   - *Layer 1 — the raw palette.* The only place a hex value appears anywhere in the project.
-   - *Layer 2 — the roles.* `--color-surface`, `--color-ink`, `--color-action`, `--color-action-hover` and so on, each pointing at a layer-1 value.
-   - Components reference layer 2 ONLY. Changing the palette is then an edit to a handful of lines in one file, and reassigning a role — moving the action colour from green to blue, say — works without touching a single component. Dark mode is a layer-2 redefinition; layer 1 doesn't move. Name the rules that follow from the direction (e.g. a single accent color for all interactive elements, elevation only on interaction). Document what the code really does, not what it aspires to — and flag any gaps you find.
+   **DESIGN.md is the single source of truth.** No skill's own config, spec or generated design file overrides it. If a skill wants to write its own design document, either point it at DESIGN.md or keep its file as scratch and reconcile into DESIGN.md — tell me which you did. Two competing design systems in one repo is worse than none.
 
-Design tooling: if a design skill/plugin is available in this environment (for example an installed design plugin with init/critique/polish commands), use it to run this step and to review UI later. If not, do the above manually. Either way DESIGN.md is the source of truth and is committed alongside the other docs.
+   - **A generator-style skill** (catalogue of styles, palettes, font pairings — e.g. ui-ux-pro-max) is a **proposer**. Its output is ONE more candidate in step 2 and step 3, clearly labelled as a catalogue suggestion, sitting beside the directions drawn from my actual references. It never decides, and it never overwrites a decision I already made.
+   - **A critic-style skill** (review and refinement commands — e.g. impeccable's `critique`, `audit`, `polish`, `live`) runs **after code exists**, not now. Do not run its `init`-style setup without asking me first: those commands typically create their own product and design files, which is exactly the conflict above.
+   - Whatever a skill reports, the project's own rules and checkpoints still apply. These skills do not know about reading direction or non-Latin scripts — a clean report from one of them says nothing about RTL correctness.
+   - If no design skill is available, everything above still runs. It just takes longer.
+
+8. **Write DESIGN.md** documenting the ACTUAL system: colour roles, typography scale, spacing, radii, elevation, and key components. Name the rules that follow from the direction. Document what the code really does, not what it aspires to — and flag any gaps.
+
+   **Colour must be two layers in ONE file**, so the palette can change mid-project without hunting through components:
+   - *Layer 1 — the raw palette.* The only place a hex value appears in the project.
+   - *Layer 2 — the roles.* `--color-surface`, `--color-ink`, `--color-action`, `--color-action-hover`, each pointing at a layer-1 value.
+   - Components reference layer 2 ONLY. Changing the palette is then a handful of lines in one file, and reassigning a role works without touching a component. Dark mode is a layer-2 redefinition; layer 1 doesn't move.
 
 ## STEP 8 — Create CHECKPOINTS.md
 
