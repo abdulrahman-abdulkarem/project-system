@@ -123,6 +123,16 @@ DESIGN_STEP_NEW = """Do this BEFORE building any UI. Skipping it is the main rea
 
 Settle these with me, then write them into DESIGN.md at the project root.
 
+This step has two modes. You may offer the reduced one. You may not invent a third.
+
+**FULL** — all nine items. Default for anything with more than a few screens, anything user-facing, anything where the look is part of the product.
+
+**REDUCED** — items 1, 3, 5, 8, 9, plus at least one design reference. For internal tools, single-screen utilities, and throwaways.
+
+Items 2, 4, 6 and 7 are what REDUCED drops. Item 9 is not droppable in either mode. If the one-screen proof feels like the expensive part worth cutting, that is the strongest available signal that it is the part doing the work — it is the only item in this step that has ever caught a problem the plan didn't predict.
+
+The person chooses the mode. Offer REDUCED with those exact contents if you think it applies, say why, and wait. Do not choose for them, and do not describe a reduction that isn't one of these two.
+
 1. **Language and reading direction.** Ask me the primary language(s), and which of these the project is. Do this first: it changes how the code is built, not just what it says.
    - **Single-direction LTR** (English or similar only).
    - **Single-direction RTL** (Arabic or similar only). Treat RTL as the native layout direction, never as a mirrored afterthought.
@@ -137,8 +147,9 @@ Settle these with me, then write them into DESIGN.md at the project root.
 2. **Direction, from real references — not from a description.**
    - Create a `design-references/` folder at the project root. (Part of setup — no need to ask first.)
    - Ask me to put full-page screenshots of **at least three** sites or products I react to into it, including at least one **interior** page per site — a list, detail, form or dashboard screen, not only homepages. A homepage is a marketing artifact; the interior page is where the real design system lives.
+   - **Ask me, per reference, which axis it was supplied for:** **STRUCTURAL** — supplied for how it organises information: what's on the page, in what order, at what density, how navigation and filtering work. Or **AESTHETIC** — supplied for how it looks: colour, type, spacing, radius, elevation, texture. The same screenshot can be either, and you cannot tell from looking.
    - **Then STOP and wait until I confirm the files are there.** Do not design from nothing while waiting.
-   - When I confirm, read the images and report what you actually see, mechanically: ground colour, type pairing and scale, spacing rhythm, corner-radius language, elevation treatment (or its absence), and how the single accent is used. Name what they share and where they disagree.
+   - When I confirm, read the images and report what you actually see, mechanically: ground colour, type pairing and scale, spacing rhythm, corner-radius language, elevation treatment (or its absence), and how the single accent is used. Name what they share and where they disagree. For each reference, state what's structural about it, what's aesthetic about it, and which of the two you think we're borrowing. Then STOP and wait for me to confirm or correct the label per reference. Only after I confirm does the label go into DESIGN.md and only then do you design from it. A label you assigned and I never saw is a guess with a filename attached. Without this, a site supplied for its information architecture gets its palette copied, which is the most common way a reference makes a design worse instead of better.
    - **Mood:** ask how it should feel in a few words (trustworthy, playful, premium, utilitarian).
    - **These are references, not specifications.** Match the feel; never copy a layout. Propose at least one direction the references did NOT suggest, and say why it might suit this project better. References raise the floor; they don't cap the ceiling.
    - Then propose a small number of concrete directions with reasoning, and let me pick or combine.
@@ -186,7 +197,7 @@ Settle these with me, then write them into DESIGN.md at the project root.
    A direction that looks right on a hero can fall apart across twelve screens, and you will not find that out from a mockup. So:
    - Pick the **densest real screen** in the project — the one with the most information per square inch. A listing, a detail page, a form. Not the homepage.
    - Build it completely, using the **longest real content available** — real names, real prices, real Arabic strings if the project is bilingual. **Never lorem, never short samples.** Text-length and mixed-script problems are invisible until real data hits them, and they are the most common reason a design system fails in production.
-   - Include its **empty, loading and error states.** These are part of the screen, not an afterthought — designing them later is how they end up unstyled.
+   - Include its **empty, loading and error states.** These are part of the screen, not an afterthought — designing them later is how they end up unstyled. The deliberate empty state must look more deliberate than any accidental failure on the same screen. If a broken image renders as a plain grey box while a genuinely-empty slot renders as a labelled dashed placeholder, then failure looks more intentional than intent, and the person reading the screen will trust the wrong one.
    - Then look at it in the browser yourself, run `review`, and if a critic skill is available run it here. Fix what comes back.
    - **Only then build the rest against it.** Tell me explicitly when you consider the direction proven, and what changed between the plan and the working screen — that difference is the most useful thing this step produces."""
 
