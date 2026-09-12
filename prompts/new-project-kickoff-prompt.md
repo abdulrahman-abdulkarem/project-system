@@ -195,8 +195,9 @@ Settle these with me, then write them into DESIGN.md at the project root.
 3. **Colour — ask, don't guess.** Before writing a single colour into DESIGN.md:
    - Ask whether the project already has brand colours (a logo, existing material). If so, ask me for the hex values.
    - If not, propose **two or three** palettes drawn from the references, one sentence each, and let me pick. Don't decide for me.
+   - **Ask about dark mode now: yes, later, or never.** This is nearly free while the tokens are being written and expensive months later, because every contrast pair has to be re-verified against a second set of grounds. If the answer is "later", still structure the tokens so it's a layer-2 addition rather than a rewrite.
    - Record the **jobs**, not just the values. Each colour gets one job and a stated limit: the page ground; the ink; exactly ONE primary action colour reserved for that and nothing else; semantic colours (success / error / warning) kept separate from brand colours; and for each, what it is NOT allowed to do.
-   - **Verify every foreground/background pair numerically against WCAG AA now** — including hover, focus, active, disabled and selected, and every pair on dark surfaces. A token that fails is worse than no token, because it gets followed. Nothing goes into DESIGN.md before it passes.
+   - **Verify every foreground/background pair numerically against WCAG AA now** — including hover, focus, active, disabled and selected, and every pair on dark surfaces if dark mode is in scope. A token that fails is worse than no token, because it gets followed. Nothing goes into DESIGN.md before it passes.
    - Then stop and show me the palette before continuing.
 
 4. **Anti-references.** Ask what I explicitly do NOT want, including any past attempt that was rejected and why. Knowing what to avoid is as useful as knowing what to aim for.
@@ -215,17 +216,27 @@ Settle these with me, then write them into DESIGN.md at the project root.
 
    **DESIGN.md is the single source of truth.** No skill's own config, spec or generated design file overrides it. If a skill wants to write its own design document, either point it at DESIGN.md or keep its file as scratch and reconcile into DESIGN.md — tell me which you did. Two competing design systems in one repo is worse than none.
 
-   - **A generator-style skill** (catalogue of styles, palettes, font pairings — e.g. ui-ux-pro-max) is a **proposer**. Its output is ONE more candidate in step 2 and step 3, clearly labelled as a catalogue suggestion, sitting beside the directions drawn from my actual references. It never decides, and it never overwrites a decision I already made.
-   - **A critic-style skill** (review and refinement commands — e.g. impeccable's `critique`, `audit`, `polish`, `live`) runs **after code exists**, not now. Do not run its `init`-style setup without asking me first: those commands typically create their own product and design files, which is exactly the conflict above.
-   - Whatever a skill reports, the project's own rules and checkpoints still apply. These skills do not know about reading direction or non-Latin scripts — a clean report from one of them says nothing about RTL correctness.
+   - **A generator-style skill** (catalogue of styles, palettes, font pairings) is a **proposer**. Its output is ONE more candidate in steps 2 and 3, clearly labelled as a catalogue suggestion, sitting beside the directions drawn from my actual references. It never decides, and never overwrites a decision I already made.
+   - **A critic-style skill** (review and refinement commands — e.g. impeccable's `critique`, `audit`, `polish`, `live`) runs **after code exists**. Its value is catching the tells that make work read as machine-made: overused fonts, grey text on coloured grounds, untinted black, nested cards, dated easing. Do not run its `init`-style setup without asking me first — those commands typically create their own product and design files, which is exactly the conflict above.
+   - **A critic removes what is wrong; it does not supply a point of view.** A clean report on a page built with no decided direction gives you a tidy generic page. The direction work above is what prevents generic; the skill is what prevents sloppy.
+   - These skills do not know about reading direction or non-Latin scripts. A clean report from one says nothing about RTL correctness.
    - If no design skill is available, everything above still runs. It just takes longer.
 
-8. **Write DESIGN.md** documenting the ACTUAL system: colour roles, typography scale, spacing, radii, elevation, and key components. Name the rules that follow from the direction. Document what the code really does, not what it aspires to — and flag any gaps.
+8. **Write DESIGN.md** documenting the ACTUAL system: colour roles, typography scale, spacing, radii, elevation, breakpoints that matter for this project, and key components. Name the rules that follow from the direction. Document what the code really does, not what it aspires to — and flag any gaps.
 
    **Colour must be two layers in ONE file**, so the palette can change mid-project without hunting through components:
    - *Layer 1 — the raw palette.* The only place a hex value appears in the project.
    - *Layer 2 — the roles.* `--color-surface`, `--color-ink`, `--color-action`, `--color-action-hover`, each pointing at a layer-1 value.
-   - Components reference layer 2 ONLY. Changing the palette is then a handful of lines in one file, and reassigning a role works without touching a component. Dark mode is a layer-2 redefinition; layer 1 doesn't move.
+   - Components reference layer 2 ONLY. Changing the palette is then a handful of lines in one file, and reassigning a role works without touching a component. Dark mode is a layer-2 redefinition; layer 1 does not move.
+
+9. **Prove the direction on ONE screen before building anything else.**
+
+   A direction that looks right on a hero can fall apart across twelve screens, and you will not find that out from a mockup. So:
+   - Pick the **densest real screen** in the project — the one with the most information per square inch. A listing, a detail page, a form. Not the homepage.
+   - Build it completely, using the **longest real content available** — real names, real prices, real Arabic strings if the project is bilingual. **Never lorem, never short samples.** Text-length and mixed-script problems are invisible until real data hits them, and they are the most common reason a design system fails in production.
+   - Include its **empty, loading and error states.** These are part of the screen, not an afterthought — designing them later is how they end up unstyled.
+   - Then look at it in the browser yourself, run `review`, and if a critic skill is available run it here. Fix what comes back.
+   - **Only then build the rest against it.** Tell me explicitly when you consider the direction proven, and what changed between the plan and the working screen — that difference is the most useful thing this step produces.
 
 ## STEP 8 — Create CHECKPOINTS.md
 
