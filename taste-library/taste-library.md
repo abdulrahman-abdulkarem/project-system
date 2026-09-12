@@ -28,9 +28,9 @@ This is the most important instruction here. A homepage is a marketing artifact 
 
 **4. Where to hunt.**
 
-*General galleries:* Land-book, SiteInspire, Httpster, Minimal Gallery, Godly. Awwwards is worth a look but skews heavily toward expressive brand sites — treat it as Family 4 material, not product design.
+*General galleries:* Land-book, SiteInspire, Httpster, Minimal Gallery, Godly. Awwwards is worth a look but skews heavily toward expressive brand sites — treat it as bold/expressive-brand-surface material, not product design.
 
-*Product and app UI:* Mobbin is the strongest source for Family 2 (clean utility) — real screens from real apps, including flows and states.
+*Product and app UI:* Mobbin is the strongest source for the clean utility / product surface family — real screens from real apps, including flows and states.
 
 *Arabic and Gulf/MENA — hunt these deliberately, no gallery will surface them for you:* Careem, Talabat, Noon, Jahez, Nana, Tamara, Tabby, Salla, Zid, Foodics, Bayut, Mrsool, Haraj. Saudi government digital services (Absher, Tawakkalna) are genuinely well-designed and worth studying for Arabic form and data patterns. For Arabic editorial type: Al Jazeera, Asharq. *(Verify these are still good examples when you look — I'm going from knowledge, not from viewing them.)*
 
@@ -48,7 +48,7 @@ This is the most important instruction here. A homepage is a marketing artifact 
 
 **2. Group by *feel*, not by industry.** Two directories can belong to different families; a directory and a bank can belong to the same one.
 
-**3. Let the families emerge.** I've seeded four below as starting points, but if your captures cluster differently, rename them. Yours should be the real ones.
+**3. Let the families emerge.** Don't declare family names up front — a family exists once an entry's `Family:` field says so, not before. Check "Coverage we want" for families this library is still short on, but the real ones come from what your captures actually cluster into.
 
 **4. Notice the imbalance.** If 20 of 25 land in one family, that's useful information about your taste — and a signal to go hunt deliberately in the thin ones, because a single-family library can only ever brief one look.
 
@@ -150,36 +150,46 @@ Copy this block for each entry.
 
 ---
 
-# FAMILY 1 — Warm premium marketplace
+# Warm premium marketplace
 
 Trust-driven products where people choose between real-world options. Warm neutrals, generous space, confident type, one restrained accent. Reads credible and cared-for rather than corporate.
 
-*Three entries seeded from an early brief — they need screenshots, URLs and your own vocabulary. My starter keywords are a first draft to overwrite, not an answer.*
+*Two entries seeded from an early brief — they need screenshots, URLs and your own vocabulary. My starter keywords are a first draft to overwrite, not an answer.*
 
 ### Airbnb
 - **URL:** airbnb.com
-- **Screenshot:** *(capture home + a search results page)*
+- **Screenshot:** (capture home + a search results page)
 - **Family:** Warm premium marketplace
-- **Script/direction:** LTR *(also capture an Arabic locale if one exists)*
-- **Vocabulary:** *(starter — correct me)* warm neutral ground · generous whitespace · large friendly sans · soft rounded cards · single restrained accent · search as centrepiece
+- **Status:** Unverified — seeded from an early brief, no screenshots captured yet, so this
+  family assignment hasn't actually been checked against the site.
+- **Script/direction:** LTR (also capture an Arabic locale if one exists)
+- **Vocabulary:** (starter — correct me) warm neutral ground · generous whitespace · large friendly sans · soft rounded cards · single restrained accent · search as centrepiece
 - **What makes it work:**
 - **What I'd steal:**
 
 ### Houzz
 - **URL:** houzz.com
-- **Screenshot:** *(capture home + a category/listing page)*
+- **Screenshot:** (capture home + a category/listing page)
 - **Family:** Warm premium marketplace
+- **Status:** Unverified — seeded from an early brief, no screenshots captured yet, so this
+  family assignment hasn't actually been checked against the site.
 - **Script/direction:** LTR
-- **Vocabulary:** *(starter)* dense but organised · category tiles · warm neutral palette · card grids with clear hierarchy
+- **Vocabulary:** (starter) dense but organised · category tiles · warm neutral palette · card grids with clear hierarchy
 - **What makes it work:**
 - **What I'd steal:**
+
+---
+
+# Bold product surface
 
 ### Careem
 - **URL:** careem.com
 - **Screenshot:** screenshots/careem/ (22 captures, AR + EN — home, service page, form, FAQ,
   blog index, footer)
-- **Family:** NOT warm premium marketplace — bold product surface. Near-white ground, zero
-  shadows, flat saturated accents. Reassign when Family 2 or a new family is defined.
+- **Family:** Bold product surface
+- **Note:** Reassigned from the seeded "warm premium marketplace" family — near-white ground,
+  zero shadows and flat saturated accents don't match that family's warm-neutral description.
+  See Library notes.
 - **Script/direction:** Bilingual — the most valuable reference in this library
 - **Vocabulary:** near-white ground · zero elevation · signal colour reserved for action ·
   three-tier radius · one icon set · notched gradient dividers
@@ -191,7 +201,9 @@ Trust-driven products where people choose between real-world options. Warm neutr
   Four containers instead of eighteen cards. ~18 services are organised as four coloured
   cards, each holding a plain text list of what's inside it — no icon per service, no tile
   per service. The default answer to "many categories" is a grid of identical cards; this
-  is better, and it scales.
+  is better, and it scales. See `careem-home-en.jpeg` — the Go/Eat/Get/Pay block partway down
+  the homepage — not the `-about-and-captains`/`-engineering-and-social-impact` captures,
+  which are corporate/About content and don't show this.
 
 **Neutral — observed, not adopted:** the four card colours (indigo / mint / violet / navy)
 have no harmonic relationship. Confident rather than messy, but not a device to reuse.
@@ -216,12 +228,15 @@ edges instead of straight horizontal rules. Reads as brand rather than decoratio
   period renders at the *start* of the line. A bidi punctuation failure that only appears in
   Arabic and that no English-language QA pass would catch.
 
+---
+
+# Dense flat marketplace
+
 ### noon
 - **URL:** noon.com
 - **Screenshot:** screenshots/noon/ (AR + EN — home, category grid, listing with filters,
   product detail, cart, account)
-- **Family:** Dense transactional marketplace. Not warm premium either — that seeded family
-  now has zero real members and probably needs renaming.
+- **Family:** Dense flat marketplace
 - **Script/direction:** Bilingual
 - **Vocabulary:** pale grey ground · zero elevation · chrome-only brand colour ·
   tight 8px radius · one bold element per card · strict colour jobs
@@ -274,9 +289,7 @@ convention or is a coincidence of these two.
 - **URL:** bayut.com
 - **Screenshot:** screenshots/bayut/ (AR + EN — home, transactions table, agent search,
   off-plan listings, new projects, property detail)
-- **Family:** Dense marketplace, utility-leaning. Note: four sites in, NOT ONE belongs to the
-  seeded "warm premium marketplace" family. That family list was invented before either of us
-  had looked at anything and should be rebuilt from the real entries.
+- **Family:** Dense flat marketplace
 - **Script/direction:** Bilingual
 - **Vocabulary:** hairline separation · zero elevation · one accent per job ·
   full-width rows over grids · labelled section stack · persistent filter chrome
@@ -337,33 +350,16 @@ record what the next Arabic site with a chart does before settling on an answer.
 
 ---
 
-# FAMILY 2 — Clean utility / product surface
-
-Dashboards, tools, admin panels — anything where someone is completing a task, not being persuaded. Restrained palette, tight type scale, density without clutter, near-zero decoration, motion only for state feedback.
-
-*Empty — target 3–5 entries. Start with tools you actually enjoy using. Mobbin is the best source.*
-
----
-
-# FAMILY 3 — Editorial / content-forward
-
-Reading-led design. Strong type hierarchy, deliberate measure, generous line-height, imagery serving the text. Relevant whenever content is the product.
-
-*Empty — target 3–5 entries. Hunt Arabic editorial specifically; Arabic type at reading sizes behaves differently from Latin and almost nothing in Western galleries will teach you this.*
-
----
-
-# FAMILY 4 — Bold / expressive brand surface
+# Bold / expressive brand surface
 
 Launch pages, studios, portfolios — where being memorable *is* the job. The expressive scroll techniques from the motion checkpoint are legitimate here. Kept separate so its choices never leak into product surfaces.
-
-*Empty — target 3–5 entries. Awwwards is the right hunting ground for this one and only this one.*
 
 ### talabat (corporate)
 - **URL:** talabat.com — the corporate/investor site, NOT the ordering app
 - **Screenshot:** screenshots/talabat/ (AR + EN — home, about, newsroom, investor relations,
   footer)
-- **Family:** Bold / expressive brand surface. First real entry in this family.
+- **Family:** Bold / expressive brand surface
+- **Note:** First real entry in this family.
 - **Script/direction:** Bilingual
 - **Vocabulary:** colour as ground not accent · four-colour full-bleed system ·
   hand-drawn emphasis devices · irregular outlined photo frames · zero elevation
@@ -411,6 +407,42 @@ Use graphical devices when a design has to work in more than one script.
 
 ---
 
+## Coverage we want
+
+Families we'd like entries in but don't have yet. A wishlist, not a taxonomy — it does not
+group the browse view, and an entry only joins a family by having that `Family:` value.
+
+- **Clean utility / product surface** — Dashboards, tools, admin panels — anything where
+  someone is completing a task, not being persuaded. Restrained palette, tight type scale,
+  density without clutter, near-zero decoration, motion only for state feedback. Target 3–5
+  entries. Start with tools you actually enjoy using — Mobbin is the best source.
+- **Editorial / content-forward** — Reading-led design. Strong type hierarchy, deliberate
+  measure, generous line-height, imagery serving the text. Relevant whenever content is the
+  product. Target 3–5 entries. Hunt Arabic editorial specifically; Arabic type at reading
+  sizes behaves differently from Latin and almost nothing in Western galleries will teach you
+  this.
+
+**The current family names are provisional.** Six real entries is not enough to name a
+taxonomy from — that's the mistake the seeded list already made once. Leave the names as they
+are until the library has roughly ten real entries, then rebuild the names from what's
+actually there, the same way this session rebuilt them from four.
+
+---
+
+## Library notes
+
+- **The seeded family list was invented before any real entries existed, and it shows.** Four
+  real sites in, not one belongs to the original "warm premium marketplace" family — Careem,
+  noon and Bayut were each drafted against it in turn and reassigned once real data existed.
+  Family names now come from the entries actually in the library, not from the seed list.
+- **"AI slop" tells — avoid across every family:** Blue-to-purple gradients · Inter
+  everywhere, every weight, for everything · the same three-card layout regardless of content
+  · emoji standing in for icons · evenly-distributed rainbow palettes with no hierarchy ·
+  decorative floating blobs with no structural purpose (measured on ArabGo: a real
+  main-thread cost as well as a visual one).
+
+---
+
 # ANTI-REFERENCES
 
 What you've explicitly rejected, and why. Writing the reason down stops the same mistake returning under a new name.
@@ -418,14 +450,6 @@ What you've explicitly rejected, and why. Writing the reason down stops the same
 ### ArabGo redesign, July 2026
 - **Why rejected:** Too generic; lost the project's identity.
 - **The lesson:** Genericness is what you get when no direction was decided — not a failure of execution.
-
-### "AI slop" tells — avoid across every family
-- Blue-to-purple gradients
-- Inter everywhere, every weight, for everything
-- The same three-card layout regardless of content
-- Emoji standing in for icons
-- Evenly-distributed rainbow palettes with no hierarchy
-- Decorative floating blobs with no structural purpose *(measured on ArabGo: a real main-thread cost as well as a visual one)*
 
 ---
 
