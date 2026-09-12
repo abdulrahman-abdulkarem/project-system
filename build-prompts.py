@@ -37,6 +37,7 @@ def extract(filename):
 
 RULES = extract("project-rules.md")
 CHECKS = extract("project-checkpoints.md")
+RTL = extract("rtl-guide.md")
 
 # ---------------------------------------------------------------------------
 # Shared step fragments
@@ -215,7 +216,11 @@ STACK_RULES_STEP = """- Add a "Stack-Specific Rules" subsection inside the Proje
 
 CHECKPOINTS_STEP = """Create CHECKPOINTS.md at the project root, containing the FULL "PROJECT CHECKPOINTS" section from the very bottom of this message, verbatim.
 
-This file holds the procedures run on demand by the checkpoint shortcuts ("review", "test check", "rtl check", "perf pass", "motion check", "ship check"). It deliberately does NOT go into CLAUDE.md — it is read only when a shortcut fires, so it never consumes session context it isn't needed for. Commit it alongside the other docs."""
+This file holds the procedures run on demand by the checkpoint shortcuts ("review", "test check", "rtl check", "perf pass", "motion check", "ship check"). It deliberately does NOT go into CLAUDE.md — it is read only when a shortcut fires, so it never consumes session context it isn't needed for. Commit it alongside the other docs.
+
+**Then, ONLY if this project's reading direction is RTL or bilingual:** also create RTL.md at the project root, containing the FULL "RTL / Bilingual Guide" section from the very bottom of this message, verbatim. Add one line to CLAUDE.md under Project Rules: *"This project is RTL/bilingual — read RTL.md before any UI work."* Then tell me you created it.
+
+If the project is single-direction LTR, do NOT create RTL.md and do NOT add that line. Say which you did, so I know it was a decision rather than an omission."""
 
 GIT_HYGIENE_NEW = """- Create a proper .gitignore appropriate to the stack BEFORE the first commit (some scaffolding tools generate one — extend it rather than duplicating it). It must exclude: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys.
 - Create a .env.example listing every required variable NAME with empty or dummy values. Never put real secrets in it.
@@ -540,6 +545,8 @@ def build(p):
     parts.append(RULES)
     parts.append("")
     parts.append(CHECKS)
+    parts.append("")
+    parts.append(RTL)
     parts.append("```")
     parts.append("")
     parts.append("---")
@@ -556,7 +563,7 @@ if __name__ == "__main__":
     for p in PROMPTS:
         size = build(p)
         print(f"  {p['filename']:<40} {size:>7,} chars")
-    standalone = OUT / "CHECKPOINTS.md"
-    standalone.write_text(CHECKS.rstrip() + "\n", encoding="utf-8")
-    print(f"  {'CHECKPOINTS.md':<40} {len(CHECKS):>7,} chars")
+    for name, text in (("CHECKPOINTS.md", CHECKS), ("RTL.md", RTL)):
+        (OUT / name).write_text(text.rstrip() + "\n", encoding="utf-8")
+        print(f"  {name:<40} {len(text):>7,} chars")
     print("\nDone. The rules and checkpoints in every file are now identical.")
