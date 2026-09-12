@@ -246,6 +246,7 @@ If you remember nothing else from this file, remember these eight.
 - Match the conventions already used in this codebase rather than introducing new styles.
 - Fix shared behavior at its single choke point rather than patching each call site, and leave a short comment explaining why, so the fix survives future edits.
 - If a fix establishes a *convention* future work must follow — "any new X must also be registered in Y, or it silently breaks" — record it in CLAUDE.md as well, not only as a code comment. A comment is invisible to whoever reads the project docs first, and an undocumented trap is a bug waiting to be reintroduced.
+- **Decide what happens to inline markup before you write the renderer.** When code consumes formatted source (Markdown, HTML, rich text) and displays it somewhere else, pick one: strip the markup, render it, or reject the field. Never let it pass through. Raw `*`, `_`, or tags showing up in output is a parser with no policy, not a display bug.
 
 ### Project Structure
 - Maintain clean separation of concerns: UI, business logic, data access, and config each stay in their own layer.
@@ -282,6 +283,8 @@ Follow DESIGN.md
 - Reuse the project's documented utilities and tokens instead of hand-rolling one-off styles for the same effect. If a utility exists for a hover, a card, or a state, use it.
 - When solving a problem the codebase has already solved somewhere, reuse that existing pattern rather than introducing a second approach.
 - Keep the icon system consistent — one icon set, and never emoji mixed with icon components for the same signal.
+
+**Never uppercase or letter-space text whose length you don't control.** `text-transform: uppercase` and positive `letter-spacing` are safe on labels you author and unsafe on any string that arrives from data — a two-word heading becomes a three-line heading, and the tracking makes the wrap worse. If the content is dynamic, put the treatment on the container's own label, not on the content.
 
 Seeing what you build
 
@@ -544,6 +547,7 @@ Every row below is a real failure from this workflow, not a hypothetical. When y
 | "The merge completed cleanly." | If either branch contains a revert of a shared commit, git resolves cleanly and silently keeps the removal. Check the files contain what you expect. |
 | "This change is too small to plan." | Small changes are exactly where scope quietly creeps and assumptions go unstated. Two lines of plan cost nothing. |
 | "It looks good." | You have not seen it unless you took a screenshot or read the DOM. Verify, or say plainly that you haven't. |
+| "I deleted the screenshot/log once I'd confirmed the thing worked." | A file created to prove something is evidence, not scratch. Don't delete it during cleanup, and commit it alongside the change it proves. The screenshot that shows the screen was right is the only durable record that anyone looked — a claim in a document that the design was verified, with no artifact next to it, is just a claim. |
 | "I'll write the test after." | A test written against a passing implementation tests the implementation, not the requirement. Write it failing first. |
 | "The code clearly shows what's slow." | Static reading gives a hypothesis. Measurement regularly reassigns the blame — it already has on this project. |
 | "The user probably meant X." | Probably is not a specification. Ask, and name both readings. |
@@ -593,6 +597,11 @@ Run against the current uncommitted changes, not the whole codebase.
 - New styles: do they reuse existing tokens and utilities, or is this a one-off that should have been a token?
 - **Raw colour values.** Run `grep -rn "#[0-9a-fA-F]\{6\}" app components --include=*.tsx` (adjust the paths to this project). Anything outside the token file is a violation — a hardcoded colour can't be changed centrally later.
 - Icon set consistent — no emoji standing in for icon components?
+
+**Once the screen exists**
+- Before changing layout because a screen looks wrong, check whether the source data is wrong. A screen that faithfully renders bad data looks exactly like a design failure and isn't one. Say which of the two you found. Fixing the layout to compensate for bad data is the worst outcome available.
+- Compare the rendered screen against DESIGN.md line by line. Name every place they disagree, and for each one say which is wrong — the screen or the document.
+- Commit the screenshot that proves the screen, in the same commit as the change it proves.
 
 **Accessibility and reading direction**
 - Labels on new inputs; heading levels unbroken; contrast checked numerically; focus visible; touch targets at the project minimum.

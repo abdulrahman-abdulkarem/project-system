@@ -59,6 +59,11 @@ Run against the current uncommitted changes, not the whole codebase.
 - **Raw colour values.** Run `grep -rn "#[0-9a-fA-F]\{6\}" app components --include=*.tsx` (adjust the paths to this project). Anything outside the token file is a violation — a hardcoded colour can't be changed centrally later.
 - Icon set consistent — no emoji standing in for icon components?
 
+**Once the screen exists**
+- Before changing layout because a screen looks wrong, check whether the source data is wrong. A screen that faithfully renders bad data looks exactly like a design failure and isn't one. Say which of the two you found. Fixing the layout to compensate for bad data is the worst outcome available.
+- Compare the rendered screen against DESIGN.md line by line. Name every place they disagree, and for each one say which is wrong — the screen or the document.
+- Commit the screenshot that proves the screen, in the same commit as the change it proves.
+
 **Accessibility and reading direction**
 - Labels on new inputs; heading levels unbroken; contrast checked numerically; focus visible; touch targets at the project minimum.
 - Any new X-axis assumption (slide, arrow, chevron, horizontal scroll) that breaks under the project's reading direction?
