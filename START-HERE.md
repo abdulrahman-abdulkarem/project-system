@@ -36,13 +36,9 @@ waits. But having them ready saves a round trip.
 Copy the **whole code block** from your chosen prompt file and paste it as the
 first message in a new Claude Code session.
 
-**It will stop and ask you things. That's the design.** Two stops are deliberate
-and matter most:
+**It will stop and ask you things. That's the design.** One stop is deliberate
+and matters most:
 
-- **Design references.** It creates `design-references/`, asks you to fill it,
-  and waits. Put the screenshots in, tell it they're there. It then reads them
-  and reports back what it sees mechanically — and proposes one direction the
-  references didn't suggest.
 - **The palette.** It asks for your colours or proposes two or three. It checks
   every pair against WCAG AA before writing anything, then shows you the palette
   and waits.

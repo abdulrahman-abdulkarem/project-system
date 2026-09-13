@@ -179,7 +179,7 @@ Only if this project has a UI. The goal here is to DOCUMENT the design system th
 
 **First, check there is actually a system to document.** If the styles are ad-hoc — no consistent colour roles, no type scale, one-off values everywhere — say so plainly rather than dressing up chaos as a system. Then offer me the choice, and ask rather than picking:
 - **Document what exists** as a baseline and improve it incrementally, or
-- **Establish a direction properly first.** That means: create a `design-references/` folder, ask me for full-page screenshots of 3+ sites (at least one interior page each), STOP and wait until I confirm they are there, then read them and report what you see mechanically — ground colour, type pairing and scale, spacing rhythm, radius language, elevation treatment, accent use. Ask me about colour rather than guessing it, record each colour's job and its limit, verify every pair against WCAG AA including hover/focus/active/disabled, and show me the palette before continuing.
+- **Establish a direction properly first.** That means: ask what I explicitly do NOT want and how it should feel in a few words, propose a small number of concrete directions with reasoning and let me pick or combine, then handle colour — ask whether brand colours already exist or propose two or three palettes, record each colour's job and its limit, verify every pair against WCAG AA including hover/focus/active/disabled, and show me the palette before continuing.
 
 1. **Read the actual styles.** Go through the existing components, theme/config, and stylesheets and extract what is really in use: color roles, typography scale, spacing, radii, elevation, and the recurring component patterns.
 

@@ -136,15 +136,14 @@ The same logic as design anti-references: recording *why* something was rejected
 ## Part 4 — Quick-start checklist for a new UI project
 
 1. Run the right kickoff prompt; let it finish fully.
-2. When setup creates `design-references/`, put full-page screenshots of 3+ sites in it — at least one interior page each — and tell it they're there.
-3. Give impeccable the 4-Part Prompt (Aesthetic + Reference + Intent + Guardrails); run `init` to write DESIGN.md.
-4. Craft the hero in a few directions; pick one; refine.
-5. Build the rest against DESIGN.md, section by section, reviewing diffs.
-6. `critique`/`polish` on real screens; verify in browser (RTL + mobile + console).
-7. Pull matching assets only as needed: Haikei for backgrounds/depth, Motion Primitives for animation, a component library (21st.dev / Watermelon UI) for specific blocks, one icon set (lucide by default). Only pieces that fit DESIGN.md.
-8. Motion last, if at all: settle the register (product vs brand surface), pick the interaction before the technique, then add the smallest effect that does the job — with reduced-motion, RTL-mirroring, and transform/opacity-only as non-negotiables.
-9. Performance pass before shipping — Lighthouse baseline → the Phase 7 checklist (delivery, caching, CSS/JS trim, font subsetting, image formats) → re-measure.
-10. "wrap up" → "commit" each session.
+2. Give impeccable the 4-Part Prompt (Aesthetic + Reference + Intent + Guardrails); run `init` to write DESIGN.md.
+3. Craft the hero in a few directions; pick one; refine.
+4. Build the rest against DESIGN.md, section by section, reviewing diffs.
+5. `critique`/`polish` on real screens; verify in browser (RTL + mobile + console).
+6. Pull matching assets only as needed: Haikei for backgrounds/depth, Motion Primitives for animation, a component library (21st.dev / Watermelon UI) for specific blocks, one icon set (lucide by default). Only pieces that fit DESIGN.md.
+7. Motion last, if at all: settle the register (product vs brand surface), pick the interaction before the technique, then add the smallest effect that does the job — with reduced-motion, RTL-mirroring, and transform/opacity-only as non-negotiables.
+8. Performance pass before shipping — Lighthouse baseline → the Phase 7 checklist (delivery, caching, CSS/JS trim, font subsetting, image formats) → re-measure.
+9. "wrap up" → "commit" each session.
 
 ## Honest reminders
 - Tools don't create taste; they execute it. Real references and a decided direction are what actually move quality — the rest is machinery.

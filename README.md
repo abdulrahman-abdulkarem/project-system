@@ -47,8 +47,6 @@ guides/           Reference, read as needed
   claude-code-templates.md            CLAUDE.md / PROGRESS.md templates
 
 taste-library/    Where cross-site findings get decoded into rules.
-                  Per-project references live in the project's own
-                  design-references/ folder, not here.
   taste-library.md          decoded entries + the cross-site rules they produced
   screenshots/
 
