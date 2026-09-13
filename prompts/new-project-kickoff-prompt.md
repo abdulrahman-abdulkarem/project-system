@@ -165,6 +165,8 @@ Set up a clean, scalable folder structure appropriate to the chosen stack. Separ
 - Create a proper .gitignore appropriate to the stack BEFORE the first commit (some scaffolding tools generate one — extend it rather than duplicating it). It must exclude: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys.
 - Create a .env.example listing every required variable NAME with empty or dummy values. Never put real secrets in it.
 - Never commit secrets, API keys, tokens, or credentials. If you ever spot one in the code, stop and warn me immediately.
+- Run `git init` if this isn't already a git repository. That's local and reversible — no need to ask first.
+- **Then STOP before touching GitHub.** Ask whether to create a repository now — offer `gh repo create` if the `gh` CLI is available, otherwise tell me it needs to be created manually — and wait for my answer. Creating something under my account is exactly the kind of action that needs my go-ahead first, same as any other external action. If I say not yet, don't ask again this session; move on, and let a later `git push` failing be the natural signal that it's still needed.
 
 ## STEP 6 — Add stack-specific rules
 
@@ -224,7 +226,7 @@ The person chooses the mode. Offer REDUCED with those exact contents if you thin
 
    **DESIGN.md is the single source of truth.** No skill's own config, spec or generated design file overrides it. If a skill wants to write its own design document, either point it at DESIGN.md or keep its file as scratch and reconcile into DESIGN.md — tell me which you did. Two competing design systems in one repo is worse than none.
 
-   - **A generator-style skill** (catalogue of styles, palettes, font pairings) is a **proposer**. Its output is ONE more candidate in step 2, clearly labelled as a catalogue suggestion, sitting beside the direction and colour choices we settle on together. It never decides, and never overwrites a decision I already made.
+   - **A generator-style skill** (catalogue of styles, palettes, font pairings) is a **proposer**. Its output is ONE more candidate in the direction-and-colour item, clearly labelled as a catalogue suggestion, sitting beside the direction and colour choices we settle on together. It never decides, and never overwrites a decision I already made.
    - **A critic-style skill** (review and refinement commands — e.g. impeccable's `critique`, `audit`, `polish`, `live`) runs **after code exists**. Its value is catching the tells that make work read as machine-made: overused fonts, grey text on coloured grounds, untinted black, nested cards, dated easing. Do not run its `init`-style setup without asking me first — those commands typically create their own product and design files, which is exactly the conflict above.
    - **A critic removes what is wrong; it does not supply a point of view.** A clean report on a page built with no decided direction gives you a tidy generic page. The direction work above is what prevents generic; the skill is what prevents sloppy.
    - These skills do not know about reading direction or non-Latin scripts. A clean report from one says nothing about RTL correctness.
@@ -262,7 +264,7 @@ If the project is single-direction LTR, do NOT create RTL.md and do NOT add that
 
 Give me a short summary of what you set up — the stack, structure, and files — then confirm: "Setup complete — the shortcuts are active." Wait for my next instruction before starting to build.
 
-<!-- BEGIN system-rules (generated from project-rules.md@96ee87ce — do not edit by hand) -->
+<!-- BEGIN system-rules (generated from project-rules.md@27deb591 — do not edit by hand) -->
 ## HARD RULES (never violate these)
 
 If you remember nothing else from this file, remember these eight.
@@ -511,14 +513,13 @@ line at the end of your reply — name the shortcut and give the reason:
 The moments:
 - Finished a chunk of work, changes uncommitted → **review**
 - Added or changed a table, model, migration or core data shape → **schema check**
-- Added logic with real branching, edge cases or money/auth in it → **test check**
+- Added money or auth logic → **test check**
 - Built or changed any UI at all → **lang check** (its accessibility half applies to every
   project, in every language)
 - Added a transition, animation or scroll effect beyond a simple fade → **motion check**
 - Added images, fonts, a third-party script or a heavy dependency → **perf pass**
 - Deploy is being discussed, or I mention launching, going live or sharing a link →
   **ship check**, and mention that it now includes a legal and commercial exposure pass
-- I say I'm done, or the session is clearly ending → **wrap up**
 
 Rules for suggesting, so it stays useful:
 - **Suggest, never run.** Wait for me to say the word. Running a checkpoint uninvited burns
@@ -602,7 +603,7 @@ Every row below is a real failure from this workflow, not a hypothetical. When y
 | "This is internal, so security matters less." | Internal tools get breached, prototypes become production, and automated scanners never sleep. |
 <!-- END system-rules -->
 
-<!-- BEGIN system-checkpoints (generated from project-checkpoints.md@8cde9255 — do not edit by hand) -->
+<!-- BEGIN system-checkpoints (generated from project-checkpoints.md@61452886 — do not edit by hand) -->
 # Project Checkpoints
 
 Procedures run on demand by shortcut. Each one reports findings grouped by severity, most serious first, and changes nothing until told which findings to act on.
@@ -921,12 +922,12 @@ machinery to guess around it.
 **Drift check (what `wrap up` runs)**
 
 1. Find the project-system path recorded in CLAUDE.md, next to the Project Rules heading.
-2. Hash that path's current master files the same way: `sha256sum masters/project-rules.md | cut -c1-8` (and the same for `masters/project-checkpoints.md`, and `masters/rtl-guide.md` if step 4 applies).
+2. Hash that path's current master files the same way: `sha256sum masters/project-rules.md | cut -c1-8` (and the same for `masters/project-checkpoints.md`, and `masters/rtl-guide.md` if the RTL item below applies).
 3. Compare each hash against the stamp on the matching BEGIN marker in this project.
 4. **RTL.md is conditional — treat its absence as normal, not as drift.** If this project has no RTL.md, only check it further when this project's declared reading direction (DESIGN.md) is RTL or bilingual. In that case a missing RTL.md is not staleness, it's a missing file — report it as exactly that, distinctly from a stamp mismatch. If the project is single-direction LTR, say nothing about RTL.md at all.
 5. For any stamp that differs: in project-system, walk `git log --format=%H -- <master file>` newest-first, hashing each historical version (`git show <sha>:<master file> | sha256sum | cut -c1-8`) until one matches this project's stamp, then `git log --oneline <that-commit>..HEAD -- <master file>` names what changed since. If no historical version matches (rewritten history, or the file predates the stamped commit), say that plainly instead of guessing at a distance.
 6. If this project's CLAUDE.md has no markers at all (set up before this feature existed), that's not drift either — it's a project this checkpoint can't yet see into. Say so once; that's what `rules refresh`'s migration path is for.
-7. Report only, 1–2 lines: how far behind (commit count is fine), the gist of what changed, and any missing-RTL.md finding from step 4. Touch nothing.
+7. Report only, 1–2 lines: how far behind (commit count is fine), the gist of what changed, and any missing-RTL.md finding from the RTL item above. Touch nothing.
 
 **"rules refresh" — pulling drift in, deliberately**
 

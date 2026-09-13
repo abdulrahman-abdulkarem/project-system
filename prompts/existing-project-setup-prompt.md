@@ -116,7 +116,7 @@ a version stamp; a rules dump without them can never be checked for drift later.
 === FILE END ===
 
 ### File 3: README.md
-A clean, professional README suitable for presenting publicly on GitHub, accurate to what the project actually is. The setup sections must be complete enough that the project can be cloned and run from scratch on either device.
+A clean, professional README suitable for presenting publicly on GitHub, accurate to what the project actually is. The setup sections must be complete enough that the project can be cloned and run from scratch.
 
 === FILE START ===
 # [Project Name]
@@ -170,6 +170,10 @@ List each required variable name and what it's for — never real values. See .e
 - Check the existing .gitignore. Make sure it excludes: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys. Add anything missing — don't remove existing entries.
 - Make sure a .env.example exists listing every required variable NAME with empty or dummy values, based on the variables the code actually uses. Create it if missing.
 - If you spot any secret already committed in the codebase or its history, STOP and warn me immediately.
+- Check whether this is already a git repository (`git rev-parse --is-inside-work-tree`) and whether it has a remote (`git remote -v`). Only offer what's actually missing:
+  - Not a repository yet? Run `git init` — local and reversible, no need to ask first.
+  - No remote? STOP and ask before creating one on GitHub — offer `gh repo create` if the `gh` CLI is available, otherwise tell me it needs to be created manually. Creating something under my account needs my go-ahead first.
+  - Both already exist? Say so and move on — don't offer to create what's already there.
 
 ## STEP 5 — Add stack-specific rules
 
@@ -182,7 +186,7 @@ Only if this project has a UI. The goal here is to DOCUMENT the design system th
 
 **First, check there is actually a system to document.** If the styles are ad-hoc — no consistent colour roles, no type scale, one-off values everywhere — say so plainly rather than dressing up chaos as a system. Then offer me the choice, and ask rather than picking:
 - **Document what exists** as a baseline and improve it incrementally, or
-- **Establish a direction properly first.** That means: ask what I explicitly do NOT want and how it should feel in a few words, propose a small number of concrete directions with reasoning and let me pick or combine, then handle colour — ask whether brand colours already exist or propose two or three palettes, record each colour's job and its limit, verify every pair against WCAG AA including hover/focus/active/disabled, and show me the palette before continuing.
+- **Establish a direction properly first.** That means: ask what I explicitly do NOT want and how it should feel in a few words, then propose a small number of concrete directions with reasoning. **Stop and wait for me to pick or combine before going near colour.** Once I have, handle colour — ask whether brand colours already exist or propose two or three palettes, record each colour's job and its limit, verify every pair against WCAG AA including hover/focus/active/disabled, and show me the palette before continuing.
 
 1. **Read the actual styles.** Go through the existing components, theme/config, and stylesheets and extract what is really in use: color roles, typography scale, spacing, radii, elevation, and the recurring component patterns.
 
@@ -216,13 +220,13 @@ Once the files are created and the scan-based details are filled in:
 - Commit with the message: "Add project context files, rules, checkpoints, and README".
 - Push to GitHub.
 
-This first push is intentional so both devices immediately have the new files. After this, commits follow the "commit" shortcut (not automatic).
+This first push is intentional so the setup is safely on GitHub right away. After this, commits follow the "commit" shortcut (not automatic).
 
 ## STEP 9 — Confirm
 
 Give me a short summary of what you set up and what you learned about the project. If anything was unclear during the scan and you had to make assumptions, list them so I can correct them. Then confirm: "Setup complete — the shortcuts are active." 
 
-<!-- BEGIN system-rules (generated from project-rules.md@96ee87ce — do not edit by hand) -->
+<!-- BEGIN system-rules (generated from project-rules.md@27deb591 — do not edit by hand) -->
 ## HARD RULES (never violate these)
 
 If you remember nothing else from this file, remember these eight.
@@ -471,14 +475,13 @@ line at the end of your reply — name the shortcut and give the reason:
 The moments:
 - Finished a chunk of work, changes uncommitted → **review**
 - Added or changed a table, model, migration or core data shape → **schema check**
-- Added logic with real branching, edge cases or money/auth in it → **test check**
+- Added money or auth logic → **test check**
 - Built or changed any UI at all → **lang check** (its accessibility half applies to every
   project, in every language)
 - Added a transition, animation or scroll effect beyond a simple fade → **motion check**
 - Added images, fonts, a third-party script or a heavy dependency → **perf pass**
 - Deploy is being discussed, or I mention launching, going live or sharing a link →
   **ship check**, and mention that it now includes a legal and commercial exposure pass
-- I say I'm done, or the session is clearly ending → **wrap up**
 
 Rules for suggesting, so it stays useful:
 - **Suggest, never run.** Wait for me to say the word. Running a checkpoint uninvited burns
@@ -562,7 +565,7 @@ Every row below is a real failure from this workflow, not a hypothetical. When y
 | "This is internal, so security matters less." | Internal tools get breached, prototypes become production, and automated scanners never sleep. |
 <!-- END system-rules -->
 
-<!-- BEGIN system-checkpoints (generated from project-checkpoints.md@8cde9255 — do not edit by hand) -->
+<!-- BEGIN system-checkpoints (generated from project-checkpoints.md@61452886 — do not edit by hand) -->
 # Project Checkpoints
 
 Procedures run on demand by shortcut. Each one reports findings grouped by severity, most serious first, and changes nothing until told which findings to act on.
@@ -881,12 +884,12 @@ machinery to guess around it.
 **Drift check (what `wrap up` runs)**
 
 1. Find the project-system path recorded in CLAUDE.md, next to the Project Rules heading.
-2. Hash that path's current master files the same way: `sha256sum masters/project-rules.md | cut -c1-8` (and the same for `masters/project-checkpoints.md`, and `masters/rtl-guide.md` if step 4 applies).
+2. Hash that path's current master files the same way: `sha256sum masters/project-rules.md | cut -c1-8` (and the same for `masters/project-checkpoints.md`, and `masters/rtl-guide.md` if the RTL item below applies).
 3. Compare each hash against the stamp on the matching BEGIN marker in this project.
 4. **RTL.md is conditional — treat its absence as normal, not as drift.** If this project has no RTL.md, only check it further when this project's declared reading direction (DESIGN.md) is RTL or bilingual. In that case a missing RTL.md is not staleness, it's a missing file — report it as exactly that, distinctly from a stamp mismatch. If the project is single-direction LTR, say nothing about RTL.md at all.
 5. For any stamp that differs: in project-system, walk `git log --format=%H -- <master file>` newest-first, hashing each historical version (`git show <sha>:<master file> | sha256sum | cut -c1-8`) until one matches this project's stamp, then `git log --oneline <that-commit>..HEAD -- <master file>` names what changed since. If no historical version matches (rewritten history, or the file predates the stamped commit), say that plainly instead of guessing at a distance.
 6. If this project's CLAUDE.md has no markers at all (set up before this feature existed), that's not drift either — it's a project this checkpoint can't yet see into. Say so once; that's what `rules refresh`'s migration path is for.
-7. Report only, 1–2 lines: how far behind (commit count is fine), the gist of what changed, and any missing-RTL.md finding from step 4. Touch nothing.
+7. Report only, 1–2 lines: how far behind (commit count is fine), the gist of what changed, and any missing-RTL.md finding from the RTL item above. Touch nothing.
 
 **"rules refresh" — pulling drift in, deliberately**
 
@@ -1037,7 +1040,7 @@ DESIGN.md, and apply it consistently — the inconsistency is worse than either 
 ---
 
 ## How to use this
-1. Open the existing project in Claude Code (on either device).
+1. Open the existing project in Claude Code.
 2. Copy everything inside the code block above and paste it as your message.
 3. It scans the codebase, creates the files with real details, fixes gitignore/.env.example if needed, documents the existing design system, writes CHECKPOINTS.md, then commits and pushes the setup.
 4. It reports what it set up and any assumptions it made — correct anything that's off.

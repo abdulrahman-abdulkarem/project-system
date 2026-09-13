@@ -273,14 +273,13 @@ line at the end of your reply — name the shortcut and give the reason:
 The moments:
 - Finished a chunk of work, changes uncommitted → **review**
 - Added or changed a table, model, migration or core data shape → **schema check**
-- Added logic with real branching, edge cases or money/auth in it → **test check**
+- Added money or auth logic → **test check**
 - Built or changed any UI at all → **lang check** (its accessibility half applies to every
   project, in every language)
 - Added a transition, animation or scroll effect beyond a simple fade → **motion check**
 - Added images, fonts, a third-party script or a heavy dependency → **perf pass**
 - Deploy is being discussed, or I mention launching, going live or sharing a link →
   **ship check**, and mention that it now includes a legal and commercial exposure pass
-- I say I'm done, or the session is clearly ending → **wrap up**
 
 Rules for suggesting, so it stays useful:
 - **Suggest, never run.** Wait for me to say the word. Running a checkpoint uninvited burns

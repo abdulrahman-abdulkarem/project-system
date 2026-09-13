@@ -336,12 +336,12 @@ machinery to guess around it.
 **Drift check (what `wrap up` runs)**
 
 1. Find the project-system path recorded in CLAUDE.md, next to the Project Rules heading.
-2. Hash that path's current master files the same way: `sha256sum masters/project-rules.md | cut -c1-8` (and the same for `masters/project-checkpoints.md`, and `masters/rtl-guide.md` if step 4 applies).
+2. Hash that path's current master files the same way: `sha256sum masters/project-rules.md | cut -c1-8` (and the same for `masters/project-checkpoints.md`, and `masters/rtl-guide.md` if the RTL item below applies).
 3. Compare each hash against the stamp on the matching BEGIN marker in this project.
 4. **RTL.md is conditional — treat its absence as normal, not as drift.** If this project has no RTL.md, only check it further when this project's declared reading direction (DESIGN.md) is RTL or bilingual. In that case a missing RTL.md is not staleness, it's a missing file — report it as exactly that, distinctly from a stamp mismatch. If the project is single-direction LTR, say nothing about RTL.md at all.
 5. For any stamp that differs: in project-system, walk `git log --format=%H -- <master file>` newest-first, hashing each historical version (`git show <sha>:<master file> | sha256sum | cut -c1-8`) until one matches this project's stamp, then `git log --oneline <that-commit>..HEAD -- <master file>` names what changed since. If no historical version matches (rewritten history, or the file predates the stamped commit), say that plainly instead of guessing at a distance.
 6. If this project's CLAUDE.md has no markers at all (set up before this feature existed), that's not drift either — it's a project this checkpoint can't yet see into. Say so once; that's what `rules refresh`'s migration path is for.
-7. Report only, 1–2 lines: how far behind (commit count is fine), the gist of what changed, and any missing-RTL.md finding from step 4. Touch nothing.
+7. Report only, 1–2 lines: how far behind (commit count is fine), the gist of what changed, and any missing-RTL.md finding from the RTL item above. Touch nothing.
 
 **"rules refresh" — pulling drift in, deliberately**
 

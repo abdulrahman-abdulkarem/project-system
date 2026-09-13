@@ -71,6 +71,10 @@ RULES_BLOCK = wrap("system-rules", "project-rules.md", RULES)
 CHECKS_BLOCK = wrap("system-checkpoints", "project-checkpoints.md", CHECKS)
 RTL_BLOCK = wrap("system-rtl-guide", "rtl-guide.md", RTL)
 
+# The one phrase every setup prompt ends on and START-HERE.md tells the
+# reader to watch for. One constant so there is exactly one wording of it.
+SETUP_COMPLETE = "Setup complete — the shortcuts are active."
+
 # ---------------------------------------------------------------------------
 # Shared step fragments
 # ---------------------------------------------------------------------------
@@ -202,7 +206,7 @@ The person chooses the mode. Offer REDUCED with those exact contents if you thin
 
    **DESIGN.md is the single source of truth.** No skill's own config, spec or generated design file overrides it. If a skill wants to write its own design document, either point it at DESIGN.md or keep its file as scratch and reconcile into DESIGN.md — tell me which you did. Two competing design systems in one repo is worse than none.
 
-   - **A generator-style skill** (catalogue of styles, palettes, font pairings) is a **proposer**. Its output is ONE more candidate in step 2, clearly labelled as a catalogue suggestion, sitting beside the direction and colour choices we settle on together. It never decides, and never overwrites a decision I already made.
+   - **A generator-style skill** (catalogue of styles, palettes, font pairings) is a **proposer**. Its output is ONE more candidate in the direction-and-colour item, clearly labelled as a catalogue suggestion, sitting beside the direction and colour choices we settle on together. It never decides, and never overwrites a decision I already made.
    - **A critic-style skill** (review and refinement commands — e.g. impeccable's `critique`, `audit`, `polish`, `live`) runs **after code exists**. Its value is catching the tells that make work read as machine-made: overused fonts, grey text on coloured grounds, untinted black, nested cards, dated easing. Do not run its `init`-style setup without asking me first — those commands typically create their own product and design files, which is exactly the conflict above.
    - **A critic removes what is wrong; it does not supply a point of view.** A clean report on a page built with no decided direction gives you a tidy generic page. The direction work above is what prevents generic; the skill is what prevents sloppy.
    - These skills do not know about reading direction or non-Latin scripts. A clean report from one says nothing about RTL correctness.
@@ -231,7 +235,7 @@ DESIGN_STEP_EXISTING = """Only if this project has a UI. The goal here is to DOC
 
 **First, check there is actually a system to document.** If the styles are ad-hoc — no consistent colour roles, no type scale, one-off values everywhere — say so plainly rather than dressing up chaos as a system. Then offer me the choice, and ask rather than picking:
 - **Document what exists** as a baseline and improve it incrementally, or
-- **Establish a direction properly first.** That means: ask what I explicitly do NOT want and how it should feel in a few words, propose a small number of concrete directions with reasoning and let me pick or combine, then handle colour — ask whether brand colours already exist or propose two or three palettes, record each colour's job and its limit, verify every pair against WCAG AA including hover/focus/active/disabled, and show me the palette before continuing.
+- **Establish a direction properly first.** That means: ask what I explicitly do NOT want and how it should feel in a few words, then propose a small number of concrete directions with reasoning. **Stop and wait for me to pick or combine before going near colour.** Once I have, handle colour — ask whether brand colours already exist or propose two or three palettes, record each colour's job and its limit, verify every pair against WCAG AA including hover/focus/active/disabled, and show me the palette before continuing.
 
 1. **Read the actual styles.** Go through the existing components, theme/config, and stylesheets and extract what is really in use: color roles, typography scale, spacing, radii, elevation, and the recurring component patterns.
 
@@ -260,11 +264,17 @@ If the project is single-direction LTR, do NOT create RTL.md and do NOT add that
 
 GIT_HYGIENE_NEW = """- Create a proper .gitignore appropriate to the stack BEFORE the first commit (some scaffolding tools generate one — extend it rather than duplicating it). It must exclude: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys.
 - Create a .env.example listing every required variable NAME with empty or dummy values. Never put real secrets in it.
-- Never commit secrets, API keys, tokens, or credentials. If you ever spot one in the code, stop and warn me immediately."""
+- Never commit secrets, API keys, tokens, or credentials. If you ever spot one in the code, stop and warn me immediately.
+- Run `git init` if this isn't already a git repository. That's local and reversible — no need to ask first.
+- **Then STOP before touching GitHub.** Ask whether to create a repository now — offer `gh repo create` if the `gh` CLI is available, otherwise tell me it needs to be created manually — and wait for my answer. Creating something under my account is exactly the kind of action that needs my go-ahead first, same as any other external action. If I say not yet, don't ask again this session; move on, and let a later `git push` failing be the natural signal that it's still needed."""
 
 GIT_HYGIENE_EXISTING = """- Check the existing .gitignore. Make sure it excludes: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys. Add anything missing — don't remove existing entries.
 - Make sure a .env.example exists listing every required variable NAME with empty or dummy values, based on the variables the code actually uses. Create it if missing.
-- If you spot any secret already committed in the codebase or its history, STOP and warn me immediately."""
+- If you spot any secret already committed in the codebase or its history, STOP and warn me immediately.
+- Check whether this is already a git repository (`git rev-parse --is-inside-work-tree`) and whether it has a remote (`git remote -v`). Only offer what's actually missing:
+  - Not a repository yet? Run `git init` — local and reversible, no need to ask first.
+  - No remote? STOP and ask before creating one on GitHub — offer `gh repo create` if the `gh` CLI is available, otherwise tell me it needs to be created manually. Creating something under my account needs my go-ahead first.
+  - Both already exist? Say so and move on — don't offer to create what's already there."""
 
 VOCAB = """## Your command vocabulary
 
@@ -378,7 +388,7 @@ A clean, professional README suitable for presenting publicly on GitHub. Keep it
         ("Add stack-specific rules", STACK_RULES_STEP),
         ("Establish design direction (skip if this project has no UI)", DESIGN_STEP_NEW),
         ("Create CHECKPOINTS.md", CHECKPOINTS_STEP),
-        ("Confirm", """Give me a short summary of what you set up — the stack, structure, and files — then confirm: "Setup complete — the shortcuts are active." Wait for my next instruction before starting to build."""),
+        ("Confirm", f"""Give me a short summary of what you set up — the stack, structure, and files — then confirm: "{SETUP_COMPLETE}" Wait for my next instruction before starting to build."""),
     ],
     footer="""## How to use this
 1. Copy everything inside the code block above.
@@ -464,7 +474,7 @@ Holds permanent project context AND the project rules, so it loads into every fu
 === FILE END ===
 
 ### File 3: README.md
-A clean, professional README suitable for presenting publicly on GitHub, accurate to what the project actually is. The setup sections must be complete enough that the project can be cloned and run from scratch on either device.
+A clean, professional README suitable for presenting publicly on GitHub, accurate to what the project actually is. The setup sections must be complete enough that the project can be cloned and run from scratch.
 
 """ + README_BODY),
         ("Git and secrets hygiene", GIT_HYGIENE_EXISTING),
@@ -477,11 +487,11 @@ A clean, professional README suitable for presenting publicly on GitHub, accurat
 - Commit with the message: "Add project context files, rules, checkpoints, and README".
 - Push to GitHub.
 
-This first push is intentional so both devices immediately have the new files. After this, commits follow the "commit" shortcut (not automatic)."""),
-        ("Confirm", """Give me a short summary of what you set up and what you learned about the project. If anything was unclear during the scan and you had to make assumptions, list them so I can correct them. Then confirm: "Setup complete — the shortcuts are active." """),
+This first push is intentional so the setup is safely on GitHub right away. After this, commits follow the "commit" shortcut (not automatic)."""),
+        ("Confirm", f"""Give me a short summary of what you set up and what you learned about the project. If anything was unclear during the scan and you had to make assumptions, list them so I can correct them. Then confirm: "{SETUP_COMPLETE}" """),
     ],
     footer="""## How to use this
-1. Open the existing project in Claude Code (on either device).
+1. Open the existing project in Claude Code.
 2. Copy everything inside the code block above and paste it as your message.
 3. It scans the codebase, creates the files with real details, fixes gitignore/.env.example if needed, documents the existing design system, writes CHECKPOINTS.md, then commits and pushes the setup.
 4. It reports what it set up and any assumptions it made — correct anything that's off.
@@ -560,13 +570,13 @@ The most important fix: the full "PROJECT RULES" section (everything under the P
         ("Add stack-specific rules", STACK_RULES_STEP),
         ("Reconcile DESIGN.md (skip if this project has no UI)", DESIGN_STEP_EXISTING),
         ("Create CHECKPOINTS.md", CHECKPOINTS_STEP),
-        ("Confirm", """- Summarize what you completed or fixed, and list anything you merged or any assumptions you made so I can correct them.
-- Explicitly confirm: "Setup is now complete — the shortcuts are active." so I know the system is live.
+        ("Confirm", f"""- Summarize what you completed or fixed, and list anything you merged or any assumptions you made so I can correct them.
+- Explicitly confirm: "{SETUP_COMPLETE}" so I know the system is live.
 - Do NOT commit anything yet — wait for me to say "commit" or to do it myself."""),
     ],
-    footer="""## After running this
+    footer=f"""## After running this
 - The setup is now complete and the shortcuts are live.
-- Tip for next time: let the kickoff prompt finish ALL its setup steps (it ends with a "Setup complete" confirmation) BEFORE you start giving it tasks or using shortcuts.
+- Tip for next time: let the kickoff prompt finish ALL its setup steps (it ends with "{SETUP_COMPLETE}") BEFORE you start giving it tasks or using shortcuts.
 
 """ + VOCAB,
 ))
