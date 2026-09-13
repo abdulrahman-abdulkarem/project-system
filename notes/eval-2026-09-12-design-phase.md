@@ -70,6 +70,10 @@ copied. The same screenshot can be either kind and you cannot tell by
 looking.
 *FIXED — 445a3ab. Labelled per reference by the person, proposed back after
 the decode, confirmed before anything is designed from it.*
+*SUPERSEDED — 970d245 (2026-09-13). The design-references step this fix
+lived in was removed entirely — a separate decision, not a reversal of this
+finding. The labelling mechanism no longer exists because the references it
+labelled no longer exist.*
 
 **#25 — The one-screen proof found two problems invisible in any plan.**
 Uppercase, letter-spaced headings broke badly on three-line real content;
