@@ -159,9 +159,9 @@ This step has two modes. You may offer the reduced one. You may not invent a thi
 
 **FULL** — all eight items. Default for anything with more than a few screens, anything user-facing, anything where the look is part of the product.
 
-**REDUCED** — items 1, 2, 4, 7, 8. For internal tools, single-screen utilities, and throwaways.
+**REDUCED** — items 1, 2, 3, 4, 7, 8. For internal tools, single-screen utilities, and throwaways.
 
-Items 3, 5 and 6 are what REDUCED drops. Item 8 is not droppable in either mode. If the one-screen proof feels like the expensive part worth cutting, that is the strongest available signal that it is the part doing the work — it is the only item in this step that has ever caught a problem the plan didn't predict.
+Items 5 and 6 are what REDUCED drops. Item 8 is not droppable in either mode. If the one-screen proof feels like the expensive part worth cutting, that is the strongest available signal that it is the part doing the work — it is the only item in this step that has ever caught a problem the plan didn't predict.
 
 The person chooses the mode. Offer REDUCED with those exact contents if you think it applies, say why, and wait. Do not choose for them, and do not describe a reduction that isn't one of these two.
 
@@ -178,7 +178,7 @@ The person chooses the mode. Offer REDUCED with those exact contents if you thin
 
 2. **Direction and colour — ask, don't guess.**
    - **Mood.** Ask how it should feel in a few words (trustworthy, playful, premium, utilitarian).
-   - Propose a small number of concrete directions with reasoning — including at least one that isn't the obvious default — and let me pick or combine.
+   - Propose a small number of concrete directions with reasoning — including at least one that isn't the obvious default. **Then stop and wait for me to pick or combine.** Do not go near colour until I have.
    - Ask whether the project already has brand colours (a logo, existing material). If so, ask me for the hex values.
    - If not, propose **two or three** palettes, one sentence each, and let me pick. Don't decide for me.
    - **Ask about dark mode now: yes, later, or never.** This is nearly free while the tokens are being written and expensive months later, because every contrast pair has to be re-verified against a second set of grounds. If the answer is "later", still structure the tokens so it's a layer-2 addition rather than a rewrite.
@@ -221,8 +221,10 @@ The person chooses the mode. Offer REDUCED with those exact contents if you thin
    - Pick the **densest real screen** in the project — the one with the most information per square inch. A listing, a detail page, a form. Not the homepage.
    - Build it completely, using the **longest real content available** — real names, real prices, real Arabic strings if the project is bilingual. **Never lorem, never short samples.** Text-length and mixed-script problems are invisible until real data hits them, and they are the most common reason a design system fails in production.
    - Include its **empty, loading and error states.** These are part of the screen, not an afterthought — designing them later is how they end up unstyled. The deliberate empty state must look more deliberate than any accidental failure on the same screen. If a broken image renders as a plain grey box while a genuinely-empty slot renders as a labelled dashed placeholder, then failure looks more intentional than intent, and the person reading the screen will trust the wrong one.
-   - Then look at it in the browser yourself, run `review`, and if a critic skill is available run it here. Fix what comes back.
-   - **Only then build the rest against it.** Tell me explicitly when you consider the direction proven, and what changed between the plan and the working screen — that difference is the most useful thing this step produces."""
+   - Run `review`, and the critic skill if one is available, and fix what comes back. That part is yours.
+   - **Then render it, show me the screen, and STOP.** Say what you think is weakest about it, in case that helps me look, but do not declare the direction proven — every problem this step has ever caught was caught by someone looking at a rendered screen, and that has to be me, not you assessing your own output.
+   - **I decide when it's proven.** Only after I say so do you build anything else against it.
+   - Then tell me what changed between the plan and the working screen — that difference is still the most useful thing this step produces."""
 
 
 DESIGN_STEP_EXISTING = """Only if this project has a UI. The goal here is to DOCUMENT the design system that already exists, not to impose a new one — the same "going forward only" rule applies.
