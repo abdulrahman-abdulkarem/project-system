@@ -25,11 +25,6 @@ The point of the split is budget. CLAUDE.md is read in full every session; past 
 # into every setup prompt. Edit here, then run build-prompts.py.
 # ===================================================================
 
-# ===================================================================
-# PROJECT RULES — follow these for the ENTIRE project, every session.
-# (These are also embedded into CLAUDE.md so they persist across sessions.)
-# ===================================================================
-
 ## HARD RULES (never violate these)
 
 If you remember nothing else from this file, remember these eight.
@@ -267,6 +262,7 @@ Each of these reads the matching section of CHECKPOINTS.md and runs it. Report r
 - "perf pass" → the Performance checkpoint
 - "motion check" → the Motion checkpoint
 - "ship check" → the Ship / Deploy checkpoint
+- "rules refresh" → the Rules refresh checkpoint (this one writes, but only after showing a diff and getting your approval — see CHECKPOINTS.md)
 
 ### Suggesting checkpoints
 Don't wait to be asked. When a moment arrives that a checkpoint exists for, say so in one
@@ -303,7 +299,8 @@ When I say "wrap up", "done for today", or "let's wrap", do ALL of the following
 3. Check whether anything this session affects README.md — new features, new dependencies, changed setup or install steps, new environment variables, new scripts, or a changed tech stack. If so, update the relevant section(s). If nothing relevant changed, leave it as is.
 4. If this project has a DESIGN.md, check whether this session changed design tokens, components, or design decisions. If so, update it. If nothing relevant changed, leave it as is.
 5. Update the "Open / Next up" checklist in PROGRESS.md — check off completed items and add any new ones.
-6. Give me a one-line confirmation of what you updated, and remind me that these changes are not yet saved to GitHub — I can say "commit" or push them myself.
+6. Run the rules drift check (see CHECKPOINTS.md) and report the result in 1–2 lines. This only reports — it does not fix anything. If this project has no CLAUDE.md marker to check against yet (set up before this feature existed), say so once and move on; don't treat that as drift.
+7. Give me a one-line confirmation of what you updated, and remind me that these changes are not yet saved to GitHub — I can say "commit" or push them myself.
 
 ### Commit Shortcut
 When I say "commit", do the following:

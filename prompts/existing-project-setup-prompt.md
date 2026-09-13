@@ -90,7 +90,13 @@ Holds permanent project context AND the project rules, so it loads into every fu
 - [Fragile areas needing extra care]
 
 ## Project Rules
-[Paste the FULL "PROJECT RULES" section (everything under the PROJECT RULES banner below) into here verbatim, so it loads every session.]
+_System rules come from project-system, checked out at `/home/abdulrahman_abdulkarem/dev/project-system`. The
+"rules refresh" shortcut and the wrap-up drift check use this path to find their source of
+truth — keep it accurate if project-system ever moves on this machine._
+
+[Copy everything between the "BEGIN system-rules" and "END system-rules" markers below —
+including both marker lines — into here verbatim, so it loads every session. The markers carry
+a version stamp; a rules dump without them can never be checked for drift later.]
 === FILE END ===
 
 ### File 2: PROGRESS.md
@@ -194,13 +200,13 @@ Design tooling: if a design skill/plugin is available in this environment (for e
 
 ## STEP 7 — Create CHECKPOINTS.md
 
-Create CHECKPOINTS.md at the project root, containing the FULL "PROJECT CHECKPOINTS" section from the very bottom of this message, verbatim.
+Create CHECKPOINTS.md at the project root. Its entire content is the "PROJECT CHECKPOINTS" block from the very bottom of this message — copy it verbatim, including its "BEGIN system-checkpoints" / "END system-checkpoints" marker lines. Those markers carry a version stamp that later lets this project's rules be checked for drift against project-system; a copy without them can't be.
 
-This file holds the procedures run on demand by the checkpoint shortcuts ("review", "test check", "rtl check", "perf pass", "motion check", "ship check"). It deliberately does NOT go into CLAUDE.md — it is read only when a shortcut fires, so it never consumes session context it isn't needed for. Commit it alongside the other docs.
+This file holds the procedures run on demand by the checkpoint shortcuts ("review", "test check", "rtl check", "perf pass", "motion check", "ship check", "rules refresh"). It deliberately does NOT go into CLAUDE.md — it is read only when a shortcut fires, so it never consumes session context it isn't needed for. Commit it alongside the other docs.
 
-**Then, ONLY if this project's reading direction is RTL or bilingual:** also create RTL.md at the project root, containing the FULL "RTL / Bilingual Guide" section from the very bottom of this message, verbatim. Add one line to CLAUDE.md under Project Rules: *"This project is RTL/bilingual — read RTL.md before any UI work."* Then tell me you created it.
+**Then, ONLY if this project's reading direction is RTL or bilingual:** also create RTL.md at the project root, containing the FULL "RTL / Bilingual Guide" block from the very bottom of this message, verbatim — including its "BEGIN system-rtl-guide" / "END system-rtl-guide" marker lines, same reason as above. Add one line to CLAUDE.md under Project Rules: *"This project is RTL/bilingual — read RTL.md before any UI work."* Then tell me you created it.
 
-If the project is single-direction LTR, do NOT create RTL.md and do NOT add that line. Say which you did, so I know it was a decision rather than an omission.
+If the project is single-direction LTR, do NOT create RTL.md and do NOT add that line. Say which you did, so I know it was a decision rather than an omission — and so the drift check later knows a missing RTL.md here is correct, not stale.
 
 ## STEP 8 — Commit the setup
 
@@ -216,11 +222,7 @@ This first push is intentional so both devices immediately have the new files. A
 
 Give me a short summary of what you set up and what you learned about the project. If anything was unclear during the scan and you had to make assumptions, list them so I can correct them. Then confirm: "Setup complete — the shortcuts are active." 
 
-# ===================================================================
-# PROJECT RULES — follow these for the ENTIRE project, every session.
-# (These are also embedded into CLAUDE.md so they persist across sessions.)
-# ===================================================================
-
+<!-- BEGIN system-rules (generated from project-rules.md@96ee87ce — do not edit by hand) -->
 ## HARD RULES (never violate these)
 
 If you remember nothing else from this file, remember these eight.
@@ -458,6 +460,7 @@ Each of these reads the matching section of CHECKPOINTS.md and runs it. Report r
 - "perf pass" → the Performance checkpoint
 - "motion check" → the Motion checkpoint
 - "ship check" → the Ship / Deploy checkpoint
+- "rules refresh" → the Rules refresh checkpoint (this one writes, but only after showing a diff and getting your approval — see CHECKPOINTS.md)
 
 ### Suggesting checkpoints
 Don't wait to be asked. When a moment arrives that a checkpoint exists for, say so in one
@@ -494,7 +497,8 @@ When I say "wrap up", "done for today", or "let's wrap", do ALL of the following
 3. Check whether anything this session affects README.md — new features, new dependencies, changed setup or install steps, new environment variables, new scripts, or a changed tech stack. If so, update the relevant section(s). If nothing relevant changed, leave it as is.
 4. If this project has a DESIGN.md, check whether this session changed design tokens, components, or design decisions. If so, update it. If nothing relevant changed, leave it as is.
 5. Update the "Open / Next up" checklist in PROGRESS.md — check off completed items and add any new ones.
-6. Give me a one-line confirmation of what you updated, and remind me that these changes are not yet saved to GitHub — I can say "commit" or push them myself.
+6. Run the rules drift check (see CHECKPOINTS.md) and report the result in 1–2 lines. This only reports — it does not fix anything. If this project has no CLAUDE.md marker to check against yet (set up before this feature existed), say so once and move on; don't treat that as drift.
+7. Give me a one-line confirmation of what you updated, and remind me that these changes are not yet saved to GitHub — I can say "commit" or push them myself.
 
 ### Commit Shortcut
 When I say "commit", do the following:
@@ -556,7 +560,9 @@ Every row below is a real failure from this workflow, not a hypothetical. When y
 | "Analytics/error reporting is installed, so it's working." | Installed is not receiving. A silent reporter means you'll trust a zero that isn't real. |
 | "The docs are close enough." | A rules file that no longer matches the code creates false confidence, which is worse than no rules file. |
 | "This is internal, so security matters less." | Internal tools get breached, prototypes become production, and automated scanners never sleep. |
+<!-- END system-rules -->
 
+<!-- BEGIN system-checkpoints (generated from project-checkpoints.md@8cde9255 — do not edit by hand) -->
 # Project Checkpoints
 
 Procedures run on demand by shortcut. Each one reports findings grouped by severity, most serious first, and changes nothing until told which findings to act on.
@@ -834,6 +840,67 @@ more dangerous than no answer, because it gets acted on.
 - Confirm logging and error reporting are actually receiving events.
 - Record the deploy in PROGRESS.md — what shipped, and anything left behind.
 
+---
+
+## Rules refresh checkpoint — "rules refresh"
+
+This project's rules were frozen at setup time on purpose — a rule added while working on some
+other project must never silently start governing this one. Freezing is correct. Freezing
+*silently* is the bug this checkpoint fixes: it makes drift visible, and makes pulling it in an
+explicit, approved act. A quick version of it also runs inside `wrap up`; the full version runs
+on demand as `rules refresh`.
+
+**Reading the stamp**
+
+CLAUDE.md and CHECKPOINTS.md (and RTL.md, if this project has one) each carry a generated
+region delimited by markers like:
+
+    <!-- BEGIN system-rules (generated from project-rules.md@a1b2c3d4 — do not edit by hand) -->
+    ...
+    <!-- END system-rules -->
+
+The 8 hex characters are the first 8 characters of the SHA-256 hash of that master file's raw
+bytes, computed at build time. The three regions and their master files:
+
+| Region | File it lives in | Master file it's stamped against |
+|---|---|---|
+| `system-rules` | CLAUDE.md | `masters/project-rules.md` |
+| `system-checkpoints` | CHECKPOINTS.md | `masters/project-checkpoints.md` |
+| `system-rtl-guide` | RTL.md (only if this project has one) | `masters/rtl-guide.md` |
+
+**Known limitation — say this out loud whenever you report on the stamp, don't just silently
+trust it:** the stamp hashes the *source* master file, not the block `build-prompts.py`'s
+`extract()` actually emits from it. If extraction logic itself changes but the master file's
+own content doesn't, the emitted block can change while the stamp stays identical — drift this
+check cannot see. The alternative (hashing the emitted block) was rejected because it can't be
+walked through git history to explain *what* changed without re-running the build at every old
+commit, and the explanation is the part that makes this useful rather than merely alarming.
+Named limitation, not fixed — same call as the talabat screenshot: document the gap, don't build
+machinery to guess around it.
+
+**Drift check (what `wrap up` runs)**
+
+1. Find the project-system path recorded in CLAUDE.md, next to the Project Rules heading.
+2. Hash that path's current master files the same way: `sha256sum masters/project-rules.md | cut -c1-8` (and the same for `masters/project-checkpoints.md`, and `masters/rtl-guide.md` if step 4 applies).
+3. Compare each hash against the stamp on the matching BEGIN marker in this project.
+4. **RTL.md is conditional — treat its absence as normal, not as drift.** If this project has no RTL.md, only check it further when this project's declared reading direction (DESIGN.md) is RTL or bilingual. In that case a missing RTL.md is not staleness, it's a missing file — report it as exactly that, distinctly from a stamp mismatch. If the project is single-direction LTR, say nothing about RTL.md at all.
+5. For any stamp that differs: in project-system, walk `git log --format=%H -- <master file>` newest-first, hashing each historical version (`git show <sha>:<master file> | sha256sum | cut -c1-8`) until one matches this project's stamp, then `git log --oneline <that-commit>..HEAD -- <master file>` names what changed since. If no historical version matches (rewritten history, or the file predates the stamped commit), say that plainly instead of guessing at a distance.
+6. If this project's CLAUDE.md has no markers at all (set up before this feature existed), that's not drift either — it's a project this checkpoint can't yet see into. Say so once; that's what `rules refresh`'s migration path is for.
+7. Report only, 1–2 lines: how far behind (commit count is fine), the gist of what changed, and any missing-RTL.md finding from step 4. Touch nothing.
+
+**"rules refresh" — pulling drift in, deliberately**
+
+1. Run the drift check above (skip re-running it if `wrap up` already reported it this session).
+2. If nothing is stale and no RTL.md is missing where one should exist, say so and stop.
+3. **No markers found** (every project set up before this feature existed): do NOT guess where the rules region is or which lines are system rules versus project content. Say so explicitly, show the FULL proposed CLAUDE.md with markers added around your best-effort identification of the rules section, and ask before writing anything. Same for CHECKPOINTS.md if it predates markers. This is the one-time migration path, not the normal path.
+4. **Markers found:** in project-system, run `python3 build-prompts.py`, then pull the current `system-rules` block straight out of any freshly-built setup prompt (they're identical) and the current `system-checkpoints` / `system-rtl-guide` blocks straight out of the freshly-built `prompts/CHECKPOINTS.md` / `prompts/RTL.md` — don't hand-reconstruct the extraction, reuse what the build already produced.
+5. Diff each pulled block against what sits between this project's own markers today. Show the diff. Change nothing else — content outside the markers is this project's and is never touched.
+6. **RTL.md: refresh only if it already exists.** Never create one for a project that doesn't have it, even if project-system's rtl-guide.md changed — that decision belongs to the language checkpoint, not to this one.
+7. Wait for explicit approval before writing anything.
+8. Once approved: write the change(s), update the stamp(s) on the BEGIN marker line(s) to the new hash, and confirm what was updated.
+<!-- END system-checkpoints -->
+
+<!-- BEGIN system-rtl-guide (generated from rtl-guide.md@092e3110 — do not edit by hand) -->
 # RTL / Bilingual Guide
 
 This project's reading direction is RTL or bilingual. Read this before writing any UI, not
@@ -964,6 +1031,7 @@ timeline in Arabic, putting the earliest date on the right. Another left its tim
 left-to-right in both languages and did not reorder its bars, while mirroring the page layout
 around them. There is no settled answer. Pick one for this project, write the decision in
 DESIGN.md, and apply it consistently — the inconsistency is worse than either choice.
+<!-- END system-rtl-guide -->
 ```
 
 ---
@@ -984,7 +1052,7 @@ DESIGN.md, and apply it consistently — the inconsistency is worse than either 
 - **"plan"** — outlines the approach and waits for your go-ahead before writing code.
 - **"Q&A"** / **"Q&A short"** — consult mode: answers without touching code, logs to QA.md. **"Q&A history"** shows past consults.
 
-**Checkpoints** (each loads its procedure from CHECKPOINTS.md and reports without fixing)
+**Checkpoints** (each loads its procedure from CHECKPOINTS.md; all but the last only report, never fix)
 - **"review"** — reviews the current uncommitted changes against the review checklist.
 - **"test check"** — checks test coverage against the testing standards.
 - **"schema check"** — reviews the data model before it hardens.
@@ -992,3 +1060,4 @@ DESIGN.md, and apply it consistently — the inconsistency is worse than either 
 - **"perf pass"** — the performance checklist, Lighthouse baseline first.
 - **"motion check"** — the motion decision table and its guardrails.
 - **"ship check"** — the pre-deploy checklist.
+- **"rules refresh"** — checks this project's rules/checkpoints against project-system's current masters, shows a diff, and updates only on your approval.

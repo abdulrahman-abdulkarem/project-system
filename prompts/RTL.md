@@ -1,3 +1,4 @@
+<!-- BEGIN system-rtl-guide (generated from rtl-guide.md@092e3110 — do not edit by hand) -->
 # RTL / Bilingual Guide
 
 This project's reading direction is RTL or bilingual. Read this before writing any UI, not
@@ -128,3 +129,4 @@ timeline in Arabic, putting the earliest date on the right. Another left its tim
 left-to-right in both languages and did not reorder its bars, while mirroring the page layout
 around them. There is no settled answer. Pick one for this project, write the decision in
 DESIGN.md, and apply it consistently — the inconsistency is worse than either choice.
+<!-- END system-rtl-guide -->

@@ -1,3 +1,4 @@
+<!-- BEGIN system-checkpoints (generated from project-checkpoints.md@8cde9255 — do not edit by hand) -->
 # Project Checkpoints
 
 Procedures run on demand by shortcut. Each one reports findings grouped by severity, most serious first, and changes nothing until told which findings to act on.
@@ -274,3 +275,63 @@ more dangerous than no answer, because it gets acted on.
 - Walk the critical path on the live site, on a phone, in the project's real reading direction.
 - Confirm logging and error reporting are actually receiving events.
 - Record the deploy in PROGRESS.md — what shipped, and anything left behind.
+
+---
+
+## Rules refresh checkpoint — "rules refresh"
+
+This project's rules were frozen at setup time on purpose — a rule added while working on some
+other project must never silently start governing this one. Freezing is correct. Freezing
+*silently* is the bug this checkpoint fixes: it makes drift visible, and makes pulling it in an
+explicit, approved act. A quick version of it also runs inside `wrap up`; the full version runs
+on demand as `rules refresh`.
+
+**Reading the stamp**
+
+CLAUDE.md and CHECKPOINTS.md (and RTL.md, if this project has one) each carry a generated
+region delimited by markers like:
+
+    <!-- BEGIN system-rules (generated from project-rules.md@a1b2c3d4 — do not edit by hand) -->
+    ...
+    <!-- END system-rules -->
+
+The 8 hex characters are the first 8 characters of the SHA-256 hash of that master file's raw
+bytes, computed at build time. The three regions and their master files:
+
+| Region | File it lives in | Master file it's stamped against |
+|---|---|---|
+| `system-rules` | CLAUDE.md | `masters/project-rules.md` |
+| `system-checkpoints` | CHECKPOINTS.md | `masters/project-checkpoints.md` |
+| `system-rtl-guide` | RTL.md (only if this project has one) | `masters/rtl-guide.md` |
+
+**Known limitation — say this out loud whenever you report on the stamp, don't just silently
+trust it:** the stamp hashes the *source* master file, not the block `build-prompts.py`'s
+`extract()` actually emits from it. If extraction logic itself changes but the master file's
+own content doesn't, the emitted block can change while the stamp stays identical — drift this
+check cannot see. The alternative (hashing the emitted block) was rejected because it can't be
+walked through git history to explain *what* changed without re-running the build at every old
+commit, and the explanation is the part that makes this useful rather than merely alarming.
+Named limitation, not fixed — same call as the talabat screenshot: document the gap, don't build
+machinery to guess around it.
+
+**Drift check (what `wrap up` runs)**
+
+1. Find the project-system path recorded in CLAUDE.md, next to the Project Rules heading.
+2. Hash that path's current master files the same way: `sha256sum masters/project-rules.md | cut -c1-8` (and the same for `masters/project-checkpoints.md`, and `masters/rtl-guide.md` if step 4 applies).
+3. Compare each hash against the stamp on the matching BEGIN marker in this project.
+4. **RTL.md is conditional — treat its absence as normal, not as drift.** If this project has no RTL.md, only check it further when this project's declared reading direction (DESIGN.md) is RTL or bilingual. In that case a missing RTL.md is not staleness, it's a missing file — report it as exactly that, distinctly from a stamp mismatch. If the project is single-direction LTR, say nothing about RTL.md at all.
+5. For any stamp that differs: in project-system, walk `git log --format=%H -- <master file>` newest-first, hashing each historical version (`git show <sha>:<master file> | sha256sum | cut -c1-8`) until one matches this project's stamp, then `git log --oneline <that-commit>..HEAD -- <master file>` names what changed since. If no historical version matches (rewritten history, or the file predates the stamped commit), say that plainly instead of guessing at a distance.
+6. If this project's CLAUDE.md has no markers at all (set up before this feature existed), that's not drift either — it's a project this checkpoint can't yet see into. Say so once; that's what `rules refresh`'s migration path is for.
+7. Report only, 1–2 lines: how far behind (commit count is fine), the gist of what changed, and any missing-RTL.md finding from step 4. Touch nothing.
+
+**"rules refresh" — pulling drift in, deliberately**
+
+1. Run the drift check above (skip re-running it if `wrap up` already reported it this session).
+2. If nothing is stale and no RTL.md is missing where one should exist, say so and stop.
+3. **No markers found** (every project set up before this feature existed): do NOT guess where the rules region is or which lines are system rules versus project content. Say so explicitly, show the FULL proposed CLAUDE.md with markers added around your best-effort identification of the rules section, and ask before writing anything. Same for CHECKPOINTS.md if it predates markers. This is the one-time migration path, not the normal path.
+4. **Markers found:** in project-system, run `python3 build-prompts.py`, then pull the current `system-rules` block straight out of any freshly-built setup prompt (they're identical) and the current `system-checkpoints` / `system-rtl-guide` blocks straight out of the freshly-built `prompts/CHECKPOINTS.md` / `prompts/RTL.md` — don't hand-reconstruct the extraction, reuse what the build already produced.
+5. Diff each pulled block against what sits between this project's own markers today. Show the diff. Change nothing else — content outside the markers is this project's and is never touched.
+6. **RTL.md: refresh only if it already exists.** Never create one for a project that doesn't have it, even if project-system's rtl-guide.md changed — that decision belongs to the language checkpoint, not to this one.
+7. Wait for explicit approval before writing anything.
+8. Once approved: write the change(s), update the stamp(s) on the BEGIN marker line(s) to the new hash, and confirm what was updated.
+<!-- END system-checkpoints -->

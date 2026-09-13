@@ -9,12 +9,18 @@ they are generated regions and will be overwritten.
 Usage:  python build-prompts.py
 """
 
+import hashlib
 import re
 import pathlib
 
 HERE = pathlib.Path(__file__).parent
 MASTERS = HERE / "masters"
 OUT = HERE / "prompts"
+
+# Absolute path to this project-system checkout, recorded in every project's
+# CLAUDE.md so `rules refresh` and the wrap-up drift check know where to look.
+# Single-machine assumption — see masters/project-rules.md.
+PROJECT_SYSTEM_PATH = str(HERE.resolve())
 
 BEGIN = "# GENERATED BLOCK BEGINS"
 END = "# GENERATED BLOCK ENDS"
@@ -35,9 +41,35 @@ def extract(filename):
     return text[i:stop].strip("\n")
 
 
+def stamp(filename):
+    """First 8 hex chars of the SHA-256 of a master file's raw bytes.
+
+    Deliberately hashes the SOURCE file, not the block extract() produces.
+    That's a known blind spot — a change to extract()'s logic alone changes
+    the emitted block without changing this stamp — traded for the ability
+    to git-walk the master file's history to explain what changed. See the
+    Rules refresh checkpoint in masters/project-checkpoints.md.
+    """
+    return hashlib.sha256((MASTERS / filename).read_bytes()).hexdigest()[:8]
+
+
+def wrap(name, master_filename, body):
+    """Wrap a generated block in BEGIN/END markers carrying a version stamp."""
+    return (
+        f"<!-- BEGIN {name} (generated from {master_filename}@{stamp(master_filename)}"
+        " — do not edit by hand) -->\n"
+        f"{body}\n"
+        f"<!-- END {name} -->"
+    )
+
+
 RULES = extract("project-rules.md")
 CHECKS = extract("project-checkpoints.md")
 RTL = extract("rtl-guide.md")
+
+RULES_BLOCK = wrap("system-rules", "project-rules.md", RULES)
+CHECKS_BLOCK = wrap("system-checkpoints", "project-checkpoints.md", CHECKS)
+RTL_BLOCK = wrap("system-rtl-guide", "rtl-guide.md", RTL)
 
 # ---------------------------------------------------------------------------
 # Shared step fragments
@@ -225,13 +257,13 @@ Design tooling: if a design skill/plugin is available in this environment (for e
 STACK_RULES_STEP = """- Add a "Stack-Specific Rules" subsection inside the Project Rules section of CLAUDE.md.
 - Fill it with concrete best practices for the stack actually in use (framework conventions, security specifics, data and storage patterns, performance practices) — same spirit as the general rules, but specific to these technologies."""
 
-CHECKPOINTS_STEP = """Create CHECKPOINTS.md at the project root, containing the FULL "PROJECT CHECKPOINTS" section from the very bottom of this message, verbatim.
+CHECKPOINTS_STEP = """Create CHECKPOINTS.md at the project root. Its entire content is the "PROJECT CHECKPOINTS" block from the very bottom of this message — copy it verbatim, including its "BEGIN system-checkpoints" / "END system-checkpoints" marker lines. Those markers carry a version stamp that later lets this project's rules be checked for drift against project-system; a copy without them can't be.
 
-This file holds the procedures run on demand by the checkpoint shortcuts ("review", "test check", "rtl check", "perf pass", "motion check", "ship check"). It deliberately does NOT go into CLAUDE.md — it is read only when a shortcut fires, so it never consumes session context it isn't needed for. Commit it alongside the other docs.
+This file holds the procedures run on demand by the checkpoint shortcuts ("review", "test check", "rtl check", "perf pass", "motion check", "ship check", "rules refresh"). It deliberately does NOT go into CLAUDE.md — it is read only when a shortcut fires, so it never consumes session context it isn't needed for. Commit it alongside the other docs.
 
-**Then, ONLY if this project's reading direction is RTL or bilingual:** also create RTL.md at the project root, containing the FULL "RTL / Bilingual Guide" section from the very bottom of this message, verbatim. Add one line to CLAUDE.md under Project Rules: *"This project is RTL/bilingual — read RTL.md before any UI work."* Then tell me you created it.
+**Then, ONLY if this project's reading direction is RTL or bilingual:** also create RTL.md at the project root, containing the FULL "RTL / Bilingual Guide" block from the very bottom of this message, verbatim — including its "BEGIN system-rtl-guide" / "END system-rtl-guide" marker lines, same reason as above. Add one line to CLAUDE.md under Project Rules: *"This project is RTL/bilingual — read RTL.md before any UI work."* Then tell me you created it.
 
-If the project is single-direction LTR, do NOT create RTL.md and do NOT add that line. Say which you did, so I know it was a decision rather than an omission."""
+If the project is single-direction LTR, do NOT create RTL.md and do NOT add that line. Say which you did, so I know it was a decision rather than an omission — and so the drift check later knows a missing RTL.md here is correct, not stale."""
 
 GIT_HYGIENE_NEW = """- Create a proper .gitignore appropriate to the stack BEFORE the first commit (some scaffolding tools generate one — extend it rather than duplicating it). It must exclude: .env and all env variants (except .env.example), dependency folders (e.g. node_modules), build/dist output, OS files (.DS_Store), editor folders (.vscode, .idea), logs, and any credentials or keys.
 - Create a .env.example listing every required variable NAME with empty or dummy values. Never put real secrets in it.
@@ -251,20 +283,27 @@ VOCAB = """## Your command vocabulary
 - **"plan"** — outlines the approach and waits for your go-ahead before writing code.
 - **"Q&A"** / **"Q&A short"** — consult mode: answers without touching code, logs to QA.md. **"Q&A history"** shows past consults.
 
-**Checkpoints** (each loads its procedure from CHECKPOINTS.md and reports without fixing)
+**Checkpoints** (each loads its procedure from CHECKPOINTS.md; all but the last only report, never fix)
 - **"review"** — reviews the current uncommitted changes against the review checklist.
 - **"test check"** — checks test coverage against the testing standards.
 - **"schema check"** — reviews the data model before it hardens.
 - **"lang check"** / **"rtl check"** / **"a11y check"** — reading-direction, i18n and accessibility audit.
 - **"perf pass"** — the performance checklist, Lighthouse baseline first.
 - **"motion check"** — the motion decision table and its guardrails.
-- **"ship check"** — the pre-deploy checklist."""
+- **"ship check"** — the pre-deploy checklist.
+- **"rules refresh"** — checks this project's rules/checkpoints against project-system's current masters, shows a diff, and updates only on your approval."""
 
 def claude_md(body):
-    return "=== FILE START ===\n" + body + """
+    return "=== FILE START ===\n" + body + f"""
 
 ## Project Rules
-[Paste the FULL "PROJECT RULES" section (everything under the PROJECT RULES banner below) into here verbatim, so it loads every session.]
+_System rules come from project-system, checked out at `{PROJECT_SYSTEM_PATH}`. The
+"rules refresh" shortcut and the wrap-up drift check use this path to find their source of
+truth — keep it accurate if project-system ever moves on this machine._
+
+[Copy everything between the "BEGIN system-rules" and "END system-rules" markers below —
+including both marker lines — into here verbatim, so it loads every session. The markers carry
+a version stamp; a rules dump without them can never be checked for drift later.]
 === FILE END ==="""
 
 
@@ -553,11 +592,11 @@ def build(p):
         parts.append(body)
         parts.append("")
 
-    parts.append(RULES)
+    parts.append(RULES_BLOCK)
     parts.append("")
-    parts.append(CHECKS)
+    parts.append(CHECKS_BLOCK)
     parts.append("")
-    parts.append(RTL)
+    parts.append(RTL_BLOCK)
     parts.append("```")
     parts.append("")
     parts.append("---")
@@ -574,7 +613,8 @@ if __name__ == "__main__":
     for p in PROMPTS:
         size = build(p)
         print(f"  {p['filename']:<40} {size:>7,} chars")
-    for name, text in (("CHECKPOINTS.md", CHECKS), ("RTL.md", RTL)):
-        (OUT / name).write_text(text.rstrip() + "\n", encoding="utf-8")
-        print(f"  {name:<40} {len(text):>7,} chars")
+    for name, text in (("CHECKPOINTS.md", CHECKS_BLOCK), ("RTL.md", RTL_BLOCK)):
+        written = text.rstrip() + "\n"
+        (OUT / name).write_text(written, encoding="utf-8")
+        print(f"  {name:<40} {len(written):>7,} chars")
     print("\nDone. The rules and checkpoints in every file are now identical.")
