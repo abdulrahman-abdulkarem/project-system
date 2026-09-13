@@ -60,7 +60,7 @@ Holds permanent project context AND the project rules, so it loads into every fu
 # Project: [actual project name]
 
 ## Summary
-[One paragraph — what this project does, who it's for, and why it exists.]
+[One paragraph — what the project does, who it's for, and why it exists.]
 
 ## Tech Stack
 - Language / Framework: [actual]
@@ -69,10 +69,10 @@ Holds permanent project context AND the project rules, so it loads into every fu
 - Key libraries: [actual]
 
 ## Architecture
-[Brief overview of the existing structure — key folders and what lives where.]
+[The actual folder structure and what lives where.]
 
 ## Key Decisions
-[Important choices evident in the codebase and the reasoning behind them, where known.]
+[Important choices evident in the codebase and the reasoning behind them, where known — including why the stack was chosen.]
 - **[Decision]**: [Why it was made / what it favors. Ask me if the reasoning isn't clear.]
 
 ## Conventions
@@ -199,6 +199,8 @@ Only if this project has a UI. The goal here is to DOCUMENT the design system th
 5. **Approved Sources.** Identify what the project already uses for icons, motion, component patterns, backgrounds, and type, and record it in DESIGN.md as the Approved Sources list — this is what lets you ASK me for material instead of inventing it. If more than one icon set is in play, or emoji are being used as icons, flag it — don't fix it unless I ask.
 
 6. **Write DESIGN.md** describing what the code ACTUALLY does, not what it aspires to. List the inconsistencies and gaps you found as an explicit section at the end, so I can decide what to fix later.
+
+   **Then prove it's accurate.** Render the densest real screen in the project — the one with the most information per square inch — and check DESIGN.md against it line by line. Report every place the document and the screen disagree, and say which of the two is wrong: the document, or the screen. Don't fix anything; the point is only to find out whether what you just wrote is true. "Document what the code does" is an instruction to be accurate — this is the check that it actually was.
 
 Design tooling: if a design skill/plugin is available in this environment (for example an installed design plugin with init/critique/polish commands), use it for this step and for UI review later.
 

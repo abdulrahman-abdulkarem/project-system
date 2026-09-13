@@ -249,6 +249,8 @@ DESIGN_STEP_EXISTING = """Only if this project has a UI. The goal here is to DOC
 
 6. **Write DESIGN.md** describing what the code ACTUALLY does, not what it aspires to. List the inconsistencies and gaps you found as an explicit section at the end, so I can decide what to fix later.
 
+   **Then prove it's accurate.** Render the densest real screen in the project — the one with the most information per square inch — and check DESIGN.md against it line by line. Report every place the document and the screen disagree, and say which of the two is wrong: the document, or the screen. Don't fix anything; the point is only to find out whether what you just wrote is true. "Document what the code does" is an instruction to be accurate — this is the check that it actually was.
+
 Design tooling: if a design skill/plugin is available in this environment (for example an installed design plugin with init/critique/polish commands), use it for this step and for UI review later."""
 
 STACK_RULES_STEP = """- Add a "Stack-Specific Rules" subsection inside the Project Rules section of CLAUDE.md.
@@ -296,7 +298,88 @@ VOCAB = """## Your command vocabulary
 - **"ship check"** — the pre-deploy checklist.
 - **"rules refresh"** — checks this project's rules/checkpoints against project-system's current masters, shows a diff, and updates only on your approval."""
 
-def claude_md(body):
+def claude_md(mode):
+    """mode: "new" (nothing built yet) or "discovered" (existing/repair — real
+    code already exists; describe it, never invent or impose).
+
+    The axis that matters is fresh vs. discovered, not which of the three
+    setup prompts is calling this — existing and repair are both describing
+    real code and render identical output here. Everything that legitimately
+    differs between existing and repair (step order, auto-commit or not, the
+    "don't destroy existing work" framing) lives outside this function.
+    """
+    discovered = mode == "discovered"
+
+    name = "[actual project name]" if discovered else "[project name]"
+
+    tech_stack = (
+        """- Language / Framework: [actual]
+- Database: [actual]
+- Hosting / Infra: [actual]
+- Key libraries: [actual]"""
+        if discovered
+        else "[The stack we agreed on — frameworks, database, hosting, key services.]"
+    )
+
+    architecture = (
+        "[The actual folder structure and what lives where.]"
+        if discovered
+        else "[Document the folder structure and what lives where. Keep updated as it grows.]"
+    )
+
+    key_decisions = (
+        """[Important choices evident in the codebase and the reasoning behind them, where known — including why the stack was chosen.]
+- **[Decision]**: [Why it was made / what it favors. Ask me if the reasoning isn't clear.]"""
+        if discovered
+        else "[Log important choices and the reasoning behind them as they happen — starting with why we chose this stack.]"
+    )
+
+    conventions = (
+        "[The naming, code style, and patterns ALREADY used in this codebase — describe what's there, don't impose new ones.]"
+        if discovered
+        else "[Naming, code style, patterns to follow and avoid.]"
+    )
+
+    env_setup = (
+        """- Runtime / version requirements: [actual]
+- Install command: [actual]
+- Copy .env.example to .env and fill in values
+- Any local services needed: [actual]"""
+        if discovered
+        else "[Runtime version, install command, copy .env.example to .env, any local services.]"
+    )
+
+    things_to_know = (
+        """
+
+## Things Claude Code Should Know
+- [Codebase quirks]
+- [Things that look wrong but are intentional]
+- [Fragile areas needing extra care]"""
+        if discovered
+        else ""
+    )
+
+    body = f"""# Project: {name}
+
+## Summary
+[One paragraph — what the project does, who it's for, and why it exists.]
+
+## Tech Stack
+{tech_stack}
+
+## Architecture
+{architecture}
+
+## Key Decisions
+{key_decisions}
+
+## Conventions
+{conventions}
+
+## Environment Setup
+{env_setup}{things_to_know}"""
+
     return "=== FILE START ===\n" + body + f"""
 
 ## Project Rules
@@ -307,6 +390,40 @@ truth — keep it accurate if project-system ever moves on this machine._
 [Copy everything between the "BEGIN system-rules" and "END system-rules" markers below —
 including both marker lines — into here verbatim, so it loads every session. The markers carry
 a version stamp; a rules dump without them can never be checked for drift later.]
+=== FILE END ==="""
+
+
+def progress_log(mode):
+    """Same mode as claude_md(): "new" or "discovered". Existing and repair
+    render identical output — the file's own template doesn't need to know
+    which of the two is finishing it; what differs (whether history already
+    exists to preserve, whether to reconstruct past entries) is instruction
+    text around the call site, not the template itself."""
+    discovered = mode == "discovered"
+
+    open_next = "- [ ] [current tasks]"
+    if discovered:
+        open_next += "\n- [ ] Blocked: [anything blocking, if applicable]"
+
+    if discovered:
+        entry_heading = "Project context setup"
+        entry_bullets = """- Added CLAUDE.md, PROGRESS.md, README.md, CHECKPOINTS.md and project rules
+- Current state of the project: [short summary of where things stand]"""
+    else:
+        entry_heading = "Setup"
+        entry_bullets = """- Initialized project, chose stack, set up structure and tooling
+- [summary of what we set up]"""
+
+    return f"""=== FILE START ===
+# Progress Log
+
+## Open / Next up
+{open_next}
+
+---
+
+## [today's date] — {entry_heading}
+{entry_bullets}
 === FILE END ==="""
 
 
@@ -344,40 +461,11 @@ PROMPTS.append(dict(
 ### File 1: CLAUDE.md
 This file holds permanent project context AND the project rules, so it loads into every future session.
 
-""" + claude_md("""# Project: [project name]
-
-## Summary
-[One paragraph — what the project does, who it's for, and why it exists.]
-
-## Tech Stack
-[The stack we agreed on — frameworks, database, hosting, key services.]
-
-## Architecture
-[Document the folder structure and what lives where. Keep updated as it grows.]
-
-## Key Decisions
-[Log important choices and the reasoning behind them as they happen — starting with why we chose this stack.]
-
-## Conventions
-[Naming, code style, patterns to follow and avoid.]
-
-## Environment Setup
-[Runtime version, install command, copy .env.example to .env, any local services.]""") + """
+""" + claude_md("new") + """
 
 ### File 2: PROGRESS.md
 
-=== FILE START ===
-# Progress Log
-
-## Open / Next up
-- [ ] [current tasks]
-
----
-
-## [today's date] — Setup
-- Initialized project, chose stack, set up structure and tooling
-- [summary of what we set up]
-=== FILE END ===
+""" + progress_log("new") + """
 
 ### File 3: README.md
 A clean, professional README suitable for presenting publicly on GitHub. Keep it accurate to the actual project — never invent features. The setup sections must be complete enough that anyone (or me on a fresh machine) can clone and run the project from scratch.
@@ -425,53 +513,11 @@ Also important: The PROJECT RULES apply GOING FORWARD only. Do NOT refactor, rew
 ### File 1: CLAUDE.md
 Holds permanent project context AND the project rules, so it loads into every future session.
 
-""" + claude_md("""# Project: [actual project name]
-
-## Summary
-[One paragraph — what this project does, who it's for, and why it exists.]
-
-## Tech Stack
-- Language / Framework: [actual]
-- Database: [actual]
-- Hosting / Infra: [actual]
-- Key libraries: [actual]
-
-## Architecture
-[Brief overview of the existing structure — key folders and what lives where.]
-
-## Key Decisions
-[Important choices evident in the codebase and the reasoning behind them, where known.]
-- **[Decision]**: [Why it was made / what it favors. Ask me if the reasoning isn't clear.]
-
-## Conventions
-[The naming, code style, and patterns ALREADY used in this codebase — describe what's there, don't impose new ones.]
-
-## Environment Setup
-- Runtime / version requirements: [actual]
-- Install command: [actual]
-- Copy .env.example to .env and fill in values
-- Any local services needed: [actual]
-
-## Things Claude Code Should Know
-- [Codebase quirks]
-- [Things that look wrong but are intentional]
-- [Fragile areas needing extra care]""") + """
+""" + claude_md("discovered") + """
 
 ### File 2: PROGRESS.md
 
-=== FILE START ===
-# Progress Log
-
-## Open / Next up
-- [ ] [current tasks]
-- [ ] Blocked: [anything blocking, if applicable]
-
----
-
-## [today's date] — Project context setup
-- Added CLAUDE.md, PROGRESS.md, README.md, CHECKPOINTS.md and project rules
-- Current state of the project: [short summary of where things stand]
-=== FILE END ===
+""" + progress_log("discovered") + """
 
 ### File 3: README.md
 A clean, professional README suitable for presenting publicly on GitHub, accurate to what the project actually is. The setup sections must be complete enough that the project can be cloned and run from scratch.
@@ -530,39 +576,10 @@ CRITICAL — do not destroy existing work:
 
 The most important fix: the full "PROJECT RULES" section (everything under the PROJECT RULES banner further below) MUST be embedded into CLAUDE.md verbatim. This is what makes the shortcuts work — they likely failed before because these rules were never in CLAUDE.md.
 
-""" + claude_md("""# Project: [actual project name]
-
-## Summary
-[One paragraph — what the project does, who it's for, and why it exists.]
-
-## Tech Stack
-[The actual stack in use — frameworks, database, hosting, key services.]
-
-## Architecture
-[The actual folder structure and what lives where.]
-
-## Key Decisions
-[Important choices made so far and the reasoning, including the stack choice.]
-
-## Conventions
-[The naming, code style, and patterns already used in this codebase.]
-
-## Environment Setup
-[Runtime version, install command, how to create the local env file, any local services.]""")),
+""" + claude_md("discovered")),
         ("Reconcile / complete PROGRESS.md", """Make sure PROGRESS.md exists with the structure below. If it already exists, keep its history and just make sure the format matches and the current state is captured. If it doesn't exist, create it and record everything done so far as the first entries (reconstruct from the code and from what you know of this session).
 
-=== FILE START ===
-# Progress Log
-
-## Open / Next up
-- [ ] [current open tasks]
-
----
-
-## [today's date] — Setup finished + progress so far
-- [Summary of what has already been built in the project up to now]
-- Completed project setup: context files, rules, checkpoints, structure docs
-=== FILE END ==="""),
+""" + progress_log("discovered")),
         ("Reconcile / complete README.md", """Make sure README.md exists and is accurate to the actual project, with complete setup instructions (prerequisites, install steps, environment variables, scripts) so the project can be cloned and run from scratch. Merge with any existing README — don't wipe good content.
 
 """ + README_BODY),

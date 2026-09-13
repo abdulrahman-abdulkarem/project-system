@@ -70,19 +70,31 @@ The most important fix: the full "PROJECT RULES" section (everything under the P
 [One paragraph — what the project does, who it's for, and why it exists.]
 
 ## Tech Stack
-[The actual stack in use — frameworks, database, hosting, key services.]
+- Language / Framework: [actual]
+- Database: [actual]
+- Hosting / Infra: [actual]
+- Key libraries: [actual]
 
 ## Architecture
 [The actual folder structure and what lives where.]
 
 ## Key Decisions
-[Important choices made so far and the reasoning, including the stack choice.]
+[Important choices evident in the codebase and the reasoning behind them, where known — including why the stack was chosen.]
+- **[Decision]**: [Why it was made / what it favors. Ask me if the reasoning isn't clear.]
 
 ## Conventions
-[The naming, code style, and patterns already used in this codebase.]
+[The naming, code style, and patterns ALREADY used in this codebase — describe what's there, don't impose new ones.]
 
 ## Environment Setup
-[Runtime version, install command, how to create the local env file, any local services.]
+- Runtime / version requirements: [actual]
+- Install command: [actual]
+- Copy .env.example to .env and fill in values
+- Any local services needed: [actual]
+
+## Things Claude Code Should Know
+- [Codebase quirks]
+- [Things that look wrong but are intentional]
+- [Fragile areas needing extra care]
 
 ## Project Rules
 _System rules come from project-system, checked out at `/home/abdulrahman_abdulkarem/dev/project-system`. The
@@ -102,13 +114,14 @@ Make sure PROGRESS.md exists with the structure below. If it already exists, kee
 # Progress Log
 
 ## Open / Next up
-- [ ] [current open tasks]
+- [ ] [current tasks]
+- [ ] Blocked: [anything blocking, if applicable]
 
 ---
 
-## [today's date] — Setup finished + progress so far
-- [Summary of what has already been built in the project up to now]
-- Completed project setup: context files, rules, checkpoints, structure docs
+## [today's date] — Project context setup
+- Added CLAUDE.md, PROGRESS.md, README.md, CHECKPOINTS.md and project rules
+- Current state of the project: [short summary of where things stand]
 === FILE END ===
 
 ## STEP 5 — Reconcile / complete README.md
@@ -196,6 +209,8 @@ Only if this project has a UI. The goal here is to DOCUMENT the design system th
 5. **Approved Sources.** Identify what the project already uses for icons, motion, component patterns, backgrounds, and type, and record it in DESIGN.md as the Approved Sources list — this is what lets you ASK me for material instead of inventing it. If more than one icon set is in play, or emoji are being used as icons, flag it — don't fix it unless I ask.
 
 6. **Write DESIGN.md** describing what the code ACTUALLY does, not what it aspires to. List the inconsistencies and gaps you found as an explicit section at the end, so I can decide what to fix later.
+
+   **Then prove it's accurate.** Render the densest real screen in the project — the one with the most information per square inch — and check DESIGN.md against it line by line. Report every place the document and the screen disagree, and say which of the two is wrong: the document, or the screen. Don't fix anything; the point is only to find out whether what you just wrote is true. "Document what the code does" is an instruction to be accurate — this is the check that it actually was.
 
 Design tooling: if a design skill/plugin is available in this environment (for example an installed design plugin with init/critique/polish commands), use it for this step and for UI review later.
 
