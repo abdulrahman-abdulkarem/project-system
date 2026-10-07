@@ -1,0 +1,30 @@
+# Active Working Memory (`state.md`)
+
+> **Last Updated:** [YYYY-MM-DD HH:MM]  
+> **Active Branch:** [branch-name]  
+> **Status:** [In Progress / Blocked / Ready for Testing / Feature Complete]
+
+---
+
+## 1. 🗺️ System Snapshot (3-Sentence Context)
+[Brief 2-3 sentence overview of what the application does, who it's for, and current milestone.]
+
+---
+
+## 2. 📍 Where We Stopped
+- **Current Milestone / Feature:** [e.g. User Authentication & Profile Setup]
+- **Last File(s) Touched:** `[path/to/file1]`, `[path/to/file2]`
+- **Completed in Last Session:** [1-2 sentence summary of what was finished]
+
+---
+
+## 3. 🚧 In-Flight Work & Unfinished Threads
+- [ ] [Unfinished function or file needing attention]
+- [ ] [Known bug or pending edge-case handling]
+- [ ] [Open technical question or decision]
+
+---
+
+## 4. 🎯 Immediate Next Step (Start Here)
+> **Action:** [Exact file and function to open first, and what logic to write]  
+> **Command to Run (if any):** `[e.g. npm run test / npm run dev]`

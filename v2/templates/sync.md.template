@@ -1,0 +1,45 @@
+# Cross-Device Sync State (`sync.md`)
+
+> **Role:** Multi-machine state synchronizer. Updated by `wrap-up` on Machine A, read by `catch-me-up` on Machine B.
+
+---
+
+## 1. 💻 Machine & Git Handover
+- **Last Active Machine:** [e.g. Laptop / Desktop / Machine-1]
+- **Last Sync Timestamp:** [YYYY-MM-DD HH:MM]
+- **Active Git Branch:** [e.g. main / feature-auth]
+- **Last Pushed Commit:** `[commit hash or message]`
+- **Local Uncommitted Changes Left Behind:** [None / Stashed on Machine A / Work in Progress]
+
+---
+
+## 2. 🔑 Environment & Secrets Reconciliation
+> *Check if Machine B needs to update its local `.env` before running the code.*
+
+- **New `.env` Variables Added Since Last Sync:**
+  - [ ] `[VARIABLE_NAME]` (Description / see `.env.example`)
+  - [ ] None (All env variables in sync)
+
+---
+
+## 3. 📦 Dependencies & Runtime Setup
+> *Check if Machine B needs package updates before running.*
+
+- **Package Manager Action Required on Machine B:**
+  - [ ] `npm install` / `pnpm install` / `poetry install` (New packages added)
+  - [ ] No new dependencies installed
+
+---
+
+## 4. 🗄️ Database & Schema Migrations
+> *Check if Machine B needs schema changes applied.*
+
+- **Migration Action Required on Machine B:**
+  - [ ] Run migration command: `[e.g. npx prisma migrate dev / npx drizzle-kit push]`
+  - [ ] Seed data required: `[e.g. npm run db:seed]`
+  - [ ] No database changes
+
+---
+
+## 5. 📝 Handover Notes for the Other Machine
+[Clear note to yourself: e.g. "Ready to run tests on Machine B. Auth cookie issue reproduced on Safari, verify on Chrome."]

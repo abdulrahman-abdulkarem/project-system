@@ -1,0 +1,72 @@
+# Project Operational Rules & Standards (`rules.md`)
+
+> **Single Source of Truth** for code quality, security boundaries, architectural conventions, and session shortcuts.
+
+---
+
+## 1. 🛡️ HARD SECURITY RULES (Never Violate)
+1. **Never Commit Secrets**: Never commit `.env` files, API keys, private tokens, or credentials. Always place `.env` in `.gitignore` and maintain `.env.example`.
+2. **Media Storage**: Never store media files (images, audio, videos, PDFs) as blobs directly in the database. Upload to cloud object storage (S3, Cloudflare R2, Supabase Storage) and store only the resulting URL in the database.
+3. **Destructive Actions**: Never drop tables, reset databases, delete files wholesale, or force-push without explicit, written confirmation.
+4. **Server-Side Authority**: Never trust client-side validation for security. Always enforce authentication, role permissions (RBAC), and input sanitization on the server.
+5. **No Leaked Internals**: Never return raw database errors, environment variables, or server stack traces to client responses. Return clean, user-friendly error messages.
+6. **No Unapproved Dependencies**: Always ask before installing new packages, adding tools, or restructuring core directories.
+
+---
+
+## 2. 🏛️ CLEAN ARCHITECTURE & PROFESSIONAL CODE STANDARDS
+1. **Feature/Domain Modularity**:
+   - Structure code by domain/feature (e.g., `src/features/auth/`, `src/modules/billing/`) containing its own components, hooks, services, and types.
+   - Avoid flat dumping of dozens of files into generic directories like `components/` or `utils/`.
+2. **Strict Layer Separation**:
+   - UI components must focus exclusively on presentation and user interaction.
+   - Data fetching and business logic belong in dedicated service/repository layers. UI must never call databases or external APIs directly.
+3. **Zero Dead Code & Speculative Wrappers**:
+   - Do not write abstractions or utility functions "just in case" they might be needed later (YAGNI).
+   - Clean up unused imports, dead functions, and commented-out code blocks immediately.
+4. **Data Validation & Type Safety**:
+   - Validate all external inputs (API request bodies, URL query params, forms) using schema validators (e.g., Zod, Pydantic, Valibot).
+   - Avoid `any` types; define explicit interfaces or schemas for data structures.
+5. **Single Source of Truth**:
+   - Centralize constants, environment configurations, and design tokens. Never hardcode magic strings, hex colors, or endpoint URLs inside component logic.
+
+---
+
+## 3. ⚡ SESSION SHORTCUTS WORKFLOW
+
+### `catch-me-up` (or `catch me up`)
+* **Trigger:** Say `catch-me-up` at the start of any session or when returning to the project after time away.
+* **Action:**
+  1. Read `brain/state.md` and `brain/sync.md`.
+  2. Inspect git status and recent commits (`git log -n 3`).
+  3. Output a structured 30-second briefing:
+     - **Project Snapshot:** 2-sentence reminder of project purpose.
+     - **Where We Stopped:** Last completed feature & active branch.
+     - **Cross-Device Status:** Flag any pending `.env` keys, package installs, or migrations from `sync.md`.
+     - **Immediate Next Step:** Exact file, function, and task to start right now.
+
+### `wrap-up` (or `wrap up`)
+* **Trigger:** Say `wrap-up` at the end of a session or before switching devices.
+* **Action:**
+  1. Freeze working memory in `brain/state.md`: Update where we stopped, in-flight work, and the exact next step.
+  2. Append a dated summary to `brain/progress.md` (never delete older entries).
+  3. If new features or architectural changes occurred, update `brain/documentation/SRS.md`.
+  4. If public features or setup steps changed, update root `README.md`.
+  5. Update `brain/sync.md` with current branch, commit, required `.env` variables, and dependency/migration commands.
+  6. **Safety:** Updates documentation only. Does NOT automatically commit or push to git.
+  7. Confirm with a summary: *"Wrap-up complete. All brain state updated. Ready for 'commit' or device switch."*
+
+### `commit`
+* **Trigger:** Say `commit` when ready to commit and push to GitHub.
+* **Action:**
+  1. Run `git status` and stage files.
+  2. Audit staged files: Ensure no `.env`, secrets, large binaries, or temp artifacts are staged. If detected, ABORT and warn.
+  3. Generate a concise, conventional commit message reflecting the real changes.
+  4. Commit and push to origin.
+  5. Confirm with commit hash and pushed branch.
+
+### `plan`
+* **Trigger:** Say `plan` before tackling any multi-step feature or architectural change.
+* **Action:**
+  1. Propose the implementation strategy and at least one rejected alternative with tradeoffs.
+  2. Stop and wait for user approval before writing code.

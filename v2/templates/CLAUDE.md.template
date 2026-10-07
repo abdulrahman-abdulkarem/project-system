@@ -1,0 +1,16 @@
+# [PROJECT_NAME]
+
+> **Stack:** [FRAMEWORK / LANGUAGE / DATABASE / SERVICES]  
+> **Environment:** Runtime [VERSION], package manager [NPM/PNPM/BUN/PIP]
+
+---
+
+## System Architecture & Cognitive Engine
+All project memory, operational rules, and system documentation are encapsulated inside the `brain/` directory.
+
+- **On session start**: Always read `brain/state.md` and `brain/rules.md` before taking actions.
+- **Active Shortcuts**:
+  - `catch-me-up` : Read `brain/state.md` + `brain/sync.md`, inspect git, and provide a 30-second context briefing.
+  - `wrap-up`     : Update `brain/state.md`, `brain/progress.md`, `brain/sync.md`, and `brain/documentation/SRS.md` before finishing work.
+  - `commit`      : Audit staged changes for secrets/temp files, generate a descriptive commit message, and push to GitHub.
+  - `plan`        : Outline approach + rejected alternative before coding non-trivial changes.

@@ -1,0 +1,20 @@
+# Progress Changelog (`progress.md`)
+
+> Chronological log of completed sessions and milestones. Newest entries stay at the top.
+
+---
+
+## [YYYY-MM-DD] — [Session / Feature Name]
+- **Implemented:**
+  - [Feature or component completed]
+  - [API endpoint or database model updated]
+- **Key Technical Decisions:**
+  - [Any non-obvious architecture choice made this session]
+- **Documentation Updated:** `SRS.md`, `README.md`, `state.md`
+
+---
+
+## [YYYY-MM-DD] — Project Initialization
+- Scaffolded project structure and initialized `brain/` context engine.
+- Configured clean architecture standards and security rules.
+- Drafted initial System Requirements Specification (`brain/documentation/SRS.md`).
