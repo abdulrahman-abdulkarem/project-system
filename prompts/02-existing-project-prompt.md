@@ -1,12 +1,15 @@
-# Prompt 02: Brownfield Existing Project Adoption
+# Prompt 02: Brownfield Existing Project Adoption (and v1 to v2 Upgrade)
 
-> **When to use:** Paste this into Claude Code inside an existing project that already has code written, but lacks the `brain/` context system, rules, and SRS documentation.  
-> **What it does:** Safely audits the codebase without deleting or altering any existing code, sets up the root `CLAUDE.md` pointer, reverse-engineers the existing architecture into a complete PDF-ready SRS document, and initializes `brain/` memory and shortcuts.
+> **When to use:** Paste this into Claude Code inside:  
+> 1. An existing codebase that has code but lacks the `brain/` context system.  
+> 2. A project that was previously set up with **Version 1** of this project system (this prompt will automatically detect v1 and upgrade/correct it to v2!).  
+>  
+> **What it does:** Safely audits the codebase without altering application logic, sets up the root `CLAUDE.md` pointer, reverse-engineers the existing architecture into a complete PDF-ready SRS document, initializes `brain/` memory and shortcuts, and automatically cleans up legacy v1 root clutter.
 
 ---
 
 ```markdown
-You are adopting an existing codebase into a professional, modular project system. Your goal is to establish the `brain/` cognitive architecture, create a comprehensive System Requirements Specification (SRS) by analyzing the existing code, and activate session shortcuts.
+You are adopting an existing codebase into a professional, modular project system (Version 2). Your goal is to establish the `brain/` cognitive architecture, create a comprehensive System Requirements Specification (SRS) by analyzing the existing code, and activate session shortcuts.
 
 CRITICAL SAFETY DIRECTIVE:
 - Do NOT delete, rewrite, or reset any existing application code or database files.
@@ -17,22 +20,26 @@ Follow these steps in order:
 
 ---
 
-### STEP 1 — Non-Destructive Codebase Audit
+### STEP 1 — Non-Destructive Codebase & System Detection Audit
 Scan the project to understand what currently exists:
-1. Identify the tech stack by reading package manifests (`package.json`, `requirements.txt`, `pyproject.toml`, `Cargo.toml`, etc.), configs, and dependencies.
-2. Inspect the directory tree to identify architectural patterns, existing modules, database schemas, and entry points.
-3. Check for existing documentation, `.gitignore`, and `.env.example`.
+1. **Identify the tech stack**: Read package manifests (`package.json`, `requirements.txt`, `pyproject.toml`, `Cargo.toml`, etc.), configs, and dependencies.
+2. **Inspect directory architecture**: Identify architectural patterns, existing modules, database schemas, and entry points.
+3. **Check for Version 1 (Legacy) Project-System files**:
+   - Check if the root contains `CHECKPOINTS.md`, root `PROGRESS.md`, `DESIGN.md`, `QA.md`, or a `CLAUDE.md` containing `<!-- BEGIN system-rules -->`.
+   - Note if this is a **Version 1 Upgrade** or a **Fresh Existing Adoption**.
 4. Provide me with a concise 5-bullet summary of what you discovered:
    - Framework & Language
    - Database / ORM & Storage
    - Main Architectural Modules
-   - Current Completion State
+   - System Version Detected: [Version 1 Detected — Upgrading to v2 / Standard Codebase]
    - Any immediate hygiene issues (e.g. unignored secrets)
 
 ---
 
 ### STEP 2 — Setup Root CLAUDE.md Pointer
-Create or update `CLAUDE.md` at the project root. If an existing `CLAUDE.md` exists, preserve any project-specific commands and prepend/append this standard pointer:
+Create or clean `CLAUDE.md` at the project root:
+- **If this is a Version 1 project**: Strip the obsolete, massive `<!-- BEGIN system-rules -->` block entirely from `CLAUDE.md`. Replace the file with the clean 20-line pointer below, carrying over the discovered project name and stack.
+- **If this is a standard project**: Create `CLAUDE.md` (or prepend/append the pointer if a custom developer `CLAUDE.md` already existed).
 
 === FILE START ===
 # [Project Name]
@@ -63,8 +70,8 @@ All operational memory, engineering rules, and system documentation live in the 
 
 ---
 
-### STEP 4 — Scaffold the `brain/` Cognitive Engine
-Create the `brain/` directory and populate the 5 internal operational files using the discoveries from Step 1:
+### STEP 4 — Scaffold the `brain/` Cognitive Engine & Clean Up Legacy Clutter
+Create the `brain/` directory and populate the 5 internal operational files:
 
 #### File 1: `brain/state.md` (Active Working Memory for `catch-me-up`)
 Reconstruct current state from the codebase:
@@ -73,12 +80,21 @@ Reconstruct current state from the codebase:
 - **In-Flight Work:** Any partial implementations, unhandled TODOs, or open bugs found in the code.
 - **Immediate Next Step:** Recommended next action to continue development.
 
-#### File 2: `brain/progress.md` (Changelog)
-Create `brain/progress.md` with an initial entry:
-- Date: [Today's Date] — Project Adoption & Brain Initialization
-- Summary of existing features and modules cataloged during onboarding.
+#### File 2: `brain/progress.md` (Changelog Migration)
+- **If a root `PROGRESS.md` existed (Version 1 project)**:
+  - Move/copy the entire historical log from the root `PROGRESS.md` into `brain/progress.md`.
+  - Add today's entry at the top: `[Today's Date] — Upgraded to Project System v2 (brain/ architecture & SRS)`.
+  - **Delete the old root `PROGRESS.md`** so it no longer clutters the root.
+- **If no previous progress log existed**:
+  - Create `brain/progress.md` with an initial entry cataloging discovered features.
+
+#### Legacy v1 Cleanup (Only if upgrading from Version 1):
+- If `CHECKPOINTS.md` exists at the root, **delete it** (its procedures are replaced by lean v2 rules and shortcuts).
+- If `DESIGN.md` exists at the root, **move it to `brain/design.md`**.
+- If `QA.md` exists at the root, **move it to `brain/qa.md`**.
 
 #### File 3: `brain/sync.md` (Cross-Device Sync State)
+Create `brain/sync.md`:
 - Current branch, commit hash, required `.env` variables from `.env.example`, and package install commands.
 
 #### File 4: `brain/rules.md` (Clean Architecture & Shortcuts)
@@ -133,7 +149,7 @@ Create `brain/progress.md` with an initial entry:
 === FILE END ===
 
 #### File 5: `brain/documentation/SRS.md` (Reverse-Engineered Specification — PDF Ready)
-Create `brain/documentation/SRS.md` by reverse-engineering the codebase. You MUST follow this exact ISO/IEC/IEEE 29148 structure:
+Create `brain/documentation/SRS.md` by reverse-engineering the codebase into this exact ISO/IEC/IEEE 29148 structure:
 
 === FILE START ===
 # System Requirements Specification (SRS)
@@ -281,7 +297,9 @@ sequenceDiagram
 ---
 
 ### STEP 5 — Confirmation & Readiness
-1. Output a short summary of the discovered architecture, files created, and any assumptions made during reverse engineering.
-2. Explicitly confirm:
+1. Output a short summary of the discovered architecture, files created/migrated, and any assumptions made.
+2. If this was an upgrade from Version 1, explicitly report:
+   **"Successfully upgraded from Version 1 to Version 2: Root cleaned, history preserved in brain/, and shortcuts active."**
+3. Otherwise, confirm:
    **"Setup complete — the shortcuts are active."**
 ```

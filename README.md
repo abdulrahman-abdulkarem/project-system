@@ -11,7 +11,7 @@ When opening Claude Code, copy the entire markdown code block from the prompt fi
 | Situation | Prompt File | What It Does |
 | :--- | :--- | :--- |
 | **Brand-New Project** | `prompts/01-new-project-prompt.md` | Greenfield kickoff. Interviews on scope, chooses stack, scaffolds feature-based directories, sets up root `CLAUDE.md`, initializes `brain/` engine with ambient greeting and full PDF-ready `SRS.md`. |
-| **Existing Codebase** | `prompts/02-existing-project-prompt.md` | Brownfield onboarding. Audits code safely without altering existing application logic, reverse-engineers current features into `brain/documentation/SRS.md`, and activates shortcuts. |
+| **Existing Codebase / v1 Upgrade** | `prompts/02-existing-project-prompt.md` | Brownfield onboarding & v1 upgrade. Audits code, auto-detects and upgrades v1 projects (cleaning root clutter & migrating history to `brain/`), builds `SRS.md`, and activates shortcuts. |
 | **Switching Machines** | `prompts/03-multidevice-sync-prompt.md` | Multi-machine handover. Reconciles git, verifies missing `.env` variables and package dependencies from `sync.md`, runs a 30-second context briefing, and resumes coding. |
 | **Exporting to PDF** | `prompts/04-export-srs-to-pdf-prompt.md` | Document publisher. Turns `brain/documentation/SRS.md` into an executive-styled HTML/PDF with cover page, table of contents, shaded tables, and Mermaid architecture diagrams. |
 
