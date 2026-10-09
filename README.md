@@ -1,87 +1,104 @@
-# Project System
+# Project System v2
 
-A reusable setup-and-rules system for building software with Claude Code. Arabic/RTL-first, validated on a real project rather than assembled from theory.
+A modular, clean setup-and-rules system for building software with Claude Code. Designed to eliminate prompt bloat, keep project roots spotless, synchronize seamlessly across two machines, and maintain an executive-ready System Requirements Specification (SRS) ready for instant PDF export.
 
-## Start here
+---
 
-**New here? Read `START-HERE.md` first.**
+## 🚀 Quickstart: Pick Your Prompt
 
-Beginning a new project? Pick the prompt that matches your situation from `prompts/` and paste the whole code block into Claude Code as your first message:
+When opening Claude Code, copy the entire markdown code block from the prompt file matching your situation:
 
-| Situation | Prompt |
-|---|---|
-| New project | `prompts/new-project-kickoff-prompt.md` |
-| Project already underway | `prompts/existing-project-setup-prompt.md` |
-| Setup got interrupted or half-finished | `prompts/repair-setup-prompt.md` |
+| Situation | Prompt File | What It Does |
+| :--- | :--- | :--- |
+| **Brand-New Project** | `prompts/01-new-project-prompt.md` | Greenfield kickoff. Interviews on scope, chooses stack, scaffolds feature-based directories, sets up root `CLAUDE.md`, initializes `brain/` engine with ambient greeting and full PDF-ready `SRS.md`. |
+| **Existing Codebase** | `prompts/02-existing-project-prompt.md` | Brownfield onboarding. Audits code safely without altering existing application logic, reverse-engineers current features into `brain/documentation/SRS.md`, and activates shortcuts. |
+| **Switching Machines** | `prompts/03-multidevice-sync-prompt.md` | Multi-machine handover. Reconciles git, verifies missing `.env` variables and package dependencies from `sync.md`, runs a 30-second context briefing, and resumes coding. |
+| **Exporting to PDF** | `prompts/04-export-srs-to-pdf-prompt.md` | Document publisher. Turns `brain/documentation/SRS.md` into an executive-styled HTML/PDF with cover page, table of contents, shaded tables, and Mermaid architecture diagrams. |
 
-Each one sets up CLAUDE.md, PROGRESS.md, README.md, DESIGN.md and CHECKPOINTS.md, embeds the rules so they load every session, and ends with "Setup complete — the shortcuts are active."
+---
 
-## The one rule for this repo
+## 🧠 The `brain/` Architecture
 
-**Never edit anything in `prompts/`.** Everything in there is generated. Edit the masters, then regenerate:
+In every project you build with v2, the project root remains 100% clean and professional. All internal cognitive and operational files live inside `brain/`:
 
-```bash
-python3 build-prompts.py
+```text
+my-project/
+├── CLAUDE.md                  <-- Minimal 20-line pointer (Auto-loaded: provides ambient greeting)
+├── README.md                  <-- Clean public GitHub README
+├── .gitignore
+├── .env.example
+├── src/                       <-- Feature-based, clean application code
+│
+└── brain/                     <-- ALL INTERNAL COGNITIVE & SYSTEM MEMORY
+    ├── state.md               <-- Frozen working memory snapshot (for `catch-me-up`)
+    ├── progress.md            <-- Historical dated session changelog
+    ├── sync.md                <-- Cross-device sync engine (.env diffs, migrations, git branch)
+    ├── rules.md               <-- Security hard rules, clean architecture, and shortcuts
+    └── documentation/
+        └── SRS.md             <-- Standardized ISO/IEEE System Requirements Specification (with Mermaid)
 ```
 
-Hand-editing a generated prompt is how these files silently drifted apart the first time — one of them lost its entire design section and most of its security section, and nobody noticed for weeks.
+---
 
-## Layout
+## ⚡ Ambient Orientation & Shortcuts Workflow
 
-```
-START-HERE.md     The front door. Open this beside a new project.
+### Ambient Orientation (Zero Typing Required)
+Every time you open Claude Code, `CLAUDE.md` automatically directs Claude to read `brain/state.md` and greet you with a **2-line snapshot**:
+> *"📍 Current Milestone: User Authentication & Profile Module*  
+> *🎯 Immediate Next Step: Open `src/features/auth/login.tsx` line 42 to implement submission handler."*
 
-masters/          Edit these. The single source of truth.
-  project-rules.md          Always-on rules → embedded in CLAUDE.md
-  project-checkpoints.md    On-demand procedures → written to CHECKPOINTS.md
+Even if you forgot where you left off weeks ago, you are instantly oriented before typing a single command.
 
-prompts/          GENERATED — never edit by hand
-  new-project-kickoff-prompt.md
-  existing-project-setup-prompt.md
-  repair-setup-prompt.md
-  CHECKPOINTS.md            standalone copy, droppable into a project
+---
 
-guides/           Reference, read as needed
-  project-lifecycle-playbook.md      phase-by-phase map, Kickoff → Run/handover
-  project-startup-plan-and-toolkit.md startup sequence, design workflow, tool menu
-  claude-code-templates.md            CLAUDE.md / PROGRESS.md templates
+### On-Demand Shortcuts (Typed in Claude Code Chat)
 
-taste-library/    Where cross-site findings get decoded into rules.
-  taste-library.md          decoded entries + the cross-site rules they produced
-  screenshots/
+#### 1. `catch-me-up` (or `catch me up`)
+* **When to use:** When returning after long breaks or after pulling on your second machine.
+* **What it does:** Delivers a comprehensive **30-second briefing**:
+  - Reminds you of the full system purpose.
+  - Summarizes where the previous session or machine stopped.
+  - Warns of any missing `.env` keys or pending package installs.
+  - Gives the exact file and line to start working on right now.
 
-arabgo/           Sandbox notes from the project used to validate all of this
-build-prompts.py  Regenerates prompts/ from masters/
-```
+#### 2. `wrap-up` (or `wrap up`)
+* **When to use:** At the end of every work session or before switching to your other machine.
+* **What it does:**
+  - Freezes working memory into `brain/state.md`.
+  - Appends a dated entry to `brain/progress.md`.
+  - Updates `brain/documentation/SRS.md` if features or architecture changed.
+  - Updates root `README.md` if public features or setup commands changed.
+  - Updates `brain/sync.md` with git branch, commit hash, and any new `.env` variables.
+  - **Safety:** Touches documentation only; does **NOT** auto-commit or push to git.
 
-## The architecture
+#### 3. `commit`
+* **When to use:** When you are ready to push changes to GitHub.
+* **What it does:** Stages changes, performs a strict safety audit (stops immediately if any `.env`, secret, or large binary is staged), writes a descriptive conventional commit message, and pushes to origin.
 
-Rules split two ways, and the test is simple:
+#### 4. `plan`
+* **When to use:** Before starting any multi-step feature or architectural change.
+* **What it does:** Outlines the proposed technical approach and at least one rejected alternative with tradeoffs, then waits for your approval before touching code.
 
-- **Always-on** (`masters/project-rules.md` → CLAUDE.md) — rules that stop you writing something wrong *at the moment you write it*. "Never hardcode secrets." "Animate transform and opacity only." These must be in context before the mistake happens.
-- **On-demand** (`masters/project-checkpoints.md` → CHECKPOINTS.md) — *procedures run at a specific moment*: the review pass, testing standards, the data-model check, the language/accessibility audit, the performance pass, motion, ship. Useless as ambient context, expensive as always-on text. A shortcut loads them when the moment arrives.
+---
 
-The split is what allows seven full procedures to cost ~25 lines of session context instead of ~200.
+## 📄 Converting `SRS.md` to PDF
 
-## Shortcuts
+Whenever a client, stakeholder, or manager asks: *"Can I have a document explaining the system?"*, follow these steps:
 
-Typed as ordinary messages in the Claude Code chat, not in a terminal.
+1. Copy the prompt from `prompts/04-export-srs-to-pdf-prompt.md`.
+2. Paste it into an AI chat (Claude, ChatGPT, or Gemini), appending the text of `brain/documentation/SRS.md`.
+3. Save the resulting HTML file and open it in Chrome/Edge/Safari.
+4. Press `Ctrl + P` (or `Cmd + P`) and select **"Save as PDF"**.
 
-**Every session:** `wrap up` (updates docs) · `commit` (reviews staged files, then commits and pushes)
+You get an executive-grade document featuring:
+* Professional corporate cover page and confidentiality notice.
+* Numbered Table of Contents.
+* Modern typography and shaded data tables.
+* Clean vector-rendered **Mermaid architecture & sequence diagrams**.
+* Proper print pagination with zero cut-off headings.
 
-**While working:** `plan` (approach + rejected alternative, then waits) · `Q&A` / `Q&A short` / `Q&A history` (consult mode, logs to QA.md)
+---
 
-**Checkpoints** — each loads its procedure and reports without fixing:
-`review` · `test check` · `schema check` · `lang check` / `rtl check` / `a11y check` · `perf pass` · `motion check` · `ship check`
+## 🏛️ Legacy Version 1
+The original v1 prompt-generator system is preserved intact in `v1/` for archival reference.
 
-## Status
-
-Validated end-to-end against a live Next.js/Prisma/Supabase project, Aug–Sept 2026. That run found a live production bug in eight minutes and produced a long list of fixes to this system — including one silent failure worth knowing about: a clean git merge that quietly discarded the entire contents of a branch, because the target branch contained a revert of a shared commit.
-
-Since then the design step has been rebuilt around real references rather than adjectives, colour is asked for rather than guessed, and the bilingual rules were derived by decoding four Arabic/English sites rather than from documentation.
-
-Four separate instances of the same failure have now been found and closed: files documented as generated that weren't actually generated, and therefore silently drifted. If you find a fifth, that pattern is the first place to look.
-
-The design and UI half is well exercised. The security, backend and testing half is not — every validation run so far has been UI work. Treat those rules as sound but unproven.
-
-Full log: `arabgo/arabgo-validation-run.md`.
