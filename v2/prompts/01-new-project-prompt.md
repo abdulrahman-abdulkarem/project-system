@@ -1,7 +1,7 @@
 # Prompt 01: Greenfield New Project Kickoff
 
 > **When to use:** Paste this into Claude Code as message #1 when starting a brand-new project from scratch in an empty directory.  
-> **What it does:** Interviews you on the project scope, agrees on the tech stack, initializes clean architecture directories, sets up the root `CLAUDE.md` pointer and public `README.md`, and scaffolds the `brain/` directory with operational rules, device sync, and a PDF-ready SRS document.
+> **What it does:** Interviews you on the project scope, agrees on the tech stack, initializes clean architecture directories, sets up the root `CLAUDE.md` pointer and public `README.md`, and scaffolds the `brain/` directory with operational rules, device sync, and a complete PDF-ready SRS document.
 
 ---
 
@@ -36,7 +36,7 @@ Once the stack is agreed upon:
 Create two clean files at the project root:
 
 #### File 1: `CLAUDE.md` (Root Pointer)
-This file is automatically loaded by Claude Code on session start. Keep it lean (under 20 lines) to act strictly as a pointer:
+This file is automatically loaded by Claude Code on session start. Keep it lean (under 25 lines) to act strictly as a pointer:
 
 === FILE START ===
 # [Project Name]
@@ -49,9 +49,11 @@ This file is automatically loaded by Claude Code on session start. Keep it lean 
 ## System Architecture & Cognitive Engine
 All operational memory, engineering rules, and system documentation live in the `brain/` directory.
 
-- **On session start**: Always read `brain/state.md` and `brain/rules.md` before taking actions.
+- **On session start**:
+  1. Inspect `brain/state.md` and `brain/rules.md`.
+  2. Provide a 2-line ambient status snapshot (current milestone & immediate next step) before executing any task.
 - **Active Shortcuts**:
-  - `catch-me-up` : Read `brain/state.md` + `brain/sync.md`, inspect git, and provide a 30-second context briefing.
+  - `catch-me-up` : Read `brain/state.md` + `brain/sync.md`, inspect git, and provide a full 30-second context briefing.
   - `wrap-up`     : Update `brain/state.md`, `brain/progress.md`, `brain/sync.md`, and `brain/documentation/SRS.md` before finishing work.
   - `commit`      : Audit staged changes for secrets/temp files, generate a descriptive commit message, and push to GitHub.
   - `plan`        : Outline approach + rejected alternative before coding non-trivial changes.
@@ -207,16 +209,155 @@ Initial setup complete. Ready to begin feature implementation.
 === FILE END ===
 
 #### File 5: `brain/documentation/SRS.md` (System Requirements Specification — PDF Ready)
-Create `brain/documentation/SRS.md` populated with the real project details settled during Step 1.
-Follow this standard structure:
-- **Metadata Table:** Document version (1.0.0), Status, Date, Author.
-- **1. Executive Summary & Vision:** Problem statement, solution objectives, target users.
-- **2. High-Level Architecture & Tech Stack Matrix:** Layer, technology, purpose, component flow diagram.
-- **3. Functional Requirements:** Initial modules and planned capabilities (`FR-1.1`, `FR-1.2`, etc.).
-- **4. Data Architecture:** Relational entities and cloud media storage policy.
-- **5. API & Integration Surface:** Key routes/endpoints and planned third-party services.
-- **6. Security & Compliance:** Auth, RBAC, input sanitization, zero secrets policy.
-- **7. Deployment & Operational Guide:** Required `.env` keys, run/build commands.
+Create `brain/documentation/SRS.md` populated with the real project details settled during Step 1. You MUST follow this exact ISO/IEC/IEEE 29148 structure:
+
+=== FILE START ===
+# System Requirements Specification (SRS)
+## Project: [Project Name]
+
+| Attribute | Details |
+| :--- | :--- |
+| **Document Version** | 1.0.0 |
+| **Status** | Active / Under Development |
+| **Last Updated** | [Today's Date] |
+| **Lead Developer / Author** | [Author Name] |
+| **Primary Repository** | [GitHub Repository URL] |
+
+---
+
+## 1. Executive Summary & Vision
+
+### 1.1 Problem Statement
+[Problem this software solves, target user base, pain points eliminated.]
+
+### 1.2 Proposed Solution & Objectives
+[Core value proposition and high-level deliverables.]
+
+### 1.3 Target Audience & Stakeholders
+- **Primary Users:** [End-users, admins, operators]
+- **Key Stakeholders:** [Product owner, technical team]
+
+---
+
+## 2. High-Level Architecture & Tech Stack
+
+### 2.1 Architectural Pattern
+- **Pattern:** [Modular Monolith / Clean Architecture / Event-Driven]
+- **Rationale:** [Why this architecture was chosen for this project]
+
+### 2.2 Technology Stack Matrix
+
+| Layer | Technology | Version | Purpose & Rationale |
+| :--- | :--- | :--- | :--- |
+| **Frontend Framework** | [Agreed Framework] | [Version] | [Role in project] |
+| **Styling & Tokens** | [Tailwind / CSS] | [Version] | [Design system approach] |
+| **Backend & Runtime** | [Agreed Runtime] | [Version] | [API and business services] |
+| **Database** | [Agreed DB] | [Version] | [Data persistence] |
+| **ORM / Data Access** | [Agreed ORM] | [Version] | [Type-safe data modeling] |
+| **Authentication** | [Agreed Auth] | [Version] | [User sessions & RBAC] |
+| **Object Storage** | [Agreed Storage] | [Version] | [Media and asset blobs] |
+| **Hosting & Infra** | [Agreed Hosting] | [Version] | [Deployment infrastructure] |
+
+### 2.3 Component & Data Flow Diagram
+
+```mermaid
+graph TD
+    Client["Client Interface (Web / Mobile)"]
+    Gateway["API Layer & Edge Route Handlers"]
+    Auth["Authentication & RBAC Middleware"]
+    Service["Domain Business Services"]
+    DB[("Relational Database")]
+    Storage[("Cloud Object Storage")]
+    ExtAPI["Third-Party Services"]
+
+    Client -->|HTTPS / JSON Request| Gateway
+    Gateway --> Auth
+    Auth -->|Validated Context| Service
+    Service -->|Queries / Mutations| DB
+    Service -->|Upload Presigned URLs| Storage
+    Service -->|Webhooks / Events| ExtAPI
+```
+
+---
+
+## 3. Functional Requirements (Module Breakdown)
+
+### 3.1 Module: [Core Feature Module 1]
+- **Description:** [Purpose]
+- **Key Capabilities:**
+  - `FR-1.1`: [Feature description]
+  - `FR-1.2`: [Feature description]
+- **Validation & Business Rules:**
+  - [Enforced business rules]
+
+---
+
+## 4. Data Architecture & Entity Relationships
+
+### 4.1 Data Storage Philosophy
+- Structured tables with foreign key integrity. Media stored in cloud object storage with URLs in DB.
+
+### 4.2 Core Data Dictionary
+
+| Entity / Table | Field | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| **users** | `id` | UUID / TEXT | Primary Key | Unique user identifier |
+| | `email` | VARCHAR(255) | UNIQUE, NOT NULL | Primary login email |
+| | `created_at` | TIMESTAMPTZ | DEFAULT NOW() | Record creation timestamp |
+
+---
+
+## 5. API & Integration Surface
+
+### 5.1 Internal Endpoints
+
+| Method | Endpoint / Route | Auth Required | Description |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/auth/...` | No | Initial authentication |
+| `GET` | `/api/...` | Yes | Core data retrieval |
+
+---
+
+## 6. Security, Compliance & Data Protection
+
+### 6.1 Authentication & Authorization Flow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as User Browser
+    participant API as API Handler
+    participant Auth as Auth Service
+    participant DB as Database
+
+    User->>API: Protected Request (Bearer Token)
+    API->>Auth: Validate Token & Claims
+    Auth->>DB: Check Role Permissions
+    DB-->>API: Authorized Context
+    API-->>User: 200 OK Response
+```
+
+### 6.2 Data Security Policy
+- Server-side schema validation (Zod/Pydantic) on all mutation routes.
+- SQL injection prevention via parameterized ORM queries.
+- Zero secrets committed to source control.
+
+---
+
+## 7. Deployment & Operational Guide
+
+### 7.1 Environment Variables Matrix
+
+| Variable Key | Required | Example | Purpose |
+| :--- | :--- | :--- | :--- |
+| `DATABASE_URL` | Yes | `postgresql://...` | Connection string |
+| `APP_SECRET` | Yes | `hex-string` | Cryptographic secret |
+
+### 7.2 Run & Build Commands
+- **Install:** `npm install`
+- **Development:** `npm run dev`
+- **Build:** `npm run build`
+=== FILE END ===
 
 ---
 

@@ -45,17 +45,23 @@
 | **Hosting & Infrastructure** | [e.g. Vercel / Docker] | [N/A] | [Edge deployment and serverless execution] |
 
 ### 2.3 Component & Data Flow Diagram
-```text
-[Client Browser / Mobile]
-         │ (HTTPS / JSON API)
-         ▼
-[API Gateway / Route Handlers]
-         │ (Validation & Auth Check)
-         ▼
-[Domain Business Services]
-    ├───► [Database (Postgres / Relational Queries)]
-    ├───► [Object Storage (Asset Uploads / Media URLs)]
-    └───► [External APIs (Payments, Notifications)]
+
+```mermaid
+graph TD
+    Client["Client Interface (Web / Mobile)"]
+    Gateway["API Layer & Edge Route Handlers"]
+    Auth["Authentication & RBAC Middleware"]
+    Service["Domain Business Services"]
+    DB[("Relational Database (PostgreSQL)")]
+    Storage[("Cloud Object Storage (S3 / R2)")]
+    ExtAPI["Third-Party Services (Stripe, Email)"]
+
+    Client -->|HTTPS / JSON Request| Gateway
+    Gateway --> Auth
+    Auth -->|Validated Context| Service
+    Service -->|Queries / Mutations| DB
+    Service -->|Upload Presigned URLs| Storage
+    Service -->|Webhooks / Events| ExtAPI
 ```
 
 ---
@@ -119,12 +125,31 @@
 
 ## 6. Security, Compliance & Data Protection
 
-### 6.1 Authentication & Authorization
-- Server-side token/session verification on all protected endpoints.
-- Role-Based Access Control (RBAC) enforced at the database or middleware layer.
+### 6.1 Authentication & Authorization Flow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as User Browser
+    participant API as API Handler
+    participant Auth as Auth Service
+    participant DB as Database
+
+    User->>API: POST /api/protected-resource (Bearer Token)
+    API->>Auth: Verify JWT / Session
+    alt Token Invalid / Expired
+        Auth-->>User: 401 Unauthorized
+    else Token Valid
+        Auth->>DB: Query User Permissions
+        DB-->>Auth: Role: USER
+        API->>DB: Execute Business Query
+        DB-->>API: Query Result
+        API-->>User: 200 OK (JSON Payload)
+    end
+```
 
 ### 6.2 Data Validation & Sanitization
-- All client inputs validated on server using schema validation libraries.
+- All client inputs validated on server using schema validation libraries (Zod / Pydantic).
 - Strict SQL injection prevention via parameterized ORM queries.
 - XSS prevention via automatic template escaping.
 

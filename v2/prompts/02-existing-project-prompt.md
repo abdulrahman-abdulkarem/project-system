@@ -1,7 +1,7 @@
 # Prompt 02: Brownfield Existing Project Adoption
 
 > **When to use:** Paste this into Claude Code inside an existing project that already has code written, but lacks the `brain/` context system, rules, and SRS documentation.  
-> **What it does:** Safely audits the codebase without deleting or altering any existing code, sets up the root `CLAUDE.md` pointer, reverse-engineers the existing architecture into a professional PDF-ready SRS document, and initializes `brain/` memory and shortcuts.
+> **What it does:** Safely audits the codebase without deleting or altering any existing code, sets up the root `CLAUDE.md` pointer, reverse-engineers the existing architecture into a complete PDF-ready SRS document, and initializes `brain/` memory and shortcuts.
 
 ---
 
@@ -45,9 +45,11 @@ Create or update `CLAUDE.md` at the project root. If an existing `CLAUDE.md` exi
 ## System Architecture & Cognitive Engine
 All operational memory, engineering rules, and system documentation live in the `brain/` directory.
 
-- **On session start**: Always read `brain/state.md` and `brain/rules.md` before taking actions.
+- **On session start**:
+  1. Inspect `brain/state.md` and `brain/rules.md`.
+  2. Provide a 2-line ambient status snapshot (current milestone & immediate next step) before executing any task.
 - **Active Shortcuts**:
-  - `catch-me-up` : Read `brain/state.md` + `brain/sync.md`, inspect git, and provide a 30-second context briefing.
+  - `catch-me-up` : Read `brain/state.md` + `brain/sync.md`, inspect git, and provide a full 30-second context briefing.
   - `wrap-up`     : Update `brain/state.md`, `brain/progress.md`, `brain/sync.md`, and `brain/documentation/SRS.md` before finishing work.
   - `commit`      : Audit staged changes for secrets/temp files, generate a descriptive commit message, and push to GitHub.
   - `plan`        : Outline approach + rejected alternative before coding non-trivial changes.
@@ -131,14 +133,150 @@ Create `brain/progress.md` with an initial entry:
 === FILE END ===
 
 #### File 5: `brain/documentation/SRS.md` (Reverse-Engineered Specification — PDF Ready)
-Create `brain/documentation/SRS.md` by reverse-engineering the codebase. Include:
-1. **Document Header:** Version 1.0.0, status, date.
-2. **Executive Summary:** Synthesize the business purpose from the codebase and existing readme.
-3. **Architecture & Tech Stack Matrix:** Catalog all discovered frameworks, databases, and libraries with their exact roles.
-4. **Functional Requirements:** Group discovered features into domain modules with capability tags (`FR-1.1`, `FR-2.1`, etc.).
-5. **Data Architecture:** Document discovered database schemas, tables, relationships, and asset storage policies.
-6. **API & Integration Surface:** Document all discovered API endpoints, route handlers, and external services.
-7. **Security & Deployment Guide:** Document auth flows, required `.env` keys, and run/build scripts.
+Create `brain/documentation/SRS.md` by reverse-engineering the codebase. You MUST follow this exact ISO/IEC/IEEE 29148 structure:
+
+=== FILE START ===
+# System Requirements Specification (SRS)
+## Project: [Discovered Project Name]
+
+| Attribute | Details |
+| :--- | :--- |
+| **Document Version** | 1.0.0 |
+| **Status** | Active / Existing Codebase |
+| **Last Updated** | [Today's Date] |
+| **Lead Developer / Author** | [Author / Team Name] |
+| **Primary Repository** | [GitHub Repository URL] |
+
+---
+
+## 1. Executive Summary & Vision
+
+### 1.1 Problem Statement
+[Synthesize from existing README and code comments: what problem this codebase solves.]
+
+### 1.2 Proposed Solution & Objectives
+[Core application purpose and capabilities.]
+
+### 1.3 Target Audience & Stakeholders
+- **Primary Users:** [Identified user roles from code/auth]
+- **Key Stakeholders:** [Engineering & Product team]
+
+---
+
+## 2. High-Level Architecture & Tech Stack
+
+### 2.1 Architectural Pattern
+- **Pattern:** [Identified architecture pattern, e.g. MVC, Clean Architecture, Feature-based modular]
+- **Rationale:** [Observed codebase architecture]
+
+### 2.2 Technology Stack Matrix
+
+| Layer | Technology | Version | Purpose & Rationale |
+| :--- | :--- | :--- | :--- |
+| **Frontend Framework** | [Discovered Frontend] | [Version] | [Role in project] |
+| **Styling & Tokens** | [Discovered CSS/Styling] | [Version] | [Design system approach] |
+| **Backend & Runtime** | [Discovered Backend] | [Version] | [API and services] |
+| **Database** | [Discovered DB] | [Version] | [Data persistence] |
+| **ORM / Data Access** | [Discovered ORM] | [Version] | [Schema and query handling] |
+| **Authentication** | [Discovered Auth] | [Version] | [Session management] |
+| **Object Storage** | [Discovered Storage] | [Version] | [Asset storage] |
+| **Hosting & Infra** | [Discovered Infra] | [Version] | [Deployment setup] |
+
+### 2.3 Component & Data Flow Diagram
+
+```mermaid
+graph TD
+    Client["Client Interface (Web / Mobile)"]
+    Gateway["API Gateway / Route Handlers"]
+    Auth["Authentication & Security Guard"]
+    Service["Discovered Domain Services"]
+    DB[("Relational / Document DB")]
+    Storage[("Cloud Object Storage")]
+    ExtAPI["External Integrations"]
+
+    Client -->|HTTP / JSON| Gateway
+    Gateway --> Auth
+    Auth --> Service
+    Service --> DB
+    Service --> Storage
+    Service --> ExtAPI
+```
+
+---
+
+## 3. Functional Requirements (Module Breakdown)
+
+### 3.1 Module: [Discovered Module 1]
+- **Description:** [Functionality identified in codebase]
+- **Key Capabilities:**
+  - `FR-1.1`: [Discovered capability]
+  - `FR-1.2`: [Discovered capability]
+- **Validation & Business Rules:**
+  - [Observed validation rules]
+
+---
+
+## 4. Data Architecture & Entity Relationships
+
+### 4.1 Data Storage Philosophy
+- Documented from database schema/models found in codebase.
+
+### 4.2 Core Data Dictionary
+
+| Entity / Table | Field | Data Type | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| **[Discovered Table]** | `id` | UUID / INT | Primary Key | Identifier |
+| | `[field]` | [type] | [constraints] | [purpose] |
+
+---
+
+## 5. API & Integration Surface
+
+### 5.1 Internal Endpoints
+
+| Method | Endpoint / Route | Auth Required | Description |
+| :--- | :--- | :--- | :--- |
+| `[METHOD]` | `[ROUTE]` | [Yes/No] | [Observed handler role] |
+
+---
+
+## 6. Security, Compliance & Data Protection
+
+### 6.1 Authentication & Authorization Flow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as User Browser
+    participant API as API Handler
+    participant Auth as Auth Middleware
+    participant DB as Database
+
+    User->>API: Request with Auth Token
+    API->>Auth: Validate Credentials
+    Auth->>DB: Fetch User & Roles
+    DB-->>Auth: User Entity
+    API-->>User: 200 OK Response
+```
+
+### 6.2 Data Security Policy
+- Identified sanitization, parameterized queries, and environment variable protections.
+
+---
+
+## 7. Deployment & Operational Guide
+
+### 7.1 Environment Variables Matrix
+
+| Variable Key | Required | Example | Purpose |
+| :--- | :--- | :--- | :--- |
+| `[KEY]` | Yes | `[value-format]` | [Extracted from .env.example / code] |
+
+### 7.2 Run & Build Commands
+- **Install:** [Discovered command, e.g. `npm install`]
+- **Development:** [Discovered command, e.g. `npm run dev`]
+- **Build:** [Discovered command, e.g. `npm run build`]
+=== FILE END ===
 
 ---
 
